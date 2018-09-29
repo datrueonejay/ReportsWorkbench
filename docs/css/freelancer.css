@@ -236,6 +236,11 @@ header.masthead h2 {
   }
 }
 
+.portfolio-image {
+  width: 22rem;
+  height: 22rem;
+}
+
 .portfolio-modal .portfolio-modal-dialog {
   padding: 3rem 1rem;
   min-height: calc(100vh - 2rem);
