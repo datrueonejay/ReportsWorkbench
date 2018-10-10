@@ -15,9 +15,9 @@ Repository Organization:
 
 2. In terminal/cmd, cd into the ``Team25/app`` directory and run ``mvn compile``.
 
-   * This should finish with ``build complete``, as should all of the below.
+   * This should finish with ``BUILD SUCCESS``, as should all of the below.
    
-3. If you'd like to package it as a runnable jar that you can double click, run ``mvn jfx:jar``. 
+3. If you'd like to package it as a runnable jar that you can double click, run ``mvn jfx:jar``. **YOU MUST HAVE JDK1.8.\* FOR THIS TO WORK** , idk why but I tried this with jdk10, jdk11 and they didn't work. Make sure your JAVA_HOME also points to your jdk1.8. 
 
   * This will place the jar in ``./target/jfx/app/app-1.0-SNAPSHOT-jfx.jar ``
 
