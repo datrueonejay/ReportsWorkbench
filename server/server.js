@@ -60,11 +60,20 @@ app.post('/login/org-user/', function (req, res, next) {
  * Will return an error if no user with the user name or return a JSON string with users credentials.
  */
 app.get('/login/get-org-user/', function (req, res, next) {
-    users.findOne({username: req.params.username}, function(err, user){
-        if (err) return res.status(500).end(err);
-        if (!user) return res.status(404).end("Username" + req.params.username + " does not exists");
-        if(req.session.username == user.username){
-                 res.json(user);
+    console.log("The username is " + req.param('username'));
+    var usernameInQuery = req.param('username');
+    users.findOne({username: usernameInQuery}, function(err, user){
+        if (err) 
+        {
+            return res.status(500).end(err);
+        }
+        if (!user) 
+        {
+            return res.status(404).end("Username " + usernameInQuery + " does not exists");
+        }
+        if(usernameInQuery == user.username)
+        {
+             res.json(user);
         }
         else
         {
