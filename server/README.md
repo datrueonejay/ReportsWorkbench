@@ -4,7 +4,11 @@ To run the server you will need yarn. Yarn is a package management system for ja
 
 In the command line type `yarn install` get all the dependencies the server needs
 
-Then type `yarn run start` to start the server.
+Then type `yarn start` to start the server.
+
+To keep the code consistent I added a linter which will correct spacing and other small errors and point out issues.
+
+To use the linter type `yarn fix`, it will fix everything it can and direct you to any errors it can't fix. 
 
 I have kept the default port for the server as 8000 however you can change that on your computer by changing the PORT variable at the end of server.js file.
 
