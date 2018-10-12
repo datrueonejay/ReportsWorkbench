@@ -96,33 +96,45 @@
 \subsection{John Doe}
 \begin{itemize}%
 \item 57 year old male working as a administrator at the City of Toronto Newcomer Office, which is a partner of Toronto East Quadrant Local Immigration Partnership 
-\item Owns an iPhone 6, good understanding of how to use Excel and upload data to their current system
+\item Owns an iPhone 6, able to use it competently
+\item good understanding of how to use Excel and upload data to their current system
 \item Likes things to be done straight forward
 \item Busy with work, not a lot of time to learn a whole new system
+\item Cares about the people his agency is trying to help
+\item Wants to reduce the number of people who ``fall through the cracks"
+\item Would appreciate a system that helps support the activities of his agency but only if it is quick and easy to learn
  \end{itemize}
 
 \subsection{Jane Smith}
 \begin{itemize}%
 \item 45 year old female, working at TEQ
-\item Experience using Excel, administrating systems, working with large amounts of data
-\item Able to troubleshoot issues herself using internet, has time and is willing to learn how to use new applications to improve her work at TEQ
 \item Deals with different organizations on a regular basis
 \item Hard working, detail oriented, organized, good interpersonal skills
+\item Experience using Excel, administrating systems, working with large amounts of data
+\item Able to troubleshoot issues herself using internet, has time and is willing to learn how to use new applications to improve her work at TEQ
+\item Hates the current system of gathering information from all the agencies because everything needs to be done manually
+\item The information that agencies do provide are not all in standardized formats
+\item A lot of the time information in the templates is either missing or wrong
+\item Data from the agencies like can be in different formats or have spelling mistakes
+\item Knows that there are things she is not tracking because the current system is not well-enough integrated/doesn't allow for that
+\item The more they can track the more detailed they can make the semi-annual Scarborough Newcomer Settlement Needs and Trends Report so agencies can better meet the changing needs of newcomers
  \end{itemize}
  
  \subsection{Professor Bill McConkey}
 \begin{itemize}%
 \item Graduate of UTSC
 \item Works as a business professor and as a business consultant	
-\item Consulted for firms in the IT industry
-\item Busy, teaching and consulting but picks up new technologies quickly
 \item Good interpersonal and managerial skills
+\item Busy, teaching and consulting but picks up new technologies quickly
+\item Consulted for firms in the IT industry
+\item Has an iPhone, uses it relatively easily
+\item Will be a UTSC project staff on the TEQ data gathering system
  \end{itemize}
 
 \pagebreak
 
 \section{User Stories}
-\subsection{Login} ``As John, a user of the system I want to be able to login to the system with my username and password so I can use the application securely."
+\subsection{Login} ``As John, an admin at one of the partners of TEQ and a user of the system, I want to be able to login to the system with my username and password so I can use the application securely."
 \begin{itemize}
 \item Password must be hashed in the database to insure information security for the user.
 \end{itemize}
@@ -136,7 +148,7 @@
 \end{itemize}
 
 \subsection{Password Reset}
-``As John, I want to be able to reset my password so I can set it to something only I know."
+``As John, an admin at one of the partners of TEQ and a user of the system, I want to be able to reset my password so I can set it to something only I know."
 \begin{itemize}
 \item Reset password will send an email to accounts email address with link to set a new password.
 
@@ -148,6 +160,9 @@
 \subsection{Selecting Templates}
 ``As John, an admin at one of the partners of TEQ,  I want to be able to specify and upload different iCare templates, so that there is data on the different services offered."
 
+\subsection{Data Validation}
+``As John, an admin at one of the partners at TEQ, I want to be notified when I try to upload templates that have mandatory information missing for any rows."
+
 \subsection{Modifying Templates}
 ``As Jane, a TEQ user,  I want to be able to modify existing iCare templates, so that we can comply with regulations set by the government."
 
@@ -157,6 +172,11 @@
 \item The reports will be in PDF format and I will have an option to save them to my computer.
 \end{itemize}
 
+\subsection{Customized Queries}
+``As Jane, a TEQ user, I want to be able to run customized queries so that I can generate reports on specific information from the data collected."
+
+\subsection{Data Analysis}
+``As Bill, a UTSC project staff, I want to be able to view all the raw data that has been collected from the agencies so that I can perform data analysis." 
 
 \newpage
 \bibliographystyle{plain}
