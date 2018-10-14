@@ -7,3 +7,5 @@ You can visit our teams website here https://cscc01.github.io/Team25/ to find mo
 Repository Organization:
 
 /docs - Holds all the files used to create our team website.
+
+/product_backlog - Holds all our versions of the personas and user stories document.
