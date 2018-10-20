@@ -1,30 +1,24 @@
-const mysql = require('promise-mysql')
+const MongoClient = require('mongodb').MongoClient
 
-let connection
+const url = 'mongodb+srv://Team25:7H8Gh7re6S@team25-dsrl7.mongodb.net'
 
 class Database {
   constructor () {
-    mysql.createConnection({
-      host: 'cscc01.cxqpmoyut1fr.us-east-2.rds.amazonaws.com',
-      user: 'Team25',
-      password: '7H8Gh7re6S',
-      port: '3306',
-      database: 'database1'
+    MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+      if (err) {
+        console.error('Error connecting to MongoDB' + err)
+        return
+      }
+      console.log('Connected to MongoDB!')
+      this.db = client.db('main')
     })
-      .then((conn) => {
-        connection = conn
-        console.log('Connected to database.')
-      })
-      .catch((err) => {
-        console.error('Database connection failed: ' + err.stack)
-      })
   }
 
-  getUser (username) {
-    const query = 'SELECT * FROM `Users` WHERE `username` = ?'
-    return connection.query(query, [username])
-      .catch((err) => {
-        console.log(err)
+  getAccount (username) {
+    const collection = this.db.collection('accounts')
+    return collection.findOne({ 'username': username })
+      .catch(err => {
+        console.error(err)
       })
   }
 }
