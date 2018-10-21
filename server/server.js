@@ -44,13 +44,12 @@ app.use(function (req, res, next) {
 app.post('/login/org-user/', function (req, res, next) {
   const reqUsername = req.body.username
   const reqPassword = req.body.password
-  Database.getUser(reqUsername).then((result) => {
-    const dbUser = result[0]
-    if (dbUser === undefined) {
+  Database.getAccount(reqUsername).then((user) => {
+    if (user === null) {
       res.status(400).send('Login Failed\n')
       return
     }
-    if (!Authenticate(reqPassword, dbUser.Password)) {
+    if (!Authenticate(reqPassword, user.password)) {
       res.status(400).send('Login Failed\n  ')
       return
     }
@@ -61,7 +60,6 @@ app.post('/login/org-user/', function (req, res, next) {
 })
 
 function Authenticate (password, dbPassword) {
-  // TODO Hash request password and pass in database
   return password === dbPassword
 }
 
@@ -73,12 +71,12 @@ function Authenticate (password, dbPassword) {
  */
 app.get('/login/org-user/', function (req, res, next) {
   const reqUsername = req.query['username']
-  Database.getUser(reqUsername).then((result) => {
-    if (result[0] === undefined) {
+  Database.getAccount(reqUsername).then((result) => {
+    if (result === null) {
       res.status(400).send('Account not found\n')
       return
     }
-    res.send({ 'username': result[0].Username, 'password': result[0].Password })
+    res.send(result)
   })
 })
 
