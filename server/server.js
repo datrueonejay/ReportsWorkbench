@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const Database = require('./database')
 const http = require('http')
+const bcrypt = require('bcrypt')
 
 const PORT = 8000
 
@@ -49,18 +50,18 @@ app.post('/login/org-user/', function (req, res, next) {
       res.status(400).send('Login Failed\n')
       return
     }
-    if (!Authenticate(reqPassword, user.password)) {
-      res.status(400).send('Login Failed\n  ')
-      return
+    if (Authenticate(reqPassword, user.password)) {
+      res.status(200).send('Login Success\n')
+    } else {
+      res.status(400).send('Login Failed\n')
     }
-    res.status(200).send('Login Successful\n')
   }).catch((err) => {
     console.log(err)
   })
 })
 
 function Authenticate (password, dbPassword) {
-  return password === dbPassword
+  return bcrypt.compareSync(password, dbPassword)
 }
 
 // status 500 = internal server error.
