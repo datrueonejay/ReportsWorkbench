@@ -1,47 +1,42 @@
 package com.tminions.app;
-import com.tminions.app.controllers.LoginController;
+
 import com.tminions.app.models.LoginModel;
 import org.apache.commons.lang3.StringUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import com.tminions.app.controllers.LoginController;
 
 public class LoginScreenController {
 
     @FXML private TextField usernameField;
     @FXML private TextField passField;
     @FXML private Label messageLabel;
-    private LoginController loginController;
+    private LoginController loginController = new LoginController();
 
-    public void LoginScreenController() {
-        loginController = new LoginController();
-    }
 
     public void login() {
 
         //TODO @Balaji, send the request to the login controller and update ui with response
-
         String firstName = usernameField.getText();
         String lastName = passField.getText();
-
-        StringBuilder builder = new StringBuilder();
-
-        if (!StringUtils.isEmpty(firstName)) {
-            builder.append(firstName);
-        }
-
-        if (!StringUtils.isEmpty(lastName)) {
-            if (builder.length() > 0) {
-                builder.append(" ");
-            }
-            builder.append(lastName);
-        }
-
-        if (builder.length() > 0) {
-            String name = builder.toString();
-            messageLabel.setText("Hello " + name);
-        } else {
-            messageLabel.setText("Hello mysterious person");
-        }
+		//create a login model here passing in first name and last name 
+		LoginModel loginModel = new LoginModel(firstName, lastName);
+		//call logincontroller.(loginModel, this)
+		loginController.login(loginModel, this);
     }
+	
+	public void successLogin(){
+		StringBuilder builder = new StringBuilder();
+		builder.append("Login Successful!");
+		//output login successful
+		messageLabel.setText(builder.toString());
+	}
+	
+	public void failedLogin() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Login Unsuccessful! Your Username or Password is incorrect.");
+		//output login unsuccessful
+		messageLabel.setText(builder.toString());
+	}
 }

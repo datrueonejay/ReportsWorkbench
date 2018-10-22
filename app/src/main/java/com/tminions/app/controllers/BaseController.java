@@ -9,7 +9,7 @@ import java.io.IOException;
 abstract class BaseController {
 
     //TODO: Populate this url with the base url, eg localhost:8000
-    protected String baseUrl = "";
+    protected String baseUrl = "localhost:8000";
 
     public BaseController() {
         init();
