@@ -45,7 +45,7 @@ public class DataUploadScreenController {
         fileChooser.setTitle("Add iCare Files To Submit");
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Excel Files (97 - 2003) .xls", "*.xls"),
-                new ExtensionFilter("Excel Files .xlsx", "*.xlsx "),
+                new ExtensionFilter("Excel Files .xlsx", "*.xlsx"),
                 new ExtensionFilter("All Files", "*.*"));
         // Let user pick files
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(root.getScene().getWindow());
