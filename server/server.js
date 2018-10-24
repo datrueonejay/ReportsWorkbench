@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const Database = require('./database')
 const http = require('http')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const PORT = 8000
 
@@ -47,13 +47,13 @@ app.post('/login/org-user/', function (req, res, next) {
   const reqPassword = req.body.password
   Database.getAccount(reqUsername).then((user) => {
     if (user === null) {
-      res.status(400).send('Login Failed\n')
+      res.status(400).send('{}')
       return
     }
     if (Authenticate(reqPassword, user.password)) {
-      res.status(200).send('Login Success\n')
+      res.status(200).send('{}')
     } else {
-      res.status(400).send('Login Failed\n')
+      res.status(400).send('{}')
     }
   }).catch((err) => {
     console.log(err)
@@ -74,7 +74,7 @@ app.get('/login/org-user/', function (req, res, next) {
   const reqUsername = req.query['username']
   Database.getAccount(reqUsername).then((result) => {
     if (result === null) {
-      res.status(400).send('Account not found\n')
+      res.status(400).send('{}')
       return
     }
     res.send(result)

@@ -8,6 +8,12 @@ Repository Organization:
 
 /docs - Holds all the files used to create our team website.
 
+/product_backlog - Holds all our versions of the personas and user stories document.
+
+/server - Holds all the code used to run our server (see README.md in /server).
+
+/app - Holds all the code used to run the client.
+
 ****
 
 ## How To Build:
