@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const Database = require('./database')
 const http = require('http')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const PORT = 8000
 
