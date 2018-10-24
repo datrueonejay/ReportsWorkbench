@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JsonMakerTest {
 
-    private static File excelFile = new File("src/test/resources/iCare_template.xlsx");
-    private static File excelFile2 = new File("src/test/resources/iCare_template2.xlsx");
+    private static File excelFile = new File("src/test/resources/iCARE_template.xlsx");
+    private static File excelFile2 = new File("src/test/resources/iCARE_template2.xlsx");
     private static String templateType = "Employment Template";
     private static ArrayList<File> files = new ArrayList<>();
 
