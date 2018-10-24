@@ -17,12 +17,12 @@ public class LoginScreenController {
 
     public void login() {
 
-        //TODO @Balaji, send the request to the login controller and update ui with response
         String firstName = usernameField.getText();
         String lastName = passField.getText();
 		//create a login model here passing in first name and last name 
 		LoginModel loginModel = new LoginModel(firstName, lastName);
 		//call logincontroller.(loginModel, this)
+		System.out.println("got to right before login method of loginController is called");
 		loginController.login(loginModel, this);
     }
 	
