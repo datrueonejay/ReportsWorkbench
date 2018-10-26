@@ -18,7 +18,7 @@ public class LoginController extends BaseController {
     public void login(LoginModel user, final LoginScreenController screen) {
         HttpResponse<JsonNode> future = null;
 		try{
-			future = Unirest.post(baseUrl)
+			future = Unirest.post(baseUrl + "login/org-user/")
 			.header("Content-Type", "application/json")
 			.body(user)
 			.asJson();

@@ -13,7 +13,12 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.ListView;
-
+import org.json.*;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.async.Callback;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,6 +74,33 @@ public class DataUploadScreenController {
         try {
             String json = JsonMaker.jsonFromFiles(files, templateType);
             AlertBox.display("Result", json);
+			/**
+			//need to stringify json
+			JSONParser parser = new JSONParser();
+			//convert from JSON string to JSONObject
+			JSONObject newJObject = null;
+			try {
+				newJObject = (JSONObject)parser.parse(json);
+			} catch (ParseException e) {
+			e.printStackTrace();
+			}
+			String json2 = newJObject.toString();
+			**/
+			//then establish connection with server to send data
+			HttpResponse<JsonNode> future = null;
+			try{
+				future = Unirest.post(baseUrl + "dataupload/something")
+				.header("Content-Type", "application/json")
+				.body(json)
+				.asJson();
+			}catch (Exception e){
+				System.out.println("Transmission of json failed");
+			}
+			if (future != null && (future.getStatus() == 200)){
+				//TODO: handle server response here
+			}else{
+				System.out.println("Transmission of json data failed");
+			}
 
         } catch (IOException e) {
             e.printStackTrace();
