@@ -9,9 +9,9 @@ class Database {
         console.error('Error connecting to MongoDB' + err)
         return
       }
-      console.log('Connected to MongoDB!');
-      this.db = client.db('main');
-    });
+      console.log('Connected to MongoDB!')
+      this.db = client.db('main')
+    })
   }
 
   getAccount (username) {
@@ -22,10 +22,8 @@ class Database {
       })
   }
 
-
-  getDatabaseRoot()
-  {
-    return this.db;
+  getDatabaseRoot () {
+    return this.db
   }
 }
 

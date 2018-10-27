@@ -21,12 +21,6 @@ const cookie = require('cookie')
 
 app.use(express.static('static'))
 
-function Report(reportId, JSONData)
-{
-  this.reportId = reportId;
-  this.JSONData = JSONData;
-}
-
 // Commenting this out for the moment. Its not being used.
 /*
 var isAuthenticated = function (req, res, next) {
@@ -44,7 +38,7 @@ app.use(function (req, res, next) {
   var cookiesUsername = (cookies.username) ? cookies.username : null
   req.session.username = cookiesUsername
   req.username = req.session.username
-  console.log('HTTP request', req.query['username'], req.method, req.url, req.body)
+  console.log('HTTP request', req.query['username'], req.method, req.url)
   next()
 })
 
@@ -70,16 +64,6 @@ function Authenticate (password, dbPassword) {
   return bcrypt.compareSync(password, dbPassword)
 }
 
-function generateUID()
-{
-  function uniqueNum()
-  {
-     return Math.floor((1 + Math.randon())  * 0x10000).toString(16).substring(1);
-  }
-  return uniqueNum() + uniqueNum() + '-' + uniqueNum() + '-' + 
-                uniqueNum() + '-' + uniqueNum() + '-' + uniqueNum() + uniqueNum() + uniqueNum();
-}
-
 // status 500 = internal server error.
 // status 404 = not found error.
 
@@ -102,32 +86,25 @@ http.createServer(app).listen(PORT, function (err) {
   else console.log('HTTP server on http://localhost:%s', PORT)
 })
 
-app.get('/reports/get-report-data/', function (req, res, next){
-   Database.getDatabaseRoot().collection("reports")
-           .find({author:req.reportId})
-           .sort({$natural:1})
-           .toArray(function(err, report) { 
-        if (err) return res.status(500).end(err);
-        return res.json(report);
-    });
+app.get('/reports/get-report-data/', function (req, res, next) {
+  Database.getDatabaseRoot().collection('reports')
+    .find({ author: req.reportId })
+    .sort({ $natural: 1 })
+    .toArray(function (err, report) {
+      if (err) return res.status(500).end(err)
+      return res.json(report)
+    })
 })
 
+app.post('/reports/new-report/', function (req, res, next) {
+  const reportTemplateType = Object.keys(req.body)[0]
+  const reportData = req.body[reportTemplateType]
 
-app.post('/reports/new-report/', function (req, res, next){
-  var reportData = req.body.JSON;
-  var newReportUid = generateUID();
-
-  var newReport = new Report(newReportUid, reportData);
-
-  Database.getDatabaseRoot().collection('reports').findOne({_id: newReportUid}, function(err, report)
-  {
-     if (err) return res.status(500).end(err);
-     if (report) return res.status(401).end("the report may already exist");
-
-     Database.getDatabaseRoot().collection('reports').insert(newReport, function (err, report){
-       if (err) return res.status(500).end(err);
-       return res.json(report);
-     });
-  }); 
-
-});
+  for (const row in reportData) {
+    reportData._id = row
+    Database.getDatabaseRoot().collection(reportTemplateType).updateOne({ _id: row }, {$set: reportData[row]}, { upsert: true }, function (err, report) {
+      if (err) return res.status(500).end(err)
+    })
+  }
+  res.status(200).send('{}')
+})
