@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class DataUploadScreenController {
 
     private ObservableList filesToUpload = FXCollections.observableArrayList();
@@ -74,22 +76,10 @@ public class DataUploadScreenController {
         try {
             String json = JsonMaker.jsonFromFiles(files, templateType);
             AlertBox.display("Result", json);
-			/**
-			//need to stringify json
-			JSONParser parser = new JSONParser();
-			//convert from JSON string to JSONObject
-			JSONObject newJObject = null;
-			try {
-				newJObject = (JSONObject)parser.parse(json);
-			} catch (ParseException e) {
-			e.printStackTrace();
-			}
-			String json2 = newJObject.toString();
-			**/
 			//then establish connection with server to send data
 			HttpResponse<JsonNode> future = null;
 			try{
-				future = Unirest.post(baseUrl + "dataupload/something")
+				future = Unirest.post("http://localhost:8000/reports/new-report")
 				.header("Content-Type", "application/json")
 				.body(json)
 				.asJson();

@@ -8,7 +8,6 @@ import java.io.IOException;
 
 abstract class BaseController {
 
-    //TODO: Populate this url with the base url, eg localhost:8000
     protected String baseUrl = "http://localhost:8000/";
 
     public BaseController() {
