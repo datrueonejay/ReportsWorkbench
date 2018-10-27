@@ -81,7 +81,7 @@ public class DataUploadScreenController {
 			try{
 				future = Unirest.post("http://localhost:8000/reports/new-report")
 				.header("Content-Type", "application/json")
-				.body(json)
+				.body("{"+json+"}")
 				.asJson();
 			}catch (Exception e){
 				System.out.println("Transmission of json failed");
