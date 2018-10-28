@@ -2,14 +2,27 @@ package com.tminions.app.clientRecord;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringJoiner;
 
 public class ClientRecord {
 
     private String uniqueID;
-    private HashMap<String, String> data = new HashMap<String, String>();
+    private HashMap<String, String> data;
+    private ArrayList<String> invalidKeys;
 
+    /**
+     * for when u don't have the client's data yet
+     */
+    public ClientRecord() {
+        this.data = new HashMap<>();
+    }
+
+    /**
+     * for when u already have a hashmap of client's data
+     * @param data
+     */
     public ClientRecord(HashMap<String, String> data) {
         this.data = data;
         this.autoSetUniqueId();
@@ -47,8 +60,37 @@ public class ClientRecord {
             String value = this.data.get(key);
             sj.add("\"" + key + "\" : \"" + value + "\"");
         }
+
+        if (!this.invalidKeys.isEmpty()) {
+            StringJoiner invalSj = new StringJoiner(", ", "[", "]");
+            for (String key: this.invalidKeys) {
+                invalSj.add(key);
+            }
+            sj.add("\"invalid_rows\" : " + invalSj.toString());
+        }
         return sj.toString();
 
+    }
+
+    /**
+     * add to this client record's data
+     * @param key the key
+     * @param value the value
+     */
+    public void put(String key, String value) {
+        this.data.put(key, value);
+    }
+
+    /**
+     * add poorly formatted data to this client's data.
+     * this adds the key, value to their data hashmap but also flags that key
+     * as having badly formatted data.
+     * @param key
+     * @param value
+     */
+    public void putInvalid(String key, String value) {
+        this.data.put(key, value);
+        this.invalidKeys.add(key);
     }
 
     /**

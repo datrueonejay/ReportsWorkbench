@@ -1,5 +1,9 @@
 package com.tminions.app.jsonMaker;
 
+import com.tminions.app.Normalizer.DateVerifier;
+import com.tminions.app.Normalizer.Normalizer;
+import com.tminions.app.Normalizer.PhoneVerifier;
+import com.tminions.app.Normalizer.PostalCodeVerifier;
 import com.tminions.app.clientRecord.ClientRecord;
 import com.tminions.app.fileParsers.ExcelParser;
 import org.apache.commons.lang3.RegExUtils;
@@ -63,6 +67,11 @@ public class JsonMaker {
     public static List<ClientRecord> clientListFromFileList(List<File> files) throws IOException {
         ArrayList<ClientRecord> clients = new ArrayList<>();
         // TODO: in the future add functionality for distinguishing between CSV and excel files
+
+        // Register all the verifiers
+        Normalizer.register(new PhoneVerifier());
+        Normalizer.register(new DateVerifier());
+        Normalizer.register(new PostalCodeVerifier());
 
         // Add all the clients from each file to the running list clients
         for (File file: files) {
