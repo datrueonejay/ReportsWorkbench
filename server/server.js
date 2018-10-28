@@ -99,12 +99,18 @@ app.get('/reports/get-report-data/', function (req, res, next) {
 app.post('/reports/new-report/', function (req, res, next) {
   const reportTemplateType = Object.keys(req.body)[0]
   const reportData = req.body[reportTemplateType]
-
+  console.log(reportData)
   for (const row in reportData) {
+    console.log(row);
+    // Set ID of row
     reportData._id = row
-    Database.getDatabaseRoot().collection(reportTemplateType).updateOne({ _id: row }, {$set: reportData[row]}, { upsert: true }, function (err, report) {
-      if (err) return res.status(500).end(err)
+    Database.enterRow(reportTemplateType, row, reportData[row]).catch((err) => {
+      return res.status(500).end(err)
     })
+
+    // Database.getDatabaseRoot().collection(reportTemplateType).updateOne({ _id: row }, {$set: reportData[row]}, { upsert: true }, function (err, report) {
+    //   if (err) return res.status(500).end(err)
+    // })
   }
   res.status(200).send('{}')
 })
