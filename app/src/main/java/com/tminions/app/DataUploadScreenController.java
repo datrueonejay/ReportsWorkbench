@@ -28,6 +28,7 @@ import java.util.List;
 
 import static org.apache.http.protocol.HTTP.USER_AGENT;
 
+
 public class DataUploadScreenController {
 
     private ObservableList filesToUpload = FXCollections.observableArrayList();
@@ -56,8 +57,8 @@ public class DataUploadScreenController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Add iCare Files To Submit");
         fileChooser.getExtensionFilters().addAll(
+        		new ExtensionFilter("Excel Files .xlsx", "*.xlsx"),
                 new ExtensionFilter("Excel Files (97 - 2003) .xls", "*.xls"),
-                new ExtensionFilter("Excel Files .xlsx", "*.xlsx"),
                 new ExtensionFilter("All Files", "*.*"));
         // Let user pick files
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(root.getScene().getWindow());
@@ -78,24 +79,12 @@ public class DataUploadScreenController {
         try {
             String json = JsonMaker.jsonFromFiles(files, templateType);
             AlertBox.display("Result", json);
-			/**
-			//need to stringify json
-			JSONParser parser = new JSONParser();
-			//convert from JSON string to JSONObject
-			JSONObject newJObject = null;
-			try {
-				newJObject = (JSONObject)parser.parse(json);
-			} catch (ParseException e) {
-			e.printStackTrace();
-			}
-			String json2 = newJObject.toString();
-			**/
 			//then establish connection with server to send data
 			HttpResponse<JsonNode> future = null;
 			try{
 				future = Unirest.post(BASE_URL + "dataupload/something")
 				.header("Content-Type", "application/json")
-				.body(json)
+				.body("{"+json+"}")
 				.asJson();
 			}catch (Exception e){
 				System.out.println("Transmission of json failed");

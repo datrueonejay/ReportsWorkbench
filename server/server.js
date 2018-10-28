@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
   var cookiesUsername = (cookies.username) ? cookies.username : null
   req.session.username = cookiesUsername
   req.username = req.session.username
-  console.log('HTTP request', req.query['username'], req.method, req.url, req.body)
+  console.log('HTTP request', req.query['username'], req.method, req.url)
   next()
 })
 
@@ -84,4 +84,27 @@ app.get('/login/org-user/', function (req, res, next) {
 http.createServer(app).listen(PORT, function (err) {
   if (err) console.log(err)
   else console.log('HTTP server on http://localhost:%s', PORT)
+})
+
+app.get('/reports/get-report-data/', function (req, res, next) {
+  Database.getDatabaseRoot().collection('reports')
+    .find({ author: req.reportId })
+    .sort({ $natural: 1 })
+    .toArray(function (err, report) {
+      if (err) return res.status(500).end(err)
+      return res.json(report)
+    })
+})
+
+app.post('/reports/new-report/', function (req, res, next) {
+  const reportTemplateType = Object.keys(req.body)[0]
+  const reportData = req.body[reportTemplateType]
+
+  for (const row in reportData) {
+    reportData._id = row
+    Database.getDatabaseRoot().collection(reportTemplateType).updateOne({ _id: row }, {$set: reportData[row]}, { upsert: true }, function (err, report) {
+      if (err) return res.status(500).end(err)
+    })
+  }
+  res.status(200).send('{}')
 })

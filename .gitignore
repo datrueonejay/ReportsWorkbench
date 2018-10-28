@@ -5,3 +5,9 @@ target/
 *.iml
 
 server/yarn-error.log
+
+*.swp
+app/.classpath
+app/.project
+app/.settings/
+

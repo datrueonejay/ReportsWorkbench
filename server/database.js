@@ -21,6 +21,10 @@ class Database {
         console.error(err)
       })
   }
+
+  getDatabaseRoot () {
+    return this.db
+  }
 }
 
 module.exports = new Database()

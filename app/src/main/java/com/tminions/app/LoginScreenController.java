@@ -3,6 +3,9 @@ package com.tminions.app;
 import com.tminions.app.models.LoginModel;
 import org.apache.commons.lang3.StringUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import com.tminions.app.controllers.LoginController;
@@ -30,6 +33,7 @@ public class LoginScreenController {
 		builder.append("Login Successful!");
 		//output login successful
 		messageLabel.setText(builder.toString());
+		SceneController.getSceneController().switchToScene("dataUploadScreen");        
 	}
 	
 	public void failedLogin() {
