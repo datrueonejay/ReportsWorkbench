@@ -18,12 +18,13 @@ import java.util.*;
 public class ExcelParser {
 
     /**
-     * 0-based index of row where columns names are in excelFile
+     * 0-based index of row where invisible, unique columns names
+     * are in excelFile
      */
     static final int COLUMN_HEADS_ROW = 1;
 
     /**
-     * 0-based index of row where columns names are in excelFile
+     * 0-based index of row where visible columns names are in excelFile
      */
     static final int VISIBLE_COLUMN_HEADS_ROW = 2;
 
@@ -115,7 +116,7 @@ public class ExcelParser {
 
         Row headersRow = sheet.getRow(COLUMN_HEADS_ROW);
 
-        Row visibleHeadersRow = sheet.getRow(VISIBLE_COLUMN_HEADS_ROW)
+        Row visibleHeadersRow = sheet.getRow(VISIBLE_COLUMN_HEADS_ROW);
 
         Iterator<Cell> iter = headersRow.cellIterator();
 
@@ -184,6 +185,7 @@ public class ExcelParser {
                         client.put(this.columnHeaders.get(col), data);
 
                     } catch (InvalidFormatException e) {
+                        client.put("valid", "false");
                         client.putInvalid(this.columnHeaders.get(col), cell.getStringCellValue());
                     }
 
