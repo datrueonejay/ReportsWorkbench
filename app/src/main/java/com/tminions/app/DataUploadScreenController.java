@@ -19,16 +19,20 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import java.io.File;
-import java.io.IOException;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 public class DataUploadScreenController {
 
     private ObservableList filesToUpload = FXCollections.observableArrayList();
     private String templateType;
-
+    private final String BASE_URL = "http://localhost:8000/";
     @FXML private GridPane root;
     @FXML private ListView<File> filesToUploadUi;
     @FXML private Button uploadButton;
@@ -89,7 +93,7 @@ public class DataUploadScreenController {
 			//then establish connection with server to send data
 			HttpResponse<JsonNode> future = null;
 			try{
-				future = Unirest.post(baseUrl + "dataupload/something")
+				future = Unirest.post(BASE_URL + "dataupload/something")
 				.header("Content-Type", "application/json")
 				.body(json)
 				.asJson();
@@ -121,6 +125,47 @@ public class DataUploadScreenController {
             updateUploadButton();
         }
     }
+
+    // POST request for reports to upload data.
+    private void uploadReportData() throws Exception {
+
+        String url = BASE_URL + "/new-report/";
+        URL obj = new URL(url);
+        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+
+        //add reuqest header
+        con.setRequestMethod("POST");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+        String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
+
+        // Send post request
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(urlParameters);
+        wr.flush();
+        wr.close();
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Post parameters : " + urlParameters);
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        System.out.println(response.toString());
+    }
+
 
     private void addFile(File file) {
         filesToUpload.add(file);
