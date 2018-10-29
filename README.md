@@ -6,13 +6,15 @@ You can visit our teams website here https://cscc01.github.io/Team25/ to find mo
 
 Repository Organization:
 
+/app - Holds all the code used to run the client.
+
 /docs - Holds all the files used to create our team website.
 
 /product_backlog - Holds all our versions of the personas and user stories document.
 
 /server - Holds all the code used to run our server (see README.md in /server).
 
-/app - Holds all the code used to run the client.
+/sprint-backlog - Holds all the tasks, plans, reports, and burndown charts for each of our sprints.
 
 ****
 
@@ -22,8 +24,8 @@ Repository Organization:
 2. In terminal/cmd, cd into the ``Team25/app`` directory and run ``mvn compile``.
 
    * This should finish with ``BUILD SUCCESS``, as should all of the below.
-   
-3. If you'd like to package it as a runnable jar that you can double click, run ``mvn jfx:jar``. **YOU MUST HAVE JDK1.8.\* FOR THIS TO WORK** , idk why but I tried this with jdk10, jdk11 and they didn't work. Make sure your JAVA_HOME also points to your jdk1.8. 
+
+3. If you'd like to package it as a runnable jar that you can double click, run ``mvn jfx:jar``. **YOU MUST HAVE JDK1.8.\* FOR THIS TO WORK** , idk why but I tried this with jdk10, jdk11 and they didn't work. Make sure your JAVA_HOME also points to your jdk1.8.
 
   * This will place the jar in ``./target/jfx/app/app-1.0-SNAPSHOT-jfx.jar ``
 
