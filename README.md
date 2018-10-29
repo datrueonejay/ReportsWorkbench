@@ -14,7 +14,7 @@ Repository Organization:
 
 /server - Holds all the code used to run our server (see README.md in /server).
 
-/sprint-backlog - Holds all the tasks, plans, reports, and burndown charts for each of our sprints.
+/sprint_backlog - Holds all the tasks, plans, reports, and burndown charts for each of our sprints.
 
 ****
 
