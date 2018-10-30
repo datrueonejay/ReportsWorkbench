@@ -100,6 +100,9 @@ app.post('/reports/new-report/', function (req, res, next) {
   const reportTemplateType = Object.keys(req.body)[0]
   const reportData = req.body[reportTemplateType]
 
+  console.log("Recieved upload request from: "+ req.headers['user-id'])
+
+
   for (const row in reportData) {
     reportData._id = row
     Database.getDatabaseRoot().collection(reportTemplateType).updateOne({ _id: row }, {$set: reportData[row]}, { upsert: true }, function (err, report) {
