@@ -71,7 +71,11 @@ public class DataUploadScreenController {
     }
 
     public void uploadFiles() {
-        //TODO: upload json to server
+        
+    	// Get username to include in upload request
+    	String username = SceneController.getSceneController().getUsername();
+    	System.out.println("username: "+ username);
+    	
         ArrayList<File> files = new ArrayList<File>(filesToUpload);
         try {
             String json = JsonMaker.jsonFromFiles(files, templateType);
@@ -81,6 +85,7 @@ public class DataUploadScreenController {
 			try{
 				future = Unirest.post("http://localhost:8000/reports/new-report")
 				.header("Content-Type", "application/json")
+				.header("user-id", username)
 				.body("{"+json+"}")
 				.asJson();
 			}catch (Exception e){

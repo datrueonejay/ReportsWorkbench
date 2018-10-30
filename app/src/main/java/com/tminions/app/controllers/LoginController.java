@@ -6,7 +6,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.tminions.app.LoginScreenController;
-
+import com.tminions.app.SceneController;
 import com.tminions.app.models.LoginModel;
 
 import java.util.concurrent.Future;
@@ -26,6 +26,7 @@ public class LoginController extends BaseController {
 			screen.failedLogin();
 		}
 		if (future != null && (future.getStatus() == 200)){
+			SceneController.getSceneController().setCredentials(user);
 			screen.successLogin();
 		}else{
 			screen.failedLogin();
