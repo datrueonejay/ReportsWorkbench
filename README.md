@@ -30,3 +30,22 @@ Repository Organization:
   * This will place the jar in ``./target/jfx/app/app-1.0-SNAPSHOT-jfx.jar ``
 
 4. If you'd like to compile and launch it right away withouth making the jar, run ``mvn exec:java``.
+
+5. To unit test our current code run `mvn test`
+
+
+## To test our current features:
+
+!Note: To test any of these features the client and server must be running. Instructions are included for launching client above, and server instructions are located in /server/README.md
+
+### Login
+1. Enter username: admin@teq.com
+2. Enter password: pass1
+3. Click login button.
+
+## Upload Database
+1. Select Template type "Employment Services" from dropdown.
+2. Click add Files button.
+3. Add iCare_template file located at "\\app\\src\\test\\resources" in your file explorer.
+4. Click "Upload files" button.
+5. Close window which shows parsed JSON.
