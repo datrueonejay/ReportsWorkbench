@@ -25,9 +25,9 @@ var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb+srv://Team25:7H8Gh7re6S@team25-dsrl7.mongodb.net';
 var ObjectId = require('mongodb').ObjectID;
 
-var db; 
+var db;
 
-MongoClient.connect(url, function(err, database) {
+MongoClient.connect(url, {useNewUrlParser: true}, function(err, database) {
   if(err) throw err;
 
   db = database.db("main");
@@ -35,8 +35,8 @@ MongoClient.connect(url, function(err, database) {
   db.createCollection("users", function(err, res) {
     if (err) throw err;
   });
-   
-  
+
+
 });
 
 
@@ -59,7 +59,7 @@ app.use(function (req, res, next) {
   req.session.username = cookiesUsername;
   req.username = req.session.username;
 
-  
+
 
   console.log('HTTP request', req, req.method, req.url);
   next();
@@ -101,20 +101,20 @@ app.post('/login/user-signup/', function (req, res, next) {
   console.log("The password is: " + reqPassword);
   console.log("The hashed password is: " + hashedPassword);
   console.log("The value of salt is: " + salt);
-  
+
   var newUser = User(reqUsername, hashedPassword, salt);
 
-  var userJson = JSON.stringify(newUser); 
+  var userJson = JSON.stringify(newUser);
 
-  db.collection("users").findOne({Username : reqUsername}, function(err, user) 
+  db.collection("users").findOne({Username : reqUsername}, function(err, user)
   {
     console.log("The value of user is: " + user);
     if(err) return res.status(500).end(err);
     if(user != null) return res.status(409).end("User with the name (" + reqUsername + ") already exists");
     db.collection("users").insert({Username : reqUsername, Password : hashedPassword, salt : salt}, function (error, newAddedUser) {
       if (error) return res.status(500).end(error);
-    
-      return "{success : true}"; 
+
+      return "{success : true}";
     });
   });
 });
@@ -132,9 +132,9 @@ app.get('/login/org-user/', function (req, res, next) {
   console.log("The value of the request username is: " + reqUsername);
   console.log("The value of the request password is: " + reqPassword);
   // retrieve the user info from the database.
-  db.collection("users").findOne({Username : reqUsername},  function(err, user) { 
+  db.collection("users").findOne({Username : reqUsername},  function(err, user) {
         if (err) return res.status(500).end(err);
-        if (!user) 
+        if (!user)
           return res.status(401).end("access denied \n");
 
         if(user == null)
@@ -152,9 +152,9 @@ app.get('/login/org-user/', function (req, res, next) {
 
         if(user.Password !== hashedPassword){
           console.log("LOGIN STATUS: The login was unsuccessful.");
-          return res.status(401).end("access denied"); 
+          return res.status(401).end("access denied");
         }
-        else 
+        else
         {
           console.log("LOGIN STATUS: The login was successful.");
           return res.status(200).end("{authenticated : true}");
