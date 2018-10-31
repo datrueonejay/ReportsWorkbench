@@ -100,11 +100,18 @@ app.post('/reports/new-report/', function (req, res, next) {
   const reportTemplateType = Object.keys(req.body)[0]
   const reportData = req.body[reportTemplateType]
 
+  console.log("Recieved upload request from: "+ req.headers['user-id'])
+
   for (const row in reportData) {
+    // Set ID of row
     reportData._id = row
-    Database.getDatabaseRoot().collection(reportTemplateType).updateOne({ _id: row }, {$set: reportData[row]}, { upsert: true }, function (err, report) {
-      if (err) return res.status(500).end(err)
+    Database.enterRow(reportTemplateType, row, reportData[row]).catch((err) => {
+      return res.status(500).end(err)
     })
+
+    // Database.getDatabaseRoot().collection(reportTemplateType).updateOne({ _id: row }, {$set: reportData[row]}, { upsert: true }, function (err, report) {
+    //   if (err) return res.status(500).end(err)
+    // })
   }
   res.status(200).send('{}')
 })

@@ -6,7 +6,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.tminions.app.LoginScreenController;
-
+import com.tminions.app.SceneController;
 import com.tminions.app.models.LoginModel;
 
 import java.util.concurrent.Future;
@@ -15,20 +15,16 @@ import java.util.concurrent.Future;
 
 public class LoginController extends BaseController {
 
-    public void login(LoginModel user, final LoginScreenController screen) {
-        HttpResponse<JsonNode> future = null;
+    public static HttpResponse<JsonNode> login(LoginModel user) {
+        HttpResponse<JsonNode> response;
 		try{
-			future = Unirest.post(baseUrl + "login/org-user/")
+			response = Unirest.post(baseUrl + "login/org-user/")
 			.header("Content-Type", "application/json")
 			.body(user)
 			.asJson();
 		}catch (Exception e){
-			screen.failedLogin();
+			return null;
 		}
-		if (future != null && (future.getStatus() == 200)){
-			screen.successLogin();
-		}else{
-			screen.failedLogin();
-		}
+		return response;
 	}
 }

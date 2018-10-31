@@ -6,15 +6,11 @@ import com.mashape.unirest.http.Unirest;
 
 import java.io.IOException;
 
-abstract class BaseController {
+public abstract class BaseController {
 
-    protected String baseUrl = "http://localhost:8000/";
+    protected static String baseUrl = "http://localhost:8000/";
 
-    public BaseController() {
-        init();
-    }
-
-    private void init() {
+    public static void initUnirest() {
         Unirest.setObjectMapper(new ObjectMapper() {
             private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
                     = new com.fasterxml.jackson.databind.ObjectMapper();
