@@ -13,7 +13,7 @@ import java.util.List;
 
 public class OrgUploadTimeController extends BaseController {
 
-    public static List<OrgUploadTimeModel> getUploadTimes(LoginModel user, final LoginScreenController screen) {
+    public static List<OrgUploadTimeModel> getUploadTimes() {
         try{
             // Make request
             HttpResponse<UploadTimeResponseModel> res = Unirest.get(baseUrl + "org-upload-time/")

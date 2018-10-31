@@ -24,4 +24,9 @@ public class OrgUploadTimeModel {
     public void setLastUploadTime(String lastUploadTime) {
         this.lastUploadTime = lastUploadTime;
     }
+
+    @Override
+    public String toString() {
+        return this.orgName + ":    " + this.lastUploadTime;
+    }
 }

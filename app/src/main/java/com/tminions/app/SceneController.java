@@ -18,7 +18,7 @@ public class SceneController {
 	public SceneController(Stage primaryStage) throws IOException {
 		stage = primaryStage;
         stage.setTitle("Team25 Application");
-    	switchToScene("loginScreen");
+    	switchToScene("organizationLastUploadedScreen");
         stage.show();
         Singleton = this;
 	}

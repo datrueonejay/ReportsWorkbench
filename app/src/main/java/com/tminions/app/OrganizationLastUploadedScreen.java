@@ -5,25 +5,27 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.fxml.FXML;
 
+import com.tminions.app.controllers.OrgUploadTimeController;
+import com.tminions.app.models.OrgUploadTimeModel;
+
 public class OrganizationLastUploadedScreen {
 
 
-    private ObservableList lastUploadTimes = FXCollections.observableArrayList();
+    private ObservableList lastUploadTimes;
 
-    @FXML private ListView<String> lastUploadListView;
+    @FXML private ListView<OrgUploadTimeModel> lastUploadListView;
 
     public void initialize() {
         lastUploadTimes = getLastUploadTimes();
         lastUploadListView.setItems(lastUploadTimes);
     }
 
-    private ObservableList<String> getLastUploadTimes() {
-        // TODO: Replace with call to controller to get last upload times
-        return FXCollections.observableArrayList(
-                "ORG 1 " + "JAN 11 1111",
-                "ORG 2 " + "DEC 22 2222",
-                "ORG 3" + "JUNE 33 3333"
-        );
+    private ObservableList<OrgUploadTimeModel> getLastUploadTimes() {
+        OrgUploadTimeModel a = new OrgUploadTimeModel("TEST", "ASDASD");
+        OrgUploadTimeModel b = new OrgUploadTimeModel("TEST", "asds");
+        return FXCollections.observableArrayList(a, b);
+        // return FXCollections.observableArrayList(OrgUploadTimeController.getUploadTimes());
+
     }
 
 }
