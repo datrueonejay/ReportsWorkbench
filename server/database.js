@@ -22,6 +22,11 @@ class Database {
       })
   }
 
+  enterRow(reportTemplateType, id, data) {
+    const templateCollection = this.db.collection(reportTemplateType);
+    return templateCollection.updateOne({ _id: id }, {$set: data}, { upsert: true })
+  }
+
   getDatabaseRoot () {
     return this.db
   }
