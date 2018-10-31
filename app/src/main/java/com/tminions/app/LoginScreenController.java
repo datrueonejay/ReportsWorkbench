@@ -22,7 +22,8 @@ public class LoginScreenController {
 
         String firstName = usernameField.getText();
         String lastName = passField.getText();
-		//create a login model here passing in first name and last name 
+        System.out.println("The credentials used to login were. First Name: " + firstName + " Last Name:" +  lastName);
+		//create a login model here passing in first name and last name
 		LoginModel loginModel = new LoginModel(firstName, lastName);
 		//call logincontroller.(loginModel, this)
 		loginController.login(loginModel, this);

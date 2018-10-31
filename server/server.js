@@ -89,8 +89,8 @@ function User(username, password, salt) {
 
 
 app.post('/login/user-signup/', function (req, res, next) {
-  const reqUsername = req.body.username
-  const reqPassword = req.body.password
+  const reqUsername = req.body.username;
+  const reqPassword = req.body.password;
 
   var salt = crypto.randomBytes(16).toString('base64');
   var hash = crypto.createHmac('sha512', salt);
@@ -157,7 +157,7 @@ app.get('/login/org-user/', function (req, res, next) {
         else 
         {
           console.log("LOGIN STATUS: The login was successful.");
-          return res.status(200).end("{authenticated : true}");
+          return res.status(200).end("{authenticated :}");
         }
   });
 });
