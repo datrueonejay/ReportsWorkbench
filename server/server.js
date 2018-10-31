@@ -113,5 +113,35 @@ app.post('/reports/new-report/', function (req, res, next) {
     //   if (err) return res.status(500).end(err)
     // })
   }
+
+  // make date string
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+  if(dd<10) {
+      dd = '0'+dd
+  }
+  if(mm<10) {
+      mm = '0'+mm
+  }
+  today = yyyy + '-' + mm + '-' + dd
+
+  // check account is in db
+  const reqUsername = req.headers['user-id']
+  Database.getAccount(reqUsername).then((user) => {
+    if (user === null) {
+      res.status(400).send('{}')
+      return
+    } else {
+      // if account exists update their lastUploadTime
+      result = Database.getDatabaseRoot().collection("accounts").updateOne(
+        {"username" : reqUsername},
+        {$set: {"lastUploadTime" : today}}
+      );
+    }
+  }).catch((err) => {
+    console.log(err)
+  })
   res.status(200).send('{}')
 })
