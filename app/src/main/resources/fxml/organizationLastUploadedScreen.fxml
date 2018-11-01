@@ -29,7 +29,7 @@
         <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="TOP"/>
     </rowConstraints>
 
-    <Label text="Last Upload Time"
+    <Label text="Organization's Last Upload Time"
            GridPane.columnIndex="1"
            GridPane.columnSpan="2"
            GridPane.rowIndex="0"/>

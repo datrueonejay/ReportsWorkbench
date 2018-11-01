@@ -12,7 +12,6 @@ public class OrganizationLastUploadedScreen {
 
 
     private ObservableList lastUploadTimes;
-
     @FXML private ListView<OrgUploadTimeModel> lastUploadListView;
 
     public void initialize() {
@@ -21,11 +20,7 @@ public class OrganizationLastUploadedScreen {
     }
 
     private ObservableList<OrgUploadTimeModel> getLastUploadTimes() {
-        OrgUploadTimeModel a = new OrgUploadTimeModel("TEST", "ASDASD");
-        OrgUploadTimeModel b = new OrgUploadTimeModel("TEST", "asds");
-        return FXCollections.observableArrayList(a, b);
-        // return FXCollections.observableArrayList(OrgUploadTimeController.getUploadTimes());
-
+         return FXCollections.observableArrayList(OrgUploadTimeController.getUploadTimes());
     }
 
 }

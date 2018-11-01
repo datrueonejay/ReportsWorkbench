@@ -91,33 +91,6 @@ public class DataUploadScreenController {
             AlertBox.display("Error: IOException", e.getMessage());
         }
 
-//
-//
-//        try {
-//            String json = JsonMaker.jsonFromFiles(files, templateType);
-//            AlertBox.display("Result", json);
-//			//then establish connection with server to send data
-//			HttpResponse<JsonNode> future = null;
-//			try{
-//				future = Unirest.post("http://localhost:8000/reports/new-report")
-//				.header("Content-Type", "application/json")
-//				.body("{"+json+"}")
-//				.asJson();
-//			}catch (Exception e){
-//				System.out.println("Transmission of json failed");
-//			}
-//			if (future != null && (future.getStatus() == 200)){
-//				//TODO: handle server response here
-//			}else{
-//				System.out.println("Transmission of json data failed");
-//			}
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            // Show popup with error message
-//            AlertBox.display("Error: IOException", e.getMessage());
-//        }
-
     }
 
     public void removeSelectedFile() {
