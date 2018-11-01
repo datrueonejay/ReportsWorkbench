@@ -21,6 +21,17 @@ class Database {
         console.error(err)
       })
   }
+  
+  getAllAccounts()
+  {
+    var allAccounts;
+    // db.artists.find( { albums: { $exists: false }} )
+    this.db.collection("accounts").find({}).sort({follower:-1}).toArray(function(err, accounts) { 
+        if (err) return res.status(500).end(err);
+  
+        return accounts;
+    });
+  }
 
   enterRow(reportTemplateType, id, data) {
     const templateCollection = this.db.collection(reportTemplateType);
