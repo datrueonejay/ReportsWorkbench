@@ -1,19 +1,24 @@
 package com.tminions.app.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UploadTimeResponseModel {
-    private List<OrgUploadTimeModel> allTimings;
+    private ArrayList<OrgUploadTimeModel> allTimings;
 
-    public UploadTimeResponseModel(List<OrgUploadTimeModel> allTimings) {
+    public UploadTimeResponseModel() {
+
+    }
+
+    public UploadTimeResponseModel(ArrayList<OrgUploadTimeModel> allTimings) {
         this.allTimings = allTimings;
     }
 
-    public List<OrgUploadTimeModel> getAllTimings() {
+    public ArrayList<OrgUploadTimeModel> getAllTimings() {
         return allTimings;
     }
 
-    public void setAllTimings(List<OrgUploadTimeModel> allTimings) {
+    public void setAllTimings(ArrayList<OrgUploadTimeModel> allTimings) {
         this.allTimings = allTimings;
     }
 }

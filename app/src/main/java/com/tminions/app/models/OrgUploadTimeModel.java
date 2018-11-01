@@ -4,6 +4,10 @@ public class OrgUploadTimeModel {
     private String orgName;
     private String lastUploadTime;
 
+    public  OrgUploadTimeModel() {
+
+    }
+
     public OrgUploadTimeModel(String orgName, String lastUploadTime) {
         this.orgName = orgName;
         this.lastUploadTime = lastUploadTime;
