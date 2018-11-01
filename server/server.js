@@ -81,6 +81,46 @@ app.get('/login/org-user/', function (req, res, next) {
   })
 })
 
+/*
+ *  Test with the following curl command: curl -H "Content-Type: application/json" http://localhost:8000/org-upload-time/
+ */ 
+app.get('/org-upload-time/', function (req, res, next){
+   Database.getDatabaseRoot().collection("accounts")
+           .find({})
+           .sort({follower:-1})
+           .toArray(function(err, accounts) { 
+              if(err) return res.status(500).end(err);
+  
+              //var allAccounts = JSON.stringify(accounts);
+
+              var responseJSON = ' {"allTimings" : [';
+                                                 
+
+              for(var i = 0; i < accounts.length; i++)
+              {
+                 var usernames = accounts[i].username;
+                 var lastUpload = accounts[i].lastUploadTime;
+                 var singleEntryInArray = '{' + '"orgName":' + '"' + accounts[i].username + '"' + ',' + '"lastUploadTime":' + '"' + lastUpload + '"' + '}';
+                  
+                 if(i < (accounts.length - 1))
+                 {
+                     responseJSON = responseJSON + singleEntryInArray + ',';
+                 }
+                 else
+                 {
+                     responseJSON = responseJSON + singleEntryInArray;
+                 }
+              } 
+
+              responseJSON  = responseJSON + ']}'
+
+              console.log("The value of the responseJSON is " + responseJSON);
+
+              res.status(200).send(responseJSON);
+            });
+})
+
+
 http.createServer(app).listen(PORT, function (err) {
   if (err) console.log(err)
   else console.log('HTTP server on http://localhost:%s', PORT)
