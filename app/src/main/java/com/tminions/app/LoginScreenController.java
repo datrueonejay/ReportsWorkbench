@@ -35,7 +35,7 @@ public class LoginScreenController {
 		builder.append("Login Successful!");
 		//output login successful
 		messageLabel.setText(builder.toString());
-		SceneController.getSceneController().switchToScene("dataUploadScreen");        
+		SceneController.getSceneController().switchToScene("dataUploadScreen", true);  
 	}
 	
 	public void failedLogin() {
