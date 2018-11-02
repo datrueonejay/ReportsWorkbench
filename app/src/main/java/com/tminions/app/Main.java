@@ -17,9 +17,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-    	new SceneController(primaryStage);
         // Init unirest to allow json parsing of objects
         BaseController.initUnirest();
+    	new SceneController(primaryStage);
     }
 
 }
