@@ -1,36 +1,64 @@
 package com.tminions.app;
 
 import java.io.IOException;
+import java.net.URL;
+
+import com.tminions.app.models.LoginModel;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class SceneController {
-	
+
 	private static SceneController Singleton = null;
 	private static Stage stage = null;
+	private static LoginModel user = null;
+	private static BorderPane root = new BorderPane();
+	private static MenuBar navBar = new NavBar().GetNavbar();
+
 	
 	public SceneController(Stage primaryStage) throws IOException {
 		stage = primaryStage;
         stage.setTitle("Team25 Application");
-    	switchToScene("loginScreen");
+		Scene scene = new Scene(root, 600, 600);
+		stage.setScene(scene);
         stage.show();
-        Singleton = this; 
+    	switchToScene("loginScreen", false);
+        Singleton = this;
 	}
-	
+
 	public static SceneController getSceneController() {
 		return Singleton;
 	}
-	
-	public void switchToScene(String sceneName) {
+
+	public void switchToScene(String sceneName, Boolean displayMenuBar) {
 		try {
-			 Parent scene = FXMLLoader.load(getClass().getResource("/fxml/" + sceneName + ".fxml"));
-			 stage.setScene(new Scene(scene, 600, 600));
+			Parent content = FXMLLoader.load(getClass().getResource("/fxml/" + sceneName + ".fxml"));
+			
+			if (displayMenuBar) {
+				root.setTop(navBar);
+			} else {
+				root.setTop(null);
+			}
+
+			root.setCenter(content);
+
 		} catch (Exception e) {
-			// TODO Handle this error
+			e.printStackTrace();
 		}
+		
 	}
 	
+	public void setCredentials(LoginModel model){
+		this.user = model;
+	}
+
+	public String getUsername(){
+		return this.user.getUsername();
+	}
 }

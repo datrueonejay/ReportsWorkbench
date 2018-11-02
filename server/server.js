@@ -81,6 +81,46 @@ app.get('/login/org-user/', function (req, res, next) {
   })
 })
 
+/*
+ *  Test with the following curl command: curl -H "Content-Type: application/json" http://localhost:8000/org-upload-time/
+ */ 
+app.get('/org-upload-time/', function (req, res, next){
+   Database.getDatabaseRoot().collection("accounts")
+           .find({})
+           .sort({follower:-1})
+           .toArray(function(err, accounts) { 
+              if(err) return res.status(500).end(err);
+  
+              //var allAccounts = JSON.stringify(accounts);
+
+              var responseJSON = ' {"allTimings" : [';
+                                                 
+
+              for(var i = 0; i < accounts.length; i++)
+              {
+                 var usernames = accounts[i].username;
+                 var lastUpload = accounts[i].lastUploadTime;
+                 var singleEntryInArray = '{' + '"orgName":' + '"' + accounts[i].username + '"' + ',' + '"lastUploadTime":' + '"' + lastUpload + '"' + '}';
+                  
+                 if(i < (accounts.length - 1))
+                 {
+                     responseJSON = responseJSON + singleEntryInArray + ',';
+                 }
+                 else
+                 {
+                     responseJSON = responseJSON + singleEntryInArray;
+                 }
+              } 
+
+              responseJSON  = responseJSON + ']}'
+
+              console.log("The value of the responseJSON is " + responseJSON);
+
+              res.status(200).send(responseJSON);
+            });
+})
+
+
 http.createServer(app).listen(PORT, function (err) {
   if (err) console.log(err)
   else console.log('HTTP server on http://localhost:%s', PORT)
@@ -100,11 +140,48 @@ app.post('/reports/new-report/', function (req, res, next) {
   const reportTemplateType = Object.keys(req.body)[0]
   const reportData = req.body[reportTemplateType]
 
+  console.log("Recieved upload request from: "+ req.headers['user-id'])
+
   for (const row in reportData) {
+    // Set ID of row
     reportData._id = row
-    Database.getDatabaseRoot().collection(reportTemplateType).updateOne({ _id: row }, {$set: reportData[row]}, { upsert: true }, function (err, report) {
-      if (err) return res.status(500).end(err)
+    Database.enterRow(reportTemplateType, row, reportData[row]).catch((err) => {
+      return res.status(500).end(err)
     })
+
+    // Database.getDatabaseRoot().collection(reportTemplateType).updateOne({ _id: row }, {$set: reportData[row]}, { upsert: true }, function (err, report) {
+    //   if (err) return res.status(500).end(err)
+    // })
   }
+
+  // make date string
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+  if(dd<10) {
+      dd = '0'+dd
+  }
+  if(mm<10) {
+      mm = '0'+mm
+  }
+  today = yyyy + '-' + mm + '-' + dd
+
+  // check account is in db
+  const reqUsername = req.headers['user-id']
+  Database.getAccount(reqUsername).then((user) => {
+    if (user === null) {
+      res.status(400).send('{}')
+      return
+    } else {
+      // if account exists update their lastUploadTime
+      result = Database.getDatabaseRoot().collection("accounts").updateOne(
+        {"username" : reqUsername},
+        {$set: {"lastUploadTime" : today}}
+      );
+    }
+  }).catch((err) => {
+    console.log(err)
+  })
   res.status(200).send('{}')
 })

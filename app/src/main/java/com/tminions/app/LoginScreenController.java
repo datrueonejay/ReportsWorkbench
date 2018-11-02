@@ -1,11 +1,9 @@
 package com.tminions.app;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.tminions.app.models.LoginModel;
-import org.apache.commons.lang3.StringUtils;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import com.tminions.app.controllers.LoginController;
@@ -15,7 +13,6 @@ public class LoginScreenController {
     @FXML private TextField usernameField;
     @FXML private TextField passField;
     @FXML private Label messageLabel;
-    private LoginController loginController = new LoginController();
 
 
     public void login() {
@@ -25,7 +22,12 @@ public class LoginScreenController {
 		//create a login model here passing in first name and last name 
 		LoginModel loginModel = new LoginModel(firstName, lastName);
 		//call logincontroller.(loginModel, this)
-		loginController.login(loginModel, this);
+		if (LoginController.login(loginModel)){
+			SceneController.getSceneController().setCredentials(loginModel);
+			successLogin();
+		} else {
+			failedLogin();
+		}
     }
 	
 	public void successLogin(){
@@ -33,7 +35,7 @@ public class LoginScreenController {
 		builder.append("Login Successful!");
 		//output login successful
 		messageLabel.setText(builder.toString());
-		SceneController.getSceneController().switchToScene("dataUploadScreen");        
+		SceneController.getSceneController().switchToScene("dataUploadScreen", true);  
 	}
 	
 	public void failedLogin() {

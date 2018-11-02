@@ -1,5 +1,6 @@
 package com.tminions.app;
 
+import com.tminions.app.controllers.BaseController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,8 +17,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        // Init unirest to allow json parsing of objects
+        BaseController.initUnirest();
     	new SceneController(primaryStage);
-        
     }
 
 }
