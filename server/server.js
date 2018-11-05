@@ -136,7 +136,7 @@ app.get('/reports/get-report-data/', function (req, res, next) {
     })
 })
 
-app.post('/reports/get-reports/', function(req, res, next) {
+app.post('/reports/get-data/', function(req, res, next) {
   const reportTemplateType = req.body.template_name;
   // Array of columns we want to get
   const columns = req.body.columns;
