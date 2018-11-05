@@ -141,24 +141,29 @@ app.post('/reports/get-reports/', function(req, res, next) {
   // Array of columns we want to get
   const columns = req.body.columns;
   Database.getAllRows(reportTemplateType).then((result) => {
-    const masterObject = [];
-    // Create an object for each attribute
+    const data = [];
+    // Create an object for each column requestd
     for (const colIndex in columns) {
         const colName = columns[colIndex];
-        masterObject.push({ column_name: colName, DataFields: [], Data:[]});
+        data.push({ column_name: colName, DataFields: [], Data:[]});
     }
 
     // Loop through each of the rows from database
-    for (const row in result) {
+    for (const rowIndex in result) {
       // get curr row
-      const currRow = result[row];
-      // Loop through each attribute needed
-      for (const attributeIndex in columns) {
+      const currRow = result[rowIndex];
+      // Loop through each attribute needed, each object in master object
+      for (const attributeIndex in data) {
+        // Reference to the attribute object
+        const currObject = data[attributeIndex];
         // Get name of column
-        const colName = columns[attributeIndex];
+        const colName = currObject.column_name;
         // Get the value of the current row, for the given attribute
         const value = currRow[colName];
-        const currObject = masterObject.filter(obj => obj.column_name === colName)[0];
+        // Handle if value is null, ie column requested did not exist
+        if (value == null) {
+          return res.status(400).end();
+        }
         // Get index of the value in the column names datafields if exists
         index = currObject.DataFields.indexOf(value);
         // Check if value does not exist in datafields for given colName
@@ -174,7 +179,7 @@ app.post('/reports/get-reports/', function(req, res, next) {
 
     return res.json({
       report_name: reportTemplateType,
-      columns: masterObject
+      data: data
     });
   }).catch((err) => {
     return res.status(500).end(err)
