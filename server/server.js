@@ -138,11 +138,44 @@ app.get('/reports/get-report-data/', function (req, res, next) {
 
 app.post('/reports/get-reports/', function(req, res, next) {
   const reportTemplateType = req.body.template_name;
+  // Array of columns we want to get
   const columns = req.body.columns;
-  console.log("TENMPLATE TYPE IS " + reportTemplateType);
   Database.getAllRows(reportTemplateType).then((result) => {
-    console.log(result);
-    return res.json(result);
+    const masterObject = [];
+    // Create an object for each attribute
+    for (const colIndex in columns) {
+        const colName = columns[colIndex];
+        masterObject.push({ column_name: colName, DataFields: [], Data:[]});
+    }
+
+    // Loop through each of the rows from database
+    for (const row in result) {
+      // get curr row
+      const currRow = result[row];
+      // Loop through each attribute needed
+      for (const attributeIndex in columns) {
+        // Get name of column
+        const colName = columns[attributeIndex];
+        // Get the value of the current row, for the given attribute
+        const value = currRow[colName];
+        const currObject = masterObject.filter(obj => obj.column_name === colName)[0];
+        // Get index of the value in the column names datafields if exists
+        index = currObject.DataFields.indexOf(value);
+        // Check if value does not exist in datafields for given colName
+        if (index == -1) {
+          index = currObject.DataFields.push(value) - 1;
+          // Add a count for the value of the attribute
+          currObject.Data.push(0);
+        }
+        // Increment the count of that attribute
+        currObject.Data[index] += 1;
+      }
+    }
+
+    return res.json({
+      report_name: reportTemplateType,
+      columns: masterObject
+    });
   }).catch((err) => {
     return res.status(500).end(err)
   })
