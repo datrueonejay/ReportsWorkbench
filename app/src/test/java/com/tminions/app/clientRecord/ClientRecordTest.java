@@ -19,20 +19,20 @@ public class ClientRecordTest {
 
     @BeforeAll
     static void init() {
-        data0.put("Unique Identifier", "FOSS/GCMS Client ID");
-        data0.put("Unique Identifier value", "12345678");
-        data0.put("Date of Birth (YYYY-MM-DD)", "1978-05-20");
+        data0.put("client_validation_type_id", "FOSS/GCMS Client ID");
+        data0.put("client_validation_id", "12345678");
+        data0.put("client_birth_dt", "1978-05-20");
 
-        data1.put("Update record ID", "10387104");
-        data1.put("Course Code", "L-CCSMAR18008");
+        data1.put("update_record_id", "10387104");
+        data1.put("course_cd", "L-CCSMAR18008");
 
         data2.putAll(data0);
         data2.putAll(data1);
 
-        data3.put("Date of Birth (YYYY-MM-DD)", "1978-05-20");
-        data3.put("Course Code", "L-CCSMAR18008");
+        data3.put("client_birth_dt", "1978-05-20");
+        data3.put("course_cd", "L-CCSMAR18008");
 
-        data4.put("Date of Birth (YYYY-MM-DD)", "1978-05-20");
+        data4.put("client_birth_dt", "1978-05-20");
 
     }
 
@@ -44,9 +44,9 @@ public class ClientRecordTest {
         String json = client0.toJson();
         assertTrue(json.startsWith("\"12345678\" : {"));
         // Must test one line at a time because order of lines is not guaranteed
-        assertTrue(json.contains("\t\"Unique Identifier value\" : \"12345678\""));
-        assertTrue(json.contains("\t\"Date of Birth (YYYY-MM-DD)\" : \"1978-05-20\""));
-        assertTrue(json.contains("\t\"Unique Identifier\" : \"FOSS/GCMS Client ID\""));
+        assertTrue(json.contains("\t\"client_validation_id\" : \"12345678\""));
+        assertTrue(json.contains("\t\"client_birth_dt\" : \"1978-05-20\""));
+        assertTrue(json.contains("\t\"client_validation_type_id\" : \"FOSS/GCMS Client ID\""));
 
     }
     @Test
@@ -56,8 +56,8 @@ public class ClientRecordTest {
         ClientRecord client = new ClientRecord(data1);
         String json = client.toJson();
         assertTrue(json.startsWith("\"10387104\" : {"));
-        assertTrue(json.contains("\t\"Update record ID\" : \"10387104\""));
-        assertTrue(json.contains("\t\"Course Code\" : \"L-CCSMAR18008\""));
+        assertTrue(json.contains("\t\"update_record_id\" : \"10387104\""));
+        assertTrue(json.contains("\t\"course_cd\" : \"L-CCSMAR18008\""));
 
     }
 
@@ -68,11 +68,11 @@ public class ClientRecordTest {
         ClientRecord client = new ClientRecord(data2);
         String json = client.toJson();
         assertTrue(json.startsWith("\"12345678\" : {"));
-        assertTrue(json.contains("\t\"Update record ID\" : \"10387104\""));
-        assertTrue(json.contains("\t\"Course Code\" : \"L-CCSMAR18008\""));
-        assertTrue(json.contains("\t\"Unique Identifier value\" : \"12345678\""));
-        assertTrue(json.contains("\t\"Date of Birth (YYYY-MM-DD)\" : \"1978-05-20\""));
-        assertTrue(json.contains("\t\"Unique Identifier\" : \"FOSS/GCMS Client ID\""));
+        assertTrue(json.contains("\t\"update_record_id\" : \"10387104\""));
+        assertTrue(json.contains("\t\"course_cd\" : \"L-CCSMAR18008\""));
+        assertTrue(json.contains("\t\"client_validation_id\" : \"12345678\""));
+        assertTrue(json.contains("\t\"client_birth_dt\" : \"1978-05-20\""));
+        assertTrue(json.contains("\t\"client_validation_type_id\" : \"FOSS/GCMS Client ID\""));
 
     }
 
@@ -82,8 +82,8 @@ public class ClientRecordTest {
     void testToJsonHasNoIdentifierOrRecordId() {
         ClientRecord client = new ClientRecord(data3);
         String json = client.toJson();
-        assertTrue(json.contains("\t\"Date of Birth (YYYY-MM-DD)\" : \"1978-05-20\""));
-        assertTrue(json.contains("\t\"Course Code\" : \"L-CCSMAR18008\""));
+        assertTrue(json.contains("\t\"client_birth_dt\" : \"1978-05-20\""));
+        assertTrue(json.contains("\t\"course_cd\" : \"L-CCSMAR18008\""));
     }
 
     @Test
@@ -91,6 +91,6 @@ public class ClientRecordTest {
     void testToJsonHasOneLine() {
         ClientRecord client = new ClientRecord(data4);
         String json = client.toJson();
-        assertTrue(json.contains("\t\"Date of Birth (YYYY-MM-DD)\" : \"1978-05-20\"\n"));
+        assertTrue(json.contains("\t\"client_birth_dt\" : \"1978-05-20\"\n"));
     }
 }

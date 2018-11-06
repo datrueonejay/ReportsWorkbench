@@ -89,6 +89,7 @@ public class ExcelParser {
         fis.close();
 
         this.columnHeaders = new ArrayList<>();
+        this.visibleColumnHeaders = new ArrayList<>();
     }
 
     /**
@@ -126,8 +127,7 @@ public class ExcelParser {
                 throw new IOException("All column headers in excel file must be Strings");
             } else {
                 this.columnHeaders.add(cell.getStringCellValue());
-                this.visibleColumnHeaders.add(visibleHeadersRow
-                        .getCell(cell.getColumnIndex()).getStringCellValue());
+                this.visibleColumnHeaders.add(visibleHeadersRow.getCell(cell.getColumnIndex()).getStringCellValue());
             }
         }
     }

@@ -108,13 +108,13 @@ public class ClientRecord {
      */
     public void autoSetUniqueId(){
         for (String key: this.data.keySet()) {
-            if (key.toLowerCase().contains("value")) {
+            if (key.toLowerCase().contains("validation_id")) {
                 this.uniqueID = this.data.get(key);
                 return;
             }
         }
         for (String key: this.data.keySet()) {
-            if (key.toLowerCase().contains("record id")) {
+            if (key.toLowerCase().contains("record_id")) {
                 this.uniqueID = this.data.get(key);
                 return;
             }
