@@ -17,6 +17,7 @@ public class ClientRecord {
      */
     public ClientRecord() {
         this.data = new HashMap<>();
+        this.invalidKeys = new ArrayList<>();
     }
 
     /**
@@ -25,6 +26,7 @@ public class ClientRecord {
      */
     public ClientRecord(HashMap<String, String> data) {
         this.data = data;
+        this.invalidKeys = new ArrayList<>();
         this.autoSetUniqueId();
     }
 
@@ -53,6 +55,10 @@ public class ClientRecord {
      * }
      */
     public String toJson() {
+
+        if (this.uniqueID == null || this.uniqueID.isEmpty()){
+            this.autoSetUniqueId();
+        }
 
         StringJoiner sj = new StringJoiner(",\n\t", "\"" + this.uniqueID + "\" : {\n\t", "\n}");
 
