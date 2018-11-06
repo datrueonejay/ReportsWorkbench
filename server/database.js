@@ -21,14 +21,14 @@ class Database {
         console.error(err)
       })
   }
-  
+
   getAllAccounts()
   {
     var allAccounts;
     // db.artists.find( { albums: { $exists: false }} )
-    this.db.collection("accounts").find({}).sort({follower:-1}).toArray(function(err, accounts) { 
+    this.db.collection("accounts").find({}).sort({follower:-1}).toArray(function(err, accounts) {
         if (err) return res.status(500).end(err);
-  
+
         return accounts;
     });
   }
@@ -36,6 +36,11 @@ class Database {
   enterRow(reportTemplateType, id, data) {
     const templateCollection = this.db.collection(reportTemplateType);
     return templateCollection.updateOne({ _id: id }, {$set: data}, { upsert: true })
+  }
+
+  getAllRows(reportTemplateType) {
+    // return collection of all documents for given template type
+    return this.db.collection(reportTemplateType).find().toArray();
   }
 
   getDatabaseRoot () {
