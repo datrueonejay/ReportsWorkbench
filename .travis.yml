@@ -1,5 +1,12 @@
 matrix:
   include:
+    - language: node_js
+      before_install:
+        - cd server/
+      install:
+        - yarn install
+      script:
+        - yarn test
     - language: java
       before_install:
         - cd app/
