@@ -12,11 +12,13 @@ public class ClientRecord {
     private HashMap<String, String> data;
     private ArrayList<String> invalidKeys;
 
-    /**
+    
+	/**
      * for when u don't have the client's data yet
      */
     public ClientRecord() {
         this.data = new HashMap<>();
+        this.data.put("valid", "true");
         this.invalidKeys = new ArrayList<>();
     }
 
@@ -31,7 +33,10 @@ public class ClientRecord {
     }
 
     public String getUniqueID() {
-        return this.uniqueID;
+    	if (this.uniqueID == null || this.uniqueID.isEmpty()) {
+    		this.autoSetUniqueId();
+    	}
+    	return this.uniqueID;
     }
 
     public HashMap<String, String> getData() {
@@ -124,4 +129,13 @@ public class ClientRecord {
 
 
     }
+
+    public ArrayList<String> getInvalidKeys() {
+		return invalidKeys;
+	}
+
+	public void setInvalidKeys(ArrayList<String> invalidKeys) {
+		this.invalidKeys = invalidKeys;
+	}
+
 }
