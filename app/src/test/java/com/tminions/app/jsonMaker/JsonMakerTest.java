@@ -19,6 +19,7 @@ public class JsonMakerTest {
     private static File excelFileBadFormats = new File("src/test/resources/iCARE_template_bad_formats.xlsx");
     private static String templateType = "Employment Template";
     private static ArrayList<File> files = new ArrayList<>();
+    private static final String message = "iCARE_template_bad_formats.xlsx should generate json with invalid clients";
 
     @BeforeAll
     static void init() {
@@ -32,7 +33,9 @@ public class JsonMakerTest {
         ArrayList<File> f = new ArrayList<>();
         f.add(excelFileBadFormats);
         String actual = JsonMaker.jsonFromFiles(f, templateType);
-        System.out.println(actual);
+        //System.out.println(actual);
+        assertTrue(actual.contains("invalid_rows\" : "), message);
+        assertTrue(actual.contains("valid\" : \"false\""), message);
 
     }
 
