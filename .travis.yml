@@ -9,4 +9,8 @@ matrix:
         - yarn test
     - language: java
       before_install:
-        - cd app/
+        - cd server/
+        - yarn install
+        - yarn start
+        - sleep 3
+        - cd ../app/
