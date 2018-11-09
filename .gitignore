@@ -11,3 +11,7 @@ app/.classpath
 app/.project
 app/.settings/
 
+*.aux
+*.log
+*.synctex.gz
+*.toc
