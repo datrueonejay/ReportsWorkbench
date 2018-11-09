@@ -22,8 +22,8 @@ public class LoginScreenController {
 		//create a login model here passing in first name and last name 
 		LoginModel loginModel = new LoginModel(firstName, lastName);
 		//call logincontroller.(loginModel, this)
-		HttpResponse<JsonNode> res = LoginController.login(loginModel);
-		if (res != null && (res.getStatus() == 200)){
+		if (LoginController.login(loginModel)){
+			SceneController.getSceneController().setCredentials(loginModel);
 			successLogin();
 		} else {
 			failedLogin();
@@ -35,7 +35,7 @@ public class LoginScreenController {
 		builder.append("Login Successful!");
 		//output login successful
 		messageLabel.setText(builder.toString());
-		SceneController.getSceneController().switchToScene("dataUploadScreen");        
+		SceneController.getSceneController().switchToScene("dataUploadScreen", true);  
 	}
 	
 	public void failedLogin() {

@@ -72,12 +72,15 @@ public class DataUploadScreenController {
     }
 
     public void uploadFiles() {
+    	// Get username to include in upload request
+    	String username = SceneController.getSceneController().getUsername();
+    	System.out.println("username: "+ username);
         // Parse Json
         ArrayList<File> files = new ArrayList<File>(filesToUpload);
         try {
             String json = JsonMaker.jsonFromFiles(files, templateType);
             // Send request
-            HttpResponse<JsonNode> res = DataUploadController.uploadData(json);
+            HttpResponse<JsonNode> res = DataUploadController.uploadData(username, json);
             if (res != null && (res.getStatus() == 200)){
                 AlertBox.display("Result Successful", json);
             }else{
@@ -87,33 +90,6 @@ public class DataUploadScreenController {
             e.printStackTrace();
             AlertBox.display("Error: IOException", e.getMessage());
         }
-
-//
-//
-//        try {
-//            String json = JsonMaker.jsonFromFiles(files, templateType);
-//            AlertBox.display("Result", json);
-//			//then establish connection with server to send data
-//			HttpResponse<JsonNode> future = null;
-//			try{
-//				future = Unirest.post("http://localhost:8000/reports/new-report")
-//				.header("Content-Type", "application/json")
-//				.body("{"+json+"}")
-//				.asJson();
-//			}catch (Exception e){
-//				System.out.println("Transmission of json failed");
-//			}
-//			if (future != null && (future.getStatus() == 200)){
-//				//TODO: handle server response here
-//			}else{
-//				System.out.println("Transmission of json data failed");
-//			}
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            // Show popup with error message
-//            AlertBox.display("Error: IOException", e.getMessage());
-//        }
 
     }
 
