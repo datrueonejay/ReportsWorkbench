@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ReportData
+public class ReportDataModel
 {
 
     private String[] columnNames;
@@ -12,7 +12,7 @@ public class ReportData
     private String templateName;
 
 
-    public ReportData()
+    public ReportDataModel()
     {
         this.columnNames = null;
         this.reportData = null;
@@ -20,7 +20,7 @@ public class ReportData
     }
 
 
-    public ReportData(String[] columnNames, Map reportData, String templateName)
+    public ReportDataModel(String[] columnNames, Map reportData, String templateName)
     {
         this.columnNames = columnNames;
         this.reportData = reportData;

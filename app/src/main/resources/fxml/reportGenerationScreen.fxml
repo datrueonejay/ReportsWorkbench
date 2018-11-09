@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-
-
-<?import javafx.scene.layout.GridPane?>
-
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<GridPane fx:id="root"
-          fx:controller="com.tminions.app.ReportGenerationScreen"
-          styleClass="main-panel"
-          xmlns:fx="http://javafx.com/fxml"
-          hgap="10">
-          
+
+<GridPane fx:id="root" hgap="10" styleClass="main-panel" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tminions.app.ReportGenerationScreenController">
+
 	<columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
@@ -21,30 +16,20 @@
     </columnConstraints>
 
     <rowConstraints>
-        <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="BOTTOM"/>
-        <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="TOP"/>
-        <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="TOP"/>
-        <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="TOP"/>
-        <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="TOP"/>
-        <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="TOP"/>
+        <RowConstraints percentHeight="20.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="20.0" valignment="TOP" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="20.0" valignment="TOP" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="20.0" valignment="TOP" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="20.0" valignment="TOP" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="20.0" valignment="TOP" vgrow="SOMETIMES" />
     </rowConstraints>
-    
-    <Label text="Select Reports below"
-           GridPane.columnIndex="1"
-           GridPane.columnSpan="2"
-           GridPane.rowIndex="0"/>
-           
-    <Button text="Language of Service report" onAction="#selectReport"
-            GridPane.columnIndex="1"
-            GridPane.columnSpan="1"
-            GridPane.rowIndex="2"
-            prefWidth="Infinity"/>
+
+    <Label text="Select Reports below" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+
+    <Button onAction="#selectReport" prefWidth="Infinity" text="Language of Service report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="2" />
+
+    <Button onAction="#selectReport2" prefWidth="Infinity" text="Type Of Institution/Organization where Client received services report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="3" />
+   
+
             
-     <Button text="Type Of Institution/Organization where Client received services report" onAction="#selectReport2"
-            GridPane.columnIndex="1"
-            GridPane.columnSpan="1"
-            GridPane.rowIndex="3"
-            prefWidth="Infinity"/>
-            
-</GridPane >
-          
+</GridPane>
