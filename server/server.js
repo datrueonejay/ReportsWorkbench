@@ -83,25 +83,25 @@ app.get('/login/org-user/', function (req, res, next) {
 
 /*
  *  Test with the following curl command: curl -H "Content-Type: application/json" http://localhost:8000/org-upload-time/
- */ 
+ */
 app.get('/org-upload-time/', function (req, res, next){
    Database.getDatabaseRoot().collection("accounts")
            .find({})
            .sort({follower:-1})
-           .toArray(function(err, accounts) { 
+           .toArray(function(err, accounts) {
               if(err) return res.status(500).end(err);
-  
+
               //var allAccounts = JSON.stringify(accounts);
 
               var responseJSON = ' {"allTimings" : [';
-                                                 
+
 
               for(var i = 0; i < accounts.length; i++)
               {
                  var usernames = accounts[i].username;
                  var lastUpload = accounts[i].lastUploadTime;
                  var singleEntryInArray = '{' + '"orgName":' + '"' + accounts[i].username + '"' + ',' + '"lastUploadTime":' + '"' + lastUpload + '"' + '}';
-                  
+
                  if(i < (accounts.length - 1))
                  {
                      responseJSON = responseJSON + singleEntryInArray + ',';
@@ -110,7 +110,7 @@ app.get('/org-upload-time/', function (req, res, next){
                  {
                      responseJSON = responseJSON + singleEntryInArray;
                  }
-              } 
+              }
 
               responseJSON  = responseJSON + ']}'
 
@@ -134,6 +134,56 @@ app.get('/reports/get-report-data/', function (req, res, next) {
       if (err) return res.status(500).end(err)
       return res.json(report)
     })
+})
+
+app.post('/reports/get-data/', function(req, res, next) {
+  const reportTemplateType = req.body.template_name;
+  // Array of columns we want to get
+  const columns = req.body.columns;
+  Database.getAllRows(reportTemplateType).then((result) => {
+    const data = [];
+    // Create an object for each column requestd
+    for (const colIndex in columns) {
+        const colName = columns[colIndex];
+        data.push({ column_name: colName, DataFields: [], Data:[]});
+    }
+
+    // Loop through each of the rows from database
+    for (const rowIndex in result) {
+      // get curr row
+      const currRow = result[rowIndex];
+      // Loop through each attribute needed, each object in master object
+      for (const attributeIndex in data) {
+        // Reference to the attribute object
+        const currObject = data[attributeIndex];
+        // Get name of column
+        const colName = currObject.column_name;
+        // Get the value of the current row, for the given attribute
+        const value = currRow[colName];
+        // Handle if value is null, ie column requested did not exist
+        if (value == null) {
+          return res.status(400).end();
+        }
+        // Get index of the value in the column names datafields if exists
+        index = currObject.DataFields.indexOf(value);
+        // Check if value does not exist in datafields for given colName
+        if (index == -1) {
+          index = currObject.DataFields.push(value) - 1;
+          // Add a count for the value of the attribute
+          currObject.Data.push(0);
+        }
+        // Increment the count of that attribute
+        currObject.Data[index] += 1;
+      }
+    }
+
+    return res.json({
+      report_name: reportTemplateType,
+      data: data
+    });
+  }).catch((err) => {
+    return res.status(500).end(err)
+  })
 })
 
 app.post('/reports/new-report/', function (req, res, next) {
