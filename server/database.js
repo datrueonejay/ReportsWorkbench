@@ -40,6 +40,7 @@ class Database {
 
   getAllRows(reportTemplateType) {
     // return collection of all documents for given template type
+    console.log("The value of reportTemplateType is: "  + reportTemplateType);
     return this.db.collection(reportTemplateType).find().toArray();
   }
 

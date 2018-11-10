@@ -9,14 +9,14 @@ import com.tminions.app.models.ReportDataModel;
 public class GenerateReportsController extends BaseController {
 
     public static ReportDataModel getReportData(String[] columns, String templateName) {
-        String json = "{" + "template_name" + ":" + '"' + templateName + '"' +
-                             "," +  "columns" + ":";
+        String json = "{" + '"'  + "template_name" +  '"' + ":" + '"' + templateName + '"' +
+                             "," +  "\"columns\"" + ": [";
 
 
         for(int i = 0; i < columns.length; i++)
         {
             if(i < columns.length - 1) json = json + '"' + columns[i] + '"' +  ',';
-            else json = json + '"' + columns[i] + '"';
+            else json = json + '"' + columns[i] + '"' + ']';
         }
 
         json = json + "}";
@@ -25,10 +25,11 @@ public class GenerateReportsController extends BaseController {
 
         HttpResponse<JsonNode> response;
         //then establish connection with server to send data
-        try{
+        try
+        {
             response = Unirest.post(baseUrl + "/reports/get-data/")
                     .header("Content-Type", "application/json")
-                    .body("{" + json + "}")
+                    .body(json)
                     .asJson();
 
             System.out.println("The value of the response is: " + response.getBody());

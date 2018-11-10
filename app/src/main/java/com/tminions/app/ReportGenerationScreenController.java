@@ -7,7 +7,7 @@ import com.tminions.app.models.ReportDataModel;
 
 public class ReportGenerationScreenController {
 
-    private static String defaulTemplate = "template1";
+    private static String defaulTemplate = "Employment Services";
 
 
     public void selectReport()

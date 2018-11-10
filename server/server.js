@@ -71,6 +71,7 @@ function Authenticate (password, dbPassword) {
  * Will return an error if no user with the user name or return a JSON string with users credentials.
  */
 app.get('/login/org-user/', function (req, res, next) {
+  console.log("The value of user is:" + req.body);
   const reqUsername = req.query['username']
   Database.getAccount(reqUsername).then((result) => {
     if (result === null) {
@@ -137,14 +138,20 @@ app.get('/reports/get-report-data/', function (req, res, next) {
 })
 
 app.post('/reports/get-data/', function(req, res, next) {
+  console.log(req.body);
   const reportTemplateType = req.body.template_name;
+  console.log("The value of the template_name is " + reportTemplateType);
   // Array of columns we want to get
   const columns = req.body.columns;
+
+  console.log("The values for all columns " + columns);
   Database.getAllRows(reportTemplateType).then((result) => {
     const data = [];
+
     // Create an object for each column requestd
     for (const colIndex in columns) {
         const colName = columns[colIndex];
+        console.log("The value of the colName is " + colName);
         data.push({ column_name: colName, DataFields: [], Data:[]});
     }
 
@@ -152,6 +159,7 @@ app.post('/reports/get-data/', function(req, res, next) {
     for (const rowIndex in result) {
       // get curr row
       const currRow = result[rowIndex];
+      console.log("The value of the current row index is " + rowIndex);
       // Loop through each attribute needed, each object in master object
       for (const attributeIndex in data) {
         // Reference to the attribute object
@@ -176,6 +184,8 @@ app.post('/reports/get-data/', function(req, res, next) {
         currObject.Data[index] += 1;
       }
     }
+
+    console.log("The value of the data at the end is" + Data);
 
     return res.json({
       report_name: reportTemplateType,
