@@ -1,0 +1,213 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{xcolor}
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+\setcounter{section}{-1}
+
+
+\title{Personas \& User Stories v. 2}								% Title
+\author{Thierry's Minions}								% Author
+\date{12 Sept 2015}											% Date
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+\newcommand*{\userstory}[5][.25em]{
+%  \begin{tabular*}{\maincolumnwidth}{l@{\extracolsep{\fill}}r}%
+%    {\bfseries #2} & {\bfseries #4}\\%
+%    {#3}\\%
+%  \end{tabular*}%
+%  \ifx&#5&%
+%  \else{\\%
+%    \begin{minipage}{\maincolumnwidth}%
+%      #5%
+%    \end{minipage}}\fi%
+%  \par\addvspace{#1}
+\textbf{#1} 
+  }
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.25]{leader.png}\\[1.0 cm]	% Team logo
+    \textsc{\LARGE Thierry's Minions/Team25\\[0.5em] Deliverable 4}\\[2.0 cm]	
+	\textsc{\Large CSCC01 Fall 2018}\\[0.5 cm]				% Course Code
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft} \large
+			\emph{Submitted To:}\\
+			Saba Kiaei\\
+            Teaching Assistant\\
+            Computer Science Department\\
+			\end{flushleft}
+			\end{minipage}~
+			\begin{minipage}{0.4\textwidth}
+            
+			\begin{flushright} \large
+			\emph{Submitted By :} \\
+			Rishabh Kaant Sharma\\
+            Joseph Sokolon\\
+            Balaji Badu\\
+            Jayden Arquelada\\
+            Edgar Sarkisian\\
+		\end{flushright}
+        
+	\end{minipage}\\[2 cm]
+	
+	
+    
+    
+    
+    
+	
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textcolor{black}{\tableofcontents}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{v.2 Changelog}
+Changes From V1:\\
+- Login story has been removed, as logging in is not a feature that should have its own user story.\\
+- The user story about querying data on chosen fields has been moved ahead of the user story about being notified if there is invalid data submitted. Having laid down the groundwork for querying data based on specific hard coded fields, we felt it was appropriate to next build the feature that would let a user choose the fields they want to get data on. Furthermore, we are controlling the data in our database and can ensure that we only have valid data for the moment.\\
+- The user story about adding and modifying iCare templates has also been moved ahead of the user story about being notified if there is invalid data submitted. We need to have our fields for the iCare templates stored and be editable in our database, before tackling the feature about the notification about invalid data. We need to know what each field should have as a datatype and see which fields are mandatory, before we can determine what is invalid data.\\
+
+\section{Personas}
+\subsection{John Doe}
+\begin{itemize}%
+\item 43 year old male working as a administrator at the City of Toronto Newcomer Office, which is a partner of Toronto East Quadrant Local Immigration Partnership.
+\item Owns an iPhone 6, able to use it competently.
+\item good understanding of how to use Excel, csv files and upload data to their current system.
+\item Likes things to be done straight forward.
+\item Work environment is busy and chaotic, not a lot of time to learn a whole new system.
+\item Cares about the people his agency is trying to help.
+\item Wants to reduce the amount of people who “fall through the cracks”.
+\item Would appreciate a system that helps support the activities of his agency but only if it is quick and easy to learn.
+
+ \end{itemize}
+
+\subsection{Mike Douglas, low-level TEQ User}
+\begin{itemize}%
+\item 25 year old male, working at TEQ as an assistant analyst.
+\item Graduated from utsc management co-op program.
+\item This is his first job out of University.
+\item Has excellent communication skills.
+\item Owns a windows laptop and an iPhone.
+\item Experience using Excel, and working with large amounts of data.
+\item Not an avid technology user. Uses technology to help him troubleshoot issues that he runs into while working.
+\item Has a cubicle at TEQ since he’s still a junior position.
+\item A lot of his time is spent going over excel docs sent in from the partner agencies and fixing any mistakes.
+\item Duties include communicating with the partner agencies of TEQ.
+
+ \end{itemize}
+ 
+ \subsection{Jane Smith, mid-level TEQ User}
+\begin{itemize}%
+\item 35 year old female, working at TEQ as an intermediate analyst.
+\item Deals with different organizations on a regular basis.
+\item Hard working, detail oriented, organized, good interpersonal skills.
+\item Able to troubleshoot issues herself using internet.
+\item Her work environment is not busy, she has time and is willing to learn how to use new applications to improve her work at TEQ.
+\item Hates the current system of gathering information from all the agencies because everything needs to be done manually.
+\item Knows that there are things she is not tracking because the current system is not well-enough integrated/doesn’t allow for that.
+\item The more they can track the more detailed they can make the semi-annual Scarborough Newcomer Settlement Needs and Trends Report so agencies can better meet the changing needs of newcomers.
+ \end{itemize}
+ 
+  \subsection{Thomas Turing, high-level TEQ User}
+\begin{itemize}%
+\item 38 year old male, working at TEQ as the system administrator.
+\item At TEQ he is responsible for maintaining their systems and keeping them running.
+\item Has experience as a with software development.
+\item Worked as a software developer earlier in his career.
+\item Knows how to program in Java, C\# and Javascript. 
+\item Knows how to create and work with relational databases, can write advanced SQL queries.
+\item Owns a Personal computer and Laptop, both running on Linux OS distributions.
+\item He has his own office at TEQ so his work environment is quiet. Has time to delve into code and understand complex systems.
+\item Dislikes how information that agencies provide are not always in standardized formats.
+\item Likes technology and learning how systems work.
+
+ \end{itemize}
+ 
+ \subsection{Lily Model}
+\begin{itemize}%
+\item 21 year old female, student at UTSC, working as a business analyst at the UTSC co-op office.
+\item Is a statistics student and understands how to perform complicated data analysis.
+\item Has an iPhone, Laptop, writes custom software to personalize her laptop.
+\item Her work environment is fast paced, wants it to be easy and effortless to extract data from the system to analyze. 
+\item Has some software development experience, wants to be able to read the source code and monitor database performance.
+\item Will be a UTSC project staff on the system.
+ \end{itemize}
+
+\pagebreak
+
+\section{User Stories}
+\subsection{Excel File Uploading}
+``As John, an admin at one of the partners of TEQ, I want to upload iCare files as \textbf{excel documents}, so that it is available to TEQ for analysis."
+
+\subsection{Normalizing Data}
+``As Thomas, a high-level TEQ user, I want the data uploaded to be normalized so that all the data formats are consistent and easier to search."
+
+\subsection{Generating Reports}
+``As Jane, a TEQ user,  I want to be able to take all the data uploaded from the Organizations and aggregate this information into a report."
+
+\subsection{Organization Upload Tracking}
+``As Mike, a TEQ user, I want to be able to see the last time an organization has uploaded data so I can remind organizations to upload their data if they forget."
+
+\subsection{Mid-level Query Customization}
+``As Jane, a mid-level TEQ user, I want to be able to query data based on different fields the system has, so that we can present different information for different audiences."
+
+\subsection{Modifying Templates}
+``As Jane, a TEQ user,  I want to be able to modify existing iCare templates, so that we can comply with regulations set by the government."
+
+\subsection{Manual Data Validation}
+``As Mike, a TEQ user, I want to be notified when we receive a template that has invalid data for any row that must be manually changed, so that the data can be fixed."
+
+\subsection{High-level Query Customization}
+``As Thomas, a high-level TEQ user, I want to be able to write and run customized queries so that I can generate reports on specific information from the data collected."
+
+\subsection{CSV File Uploading}
+``As John, an admin at one of the partners of TEQ, I want to upload iCare files as \textbf{CSV files}, so that it is available to TEQ for analysis."
+
+\subsection{Accounts} ``As Jane, a TEQ user, I want to be able to create accounts for the organizations incase a new organization joins the Toronto East Quadrant Local Immigration Partnership."
+
+\subsection{Password Reset}
+``As John, an admin at one of the partners of TEQ and a user of the system, I want to be able to reset my password so I can set it to something only I know."
+
+\subsection{UTSC Data Analysis}
+``As Lily, a member of the UTSC project staff, I want to be able to view all the raw data inside the application that has been collected from the agencies so that I can perform data analysis" 
+
+\subsection{UTSC Raw Data Excel Exporting }
+As Lily, a member of the UTSC project staff, I want to be able to export all the raw data (that has been collected from the agencies) as excel files that so that I can perform data analysis. 
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{biblist}
+
+\end{document}
