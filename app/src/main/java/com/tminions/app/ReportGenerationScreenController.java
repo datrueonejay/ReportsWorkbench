@@ -13,7 +13,7 @@ public class ReportGenerationScreenController {
     public void selectReport()
     {
         System.out.println("Selected Language report.");
-        String[] columns = {"Language of service"};
+        String[] columns = {"Language of Service"};
         ReportDataModel rdm = GenerateReportsController.getReportData(columns, defaulTemplate);
 
     }

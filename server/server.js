@@ -185,7 +185,7 @@ app.post('/reports/get-data/', function(req, res, next) {
       }
     }
 
-    console.log("The value of the data at the end is" + Data);
+    console.log("The value of the data at the end is" + data);
 
     return res.json({
       report_name: reportTemplateType,
