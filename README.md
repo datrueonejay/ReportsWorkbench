@@ -16,6 +16,8 @@ Repository Organization:
 
 /sprint_backlog - Holds all the tasks, plans, reports, and burndown charts for each of our sprints.
 
+/code_review - Holds our Deliverable 4-Verification & Code Review doc
+
 ****
 
 ## How To Build:
