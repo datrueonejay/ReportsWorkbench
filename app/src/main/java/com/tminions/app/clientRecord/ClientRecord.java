@@ -2,21 +2,41 @@ package com.tminions.app.clientRecord;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringJoiner;
 
 public class ClientRecord {
 
     private String uniqueID;
-    private HashMap<String, String> data = new HashMap<String, String>();
+    private HashMap<String, String> data;
+    private ArrayList<String> invalidKeys;
 
+    
+	/**
+     * for when u don't have the client's data yet
+     */
+    public ClientRecord() {
+        this.data = new HashMap<>();
+        this.data.put("valid", "true");
+        this.invalidKeys = new ArrayList<>();
+    }
+
+    /**
+     * for when u already have a hashmap of client's data
+     * @param data
+     */
     public ClientRecord(HashMap<String, String> data) {
         this.data = data;
+        this.invalidKeys = new ArrayList<>();
         this.autoSetUniqueId();
     }
 
     public String getUniqueID() {
-        return this.uniqueID;
+    	if (this.uniqueID == null || this.uniqueID.isEmpty()) {
+    		this.autoSetUniqueId();
+    	}
+    	return this.uniqueID;
     }
 
     public HashMap<String, String> getData() {
@@ -41,14 +61,47 @@ public class ClientRecord {
      */
     public String toJson() {
 
+        if (this.uniqueID == null || this.uniqueID.isEmpty()){
+            this.autoSetUniqueId();
+        }
+
         StringJoiner sj = new StringJoiner(",\n\t", "\"" + this.uniqueID + "\" : {\n\t", "\n}");
 
         for (String key: this.data.keySet()) {
             String value = this.data.get(key);
             sj.add("\"" + key + "\" : \"" + value + "\"");
         }
+
+        if (!this.invalidKeys.isEmpty()) {
+            StringJoiner invalSj = new StringJoiner(", ", "[", "]");
+            for (String key: this.invalidKeys) {
+                invalSj.add(key);
+            }
+            sj.add("\"invalid_rows\" : " + invalSj.toString());
+        }
         return sj.toString();
 
+    }
+
+    /**
+     * add to this client record's data
+     * @param key the key
+     * @param value the value
+     */
+    public void put(String key, String value) {
+        this.data.put(key, value);
+    }
+
+    /**
+     * add poorly formatted data to this client's data.
+     * this adds the key, value to their data hashmap but also flags that key
+     * as having badly formatted data.
+     * @param key
+     * @param value
+     */
+    public void putInvalid(String key, String value) {
+        this.data.put(key, value);
+        this.invalidKeys.add(key);
     }
 
     /**
@@ -60,13 +113,13 @@ public class ClientRecord {
      */
     public void autoSetUniqueId(){
         for (String key: this.data.keySet()) {
-            if (key.toLowerCase().contains("value")) {
+            if (key.toLowerCase().contains("validation_id")) {
                 this.uniqueID = this.data.get(key);
                 return;
             }
         }
         for (String key: this.data.keySet()) {
-            if (key.toLowerCase().contains("record id")) {
+            if (key.toLowerCase().contains("record_id")) {
                 this.uniqueID = this.data.get(key);
                 return;
             }
@@ -76,4 +129,13 @@ public class ClientRecord {
 
 
     }
+
+    public ArrayList<String> getInvalidKeys() {
+		return invalidKeys;
+	}
+
+	public void setInvalidKeys(ArrayList<String> invalidKeys) {
+		this.invalidKeys = invalidKeys;
+	}
+
 }
