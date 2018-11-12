@@ -96,8 +96,9 @@
 \section{v.2 Changelog}
 Changes From V1:\\
 - Login story has been removed, as logging in is not a feature that should have its own user story.\\
-- The user story about querying data on chosen fields has been moved ahead of the user story about being notified if there is invalid data submitted. Having laid down the groundwork for querying data based on specific hard coded fields, we felt it was appropriate to next build the feature that would let a user choose the fields they want to get data on. Furthermore, we are controlling the data in our database and can ensure that we only have valid data for the moment.\\
-- The user story about adding and modifying iCare templates has also been moved ahead of the user story about being notified if there is invalid data submitted. We need to have our fields for the iCare templates stored and be editable in our database, before tackling the feature about the notification about invalid data. We need to know what each field should have as a datatype and see which fields are mandatory, before we can determine what is invalid data.\\
+- Organization upload tracking user story has been moved in front of report generation, to build upon tracking when reports were uploaded, before working on generating reports.\\
+- Mid-level query customization user story has been moved from user story 7 to 6, ahead of manual data validation. Having laid down the groundwork for querying data based on specific hard coded fields, we felt it was appropriate to next build the feature that would let a user choose the fields they want to get data on.\\
+- The user story about adding and modifying iCare templates has also been moved from user story 10 to 7, again ahead of manual data validation. We need to have our fields for the iCare templates stored and be editable in our database, before tackling the feature about invalid data and manual validation. We need to know what each field should have as a datatype and see which fields are mandatory, before we can determine what is considered invalid data.\\
 
 \section{Personas}
 \subsection{John Doe}
@@ -168,17 +169,18 @@ Changes From V1:\\
 \pagebreak
 
 \section{User Stories}
+\setcounter{subsection}{1}
 \subsection{Excel File Uploading}
 ``As John, an admin at one of the partners of TEQ, I want to upload iCare files as \textbf{excel documents}, so that it is available to TEQ for analysis."
 
 \subsection{Normalizing Data}
 ``As Thomas, a high-level TEQ user, I want the data uploaded to be normalized so that all the data formats are consistent and easier to search."
 
-\subsection{Generating Reports}
-``As Jane, a TEQ user,  I want to be able to take all the data uploaded from the Organizations and aggregate this information into a report."
-
 \subsection{Organization Upload Tracking}
 ``As Mike, a TEQ user, I want to be able to see the last time an organization has uploaded data so I can remind organizations to upload their data if they forget."
+
+\subsection{Generating Reports}
+``As Jane, a TEQ user,  I want to be able to take all the data uploaded from the Organizations and aggregate this information into a report."
 
 \subsection{Mid-level Query Customization}
 ``As Jane, a mid-level TEQ user, I want to be able to query data based on different fields the system has, so that we can present different information for different audiences."
