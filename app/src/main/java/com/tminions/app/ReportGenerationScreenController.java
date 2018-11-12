@@ -1,9 +1,12 @@
 package com.tminions.app;
 
 
+import com.tminions.app.charts.GenerateBarChartReport;
 import com.tminions.app.controllers.GenerateReportsController;
 import com.tminions.app.models.LoginModel;
 import com.tminions.app.models.ReportDataModel;
+
+import javax.swing.*;
 
 public class ReportGenerationScreenController {
 
@@ -16,6 +19,10 @@ public class ReportGenerationScreenController {
         String[] columns = {"Language of Service"};
         ReportDataModel rdm = GenerateReportsController.getReportData(columns, defaulTemplate);
 
+        SwingUtilities.invokeLater(() -> {
+            GenerateBarChartReport ex = new GenerateBarChartReport();
+            ex.setVisible(true);
+        });
     }
     
     public void selectReport2() {
