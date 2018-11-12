@@ -31,9 +31,6 @@ Repository Organization:
 
   * This will place the jar in ``./target/jfx/app/app-1.0-SNAPSHOT-jfx.jar ``
 
-4. If you'd like to compile and launch it right away withouth making the jar, run ``mvn exec:java``.
+4. If you'd like to compile and launch it right away without making the jar, run ``mvn exec:java``.
 
-5. To unit test our current code run `mvn test`
-
-
-
+5. To unit test our current code first ensure that the server is running. Then cd into Team25/app and run `mvn test`
