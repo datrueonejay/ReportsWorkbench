@@ -75,7 +75,7 @@ public class ClientRecord {
         if (!this.invalidKeys.isEmpty()) {
             StringJoiner invalSj = new StringJoiner(", ", "[", "]");
             for (String key: this.invalidKeys) {
-                invalSj.add(key);
+                invalSj.add("\"" + key + "\"");
             }
             sj.add("\"invalid_rows\" : " + invalSj.toString());
         }
