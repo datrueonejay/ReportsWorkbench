@@ -4,11 +4,12 @@ package com.tminions.app.controllers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.tminions.app.jsonMaker.JsonMaker;
 import com.tminions.app.models.ReportDataModel;
 
 public class GenerateReportsController extends BaseController {
 
-    public static ReportDataModel getReportData(String[] columns, String templateName) {
+    public static String getReportData(String[] columns, String templateName) {
         String json = "{" + '"'  + "template_name" +  '"' + ":" + '"' + templateName + '"' +
                              "," +  "\"columns\"" + ": [";
 
@@ -32,9 +33,7 @@ public class GenerateReportsController extends BaseController {
                     .body(json)
                     .asJson();
 
-            System.out.println("The value of the response is: " + response.getBody());
-            ReportDataModel reportD = new ReportDataModel(columns, null, templateName);
-            return reportD;
+            return response.getBody().toString();
         }
         catch (Exception e)
         {

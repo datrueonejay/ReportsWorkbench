@@ -3,12 +3,13 @@ package com.tminions.app.models;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class ReportDataModel
 {
 
     private String[] columnNames;
-    private Map reportData = new HashMap<String, String[]>();
+    private HashMap<String, String[][]> reportData;
     private String templateName;
 
 
@@ -20,7 +21,8 @@ public class ReportDataModel
     }
 
 
-    public ReportDataModel(String[] columnNames, Map reportData, String templateName)
+    public ReportDataModel(String[] columnNames, HashMap<String, String[][]> reportData,
+                           String templateName)
     {
         this.columnNames = columnNames;
         this.reportData = reportData;
@@ -36,11 +38,11 @@ public class ReportDataModel
         this.columnNames = columnNames;
     }
 
-    public Map getReportData() {
+    public HashMap<String, String[][]> getReportData() {
         return reportData;
     }
 
-    public void setReportData(Map reportData) {
+    public void setReportData(HashMap<String, String[][]> reportData) {
         this.reportData = reportData;
     }
 
@@ -57,15 +59,17 @@ public class ReportDataModel
     {
         String allReportData = "The data from the template " +
                                "[" + templateName + "]" + "\n";
-        Iterator it  = reportData.entrySet().iterator();
-        while(it.hasNext())
-        {
-            Map.Entry pair = (Map.Entry)it.next();
-            allReportData = "The column name is " + pair.getKey() + " = " + "The column data is" + pair.getValue() + ".";
-            it.remove();
+        Set set = reportData.entrySet();
+        Iterator it  = set.iterator();
+        while(it.hasNext()){
+            Map.Entry mEntry = (Map.Entry)it.next();
+            allReportData += "The column name is: " + mEntry.getKey() + "\n";
+            String[][] columnData = reportData.get(mEntry.getKey());
+            for(int i = 0; i < columnData.length; i++)
+            {
+                allReportData += "Values" + "\n" + "Value: " + columnData[i][0] + "| Occurrences: "  + columnData[i][1]  + "\n";
+            }
         }
-
-
         return allReportData;
     }
 }

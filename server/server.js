@@ -168,6 +168,7 @@ app.post('/reports/get-data/', function(req, res, next) {
         const colName = currObject.column_name;
         // Get the value of the current row, for the given attribute
         const value = currRow[colName];
+        console.log("The value of the data is: " + value);
         // Handle if value is null, ie column requested did not exist
         if (value == null) {
           return res.status(400).end();
