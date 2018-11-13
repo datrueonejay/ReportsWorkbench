@@ -1,18 +1,24 @@
 package com.tminions.app.charts;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.IIOException;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
+
+import org.jfree.chart.*;
+import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class GeneratePieChartReport extends JFrame {
 
     private final int DEFAULT_SIZE = 15;
     private final Color DEFAULT_COLOR = Color.white;
+    private final String DEFAULT_FILE_NAME = "PieChart.png";
+    private final int DEFAULT_FILE_WIDTH = 600;
+    private final int DEFAULT_FILE_HEIGHT = 600;
 
     public GeneratePieChartReport(String[][] columnData, String graphTitle) {
 
@@ -29,6 +35,8 @@ public class GeneratePieChartReport extends JFrame {
                 DEFAULT_SIZE, DEFAULT_SIZE, DEFAULT_SIZE));
         chartPanel.setBackground(DEFAULT_COLOR);
         add(chartPanel);
+
+        ChartUtils.createPNGfromChart(chart, DEFAULT_FILE_NAME, DEFAULT_FILE_HEIGHT, DEFAULT_FILE_WIDTH);
 
         pack();
         setTitle(graphTitle);
