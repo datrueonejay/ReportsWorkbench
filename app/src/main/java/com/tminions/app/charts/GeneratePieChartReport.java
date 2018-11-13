@@ -13,47 +13,64 @@ public class GeneratePieChartReport extends JFrame {
 
     private final int DEFAULT_SIZE = 15;
     private final Color DEFAULT_COLOR = Color.white;
-    private final String DEFAULT_ROW_KEY = "Occurrences in database";
 
-    public GeneratePieChartReport() {
+    public GeneratePieChartReport(String[][] columnData, String graphTitle) {
 
-        initUI();
+        initUI(columnData, graphTitle);
     }
 
-    private void initUI() {
+    private void initUI(String[][] columnData, String graphTitle) {
 
-        DefaultPieDataset dataset = createDataset();
+        DefaultPieDataset dataset = createDataset(columnData);
 
-        JFreeChart chart = createChart(dataset);
+        JFreeChart chart = createChart(dataset, graphTitle);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setBorder(BorderFactory.createEmptyBorder(DEFAULT_SIZE,
                 DEFAULT_SIZE, DEFAULT_SIZE, DEFAULT_SIZE));
-        chartPanel.setBackground(Color.white);
+        chartPanel.setBackground(DEFAULT_COLOR);
         add(chartPanel);
 
         pack();
-        setTitle("Pie chart");
+        setTitle(graphTitle);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private DefaultPieDataset createDataset() {
-
+    private DefaultPieDataset createDataset(String[][] columnData)
+    {
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Apache", 52);
-        dataset.setValue("Nginx", 31);
-        dataset.setValue("IIS", 12);
-        dataset.setValue("LiteSpeed", 2);
-        dataset.setValue("Google server", 1);
-        dataset.setValue("Others", 2);
+
+        int totalOccurrences = 0;
+        for(int i = 0; i < columnData.length; i++)
+        {
+           totalOccurrences += Integer.parseInt(columnData[i][1]);
+        }
+
+        //System.out.println("The value of total occurrences is: " + String.valueOf(totalOccurrences));
+
+        for(int i = 0; i < columnData.length; i++)
+        {
+            double chartValue = ((Integer.parseInt(columnData[i][1])) * 100) / totalOccurrences;
+            //System.out.println((chartValue * 100) / totalOccurrences);
+            dataset.setValue(columnData[i][0], chartValue);
+            //int chartValue = (Integer.parseInt(columnData[i][1]) / totalOccurrences) * 100;
+            //System.out.println("The percentage value of the value : " + columnData[i][0] + " is :" + String.valueOf(chartValue));
+            //dataset.setValue(columnData[i][0], chartValue);
+        }
+        //dataset.setValue("Apache", 52);
+        //dataset.setValue("Nginx", 31);
+        //dataset.setValue("IIS", 12);
+        //dataset.setValue("LiteSpeed", 2);
+        //dataset.setValue("Google server", 1);
+        //dataset.setValue("Others", 2);
 
         return dataset;
     }
 
-    private JFreeChart createChart(DefaultPieDataset dataset) {
+    private JFreeChart createChart(DefaultPieDataset dataset, String title) {
 
         JFreeChart barChart = ChartFactory.createPieChart(
-                "Web servers market share",
+                title,
                 dataset,
                 false, true, false);
 

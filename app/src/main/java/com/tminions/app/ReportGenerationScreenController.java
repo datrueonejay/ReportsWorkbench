@@ -2,6 +2,7 @@ package com.tminions.app;
 
 
 import com.tminions.app.charts.GenerateBarChartReport;
+import com.tminions.app.charts.GeneratePieChartReport;
 import com.tminions.app.controllers.GenerateReportsController;
 import com.tminions.app.jsonMaker.JsonMaker;
 import com.tminions.app.models.LoginModel;
@@ -42,10 +43,10 @@ public class ReportGenerationScreenController {
             ex.setVisible(true);
         });
 
-        //SwingUtilities.invokeLater(() -> {
-          //  PieChartEx ex = new PieChartEx();
-            //ex.setVisible(true);
-        //});
+        SwingUtilities.invokeLater(() -> {
+            GeneratePieChartReport gpcr = new GeneratePieChartReport(columnData, "Language Distribution");
+            gpcr.setVisible(true);
+        });
     }
     
     public void selectReport2() {
