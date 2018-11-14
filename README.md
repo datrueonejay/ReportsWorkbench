@@ -18,6 +18,8 @@ Repository Organization:
 
 /code_review - Holds our Deliverable 4-Verification & Code Review doc
 
+/ACCEPTANCE_TEST.md - Holds instructions on how to test each of our implemeted features
+
 ****
 
 ## How To Build:
