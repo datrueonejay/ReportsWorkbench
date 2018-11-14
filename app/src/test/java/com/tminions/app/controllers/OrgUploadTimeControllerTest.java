@@ -15,7 +15,7 @@ public class OrgUploadTimeControllerTest {
 	
 	@Test
     @DisplayName("test get upload time is successful")
-	void testLoginValid () {
+	void testGetUploadTime () {
 		assertFalse(OrgUploadTimeController.getUploadTimes().isEmpty());
 	}
 	
