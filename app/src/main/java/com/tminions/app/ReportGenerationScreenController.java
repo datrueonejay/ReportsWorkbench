@@ -36,17 +36,17 @@ public class ReportGenerationScreenController {
         HashMap<String, String[][]> reportData = rdm.getReportData();
         String[][] columnData = reportData.get(columns[0]);
 
-        SwingUtilities.invokeLater(() -> {
+//        SwingUtilities.invokeLater(() -> {
             GenerateBarChartReport ex = new GenerateBarChartReport(columnData, "Language Report",
                                                                                "Occurrences",
                                                                              "Languages");
-            ex.setVisible(true);
-        });
-
-        SwingUtilities.invokeLater(() -> {
+//            ex.setVisible(true);
+//        });
+//
+//        SwingUtilities.invokeLater(() -> {
             GeneratePieChartReport gpcr = new GeneratePieChartReport(columnData, "Language Distribution");
-            gpcr.setVisible(true);
-        });
+//            gpcr.setVisible(true);
+//        });
     }
     
     public void selectReport2() {
