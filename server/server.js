@@ -240,7 +240,8 @@ app.post('/reports/new-report/', function (req, res, next) {
 
 // mid-level query taskB:
 // Get Endpoint to return names of all templates
-app.get('templates/all-templates/', function(req, res, next) {
+
+app.get('/templates/all-templates/', function(req, res, next) {
   console.log("****************** came to function **************");
   Database.getDatabaseRoot().collection('TEMPLATES')
   .find() //get all the documents in the collection
@@ -254,7 +255,7 @@ app.get('templates/all-templates/', function(req, res, next) {
     {
       var templateName = templates[i]._id;
       var singleEntryInArray = '"' + templateName + '"'
-      if(i < (accounts.length - 1))
+      if(i < (templates.length - 1))
         {
           responseJSON = responseJSON + singleEntryInArray + ',';
         }
