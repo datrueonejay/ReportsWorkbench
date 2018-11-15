@@ -6,12 +6,15 @@ import java.io.IOException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 
 public class PdfMaker {
 
+    static int fontSize = 26;
+    static PDFont font = PDType1Font.TIMES_ROMAN;
     private String filename;
     private PDDocument doc;
     private PDPage page;
@@ -40,9 +43,15 @@ public class PdfMaker {
      * @throws IOException if there's an io exception
      */
     public void addTitle(String title) throws IOException{
+
+
+        float titleWidth = font.getStringWidth(title) / 1000 * fontSize;
+        float titleHeight = font.getFontDescriptor().getFontBoundingBox().getHeight() / 1000 * fontSize;
+
         content.beginText();
-        content.setFont(PDType1Font.TIMES_ROMAN, 26);
-        content.newLineAtOffset(220, 750);
+
+        content.setFont(font, fontSize);
+        content.newLineAtOffset((page.getMediaBox().getWidth() - titleWidth) / 2, 750);
         content.showText(title);
         content.endText();
     }
@@ -71,62 +80,5 @@ public class PdfMaker {
         doc.close();
     }
 
-    public static void main(String[] args) {
 
-        try{
-
-            System.out.println("Create Simple PDF file with Text");
-            String fileName = "PdfWithImage.pdf"; // name of our file
-
-            PDDocument doc = new PDDocument();
-            PDPage page = new PDPage();
-
-            doc.addPage(page);
-
-            PDPageContentStream content = new PDPageContentStream(doc, page);
-
-            content.beginText();
-            content.setFont(PDType1Font.TIMES_ROMAN, 26);
-            content.newLineAtOffset(220, 750);
-            content.showText("Registration Form");
-            content.endText();
-
-
-            content.beginText();
-            content.setFont(PDType1Font.HELVETICA, 16);
-            content.newLineAtOffset(80, 700);
-            content.showText("Name : ");
-            content.endText();
-
-
-            content.beginText();
-            content.setFont(PDType1Font.HELVETICA, 16);
-            content.newLineAtOffset(80,650);
-            content.showText("Father Name : ");
-            content.endText();
-
-            content.beginText();
-            content.newLineAtOffset(80,600);
-            content.showText("DOB : ");
-            content.endText();
-
-            PDImageXObject image = PDImageXObject.createFromFileByExtension(new File("/Users/gary/Documents/CSCC01/leader.png"), doc);
-
-            content.drawImage(image,0,0, 600, 750);
-
-
-            content.close();
-            doc.save(fileName);
-            doc.close();
-
-            System.out.println("your file created in : "+ System.getProperty("user.dir"));
-
-        }
-        catch(IOException e){
-
-            System.out.println(e.getMessage());
-
-        }
-
-    }
 }
