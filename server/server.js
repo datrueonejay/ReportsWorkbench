@@ -242,31 +242,24 @@ app.post('/reports/new-report/', function (req, res, next) {
 // Get Endpoint to return names of all templates
 
 app.get('/templates/all-templates/', function(req, res, next) {
-  console.log("****************** came to function **************");
   Database.getDatabaseRoot().collection('TEMPLATES')
   .find() //get all the documents in the collection
   .sort({"_id": 1}) //sort them by id in ascending order 
   .toArray(function(err, templates) {
     if(err) return res.status(500).end(err);
-
-    var responseJSON = ' {"allTemplates" : [';
+    
+    templateNames = [];
 
     for (var i = 0; i < templates.length; i++) 
     {
       var templateName = templates[i]._id;
-      var singleEntryInArray = '"' + templateName + '"'
-      if(i < (templates.length - 1))
-        {
-          responseJSON = responseJSON + singleEntryInArray + ',';
-        }
-        else
-        {
-          responseJSON = responseJSON + singleEntryInArray;
-        }
+      templateNames.push(templateName);
     }
-    responseJSON  = responseJSON + ']}'
+    
+    response = {
+      Template_Names : templateNames
+    }
 
-    console.log("The value of the templates names responseJson is:\n" + responseJSON);
-    res.status(200).send(responseJSON);
+    res.status(200).send(response);
   });
 })
