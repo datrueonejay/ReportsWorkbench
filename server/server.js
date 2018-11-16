@@ -235,3 +235,25 @@ app.post('/reports/new-report/', function (req, res, next) {
   })
   res.status(200).send('{}')
 })
+
+//mid-level query TASK B
+
+app.get('/templates/template', function(req, res, next) {
+  Database.getDatabaseRoot().collection('TEMPLATES')
+  .find(req.get(TEMPLATE_NAME)) //get specific Template
+  .toArray(function(err, columns) {
+    if(err) return res.status(500).end(err);
+    
+    columnNames = [];
+    var column1 = columns[1]._columns;
+    var column2 = columns[2]._mandatory_columns;
+    var column3 = columns[3]._column_name_map;
+    
+    response = {
+    		//now i need to combine all 3
+    		
+    }
+     res.status(200).send(response);
+  });
+})
+
