@@ -5,22 +5,31 @@ import java.util.List;
 
 public class TemplateColumnsModel {
 
-    private HashMap<String, String> columns;
-    private List<String> mandatoryColumns;
+    private HashMap<String, String> _columns;
+    private List<String> _mandatory_columns;
+    private HashMap<String, String> _column_name_map;
 
-    public HashMap<String, String> getColumns() {
-        return columns;
+    public HashMap<String, String> get_columns() {
+        return _columns;
     }
 
-    public void setColumns(HashMap<String, String> columns) {
-        this.columns = columns;
+    public void set_columns(HashMap<String, String> columns) {
+        this._columns = columns;
     }
 
-    public List<String> getMandatoryColumns() {
-        return mandatoryColumns;
+    public List<String> get_mandatory_columns() {
+        return _mandatory_columns;
     }
 
-    public void setMandatoryColumns(List<String> mandatoryColumns) {
-        this.mandatoryColumns = mandatoryColumns;
+    public void set_mandatory_columns(List<String> mandatoryColumns) {
+        this._mandatory_columns = mandatoryColumns;
+    }
+
+    public HashMap<String, String> get_column_name_map() {
+        return _column_name_map;
+    }
+
+    public void set_column_name_map(HashMap<String, String> _column_name_map) {
+        this._column_name_map = _column_name_map;
     }
 }

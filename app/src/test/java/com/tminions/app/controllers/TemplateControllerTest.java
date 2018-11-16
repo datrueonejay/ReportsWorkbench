@@ -23,6 +23,13 @@ public class TemplateControllerTest {
             put("test3", "dataType3");
         }
     };
+    Map<String, String> templateMap = new HashMap<String, String>() {
+        {
+            put("test1", "test 1");
+            put("test2", "test 2");
+            put("test3", "test 3");
+        }
+    };
     List<String> mandatoryColumns = Arrays.asList("test1", "test3");
 
     @BeforeAll
@@ -43,8 +50,9 @@ public class TemplateControllerTest {
     void testGetTemplateColumns () {
         TemplateColumnsModel res = TemplateController.getTemplateColumns(templateName);
         // Check template columns match
-        assertEquals(templateColumns, res.getColumns());
-        assertEquals(mandatoryColumns, res.getMandatoryColumns());
+        assertEquals(templateColumns, res.get_columns());
+        assertEquals(mandatoryColumns, res.get_mandatory_columns());
+        assertEquals(templateMap, res.get_column_name_map());
     }
 	
 }
