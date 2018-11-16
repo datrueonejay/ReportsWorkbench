@@ -16,12 +16,13 @@ public class GeneratePieChartReport extends JFrame {
 
     private final int DEFAULT_SIZE = 15;
     private final Color DEFAULT_COLOR = Color.white;
-    private final String DEFAULT_FILE_NAME = "PieChart.png";
+    private String filePath;
     private final int DEFAULT_FILE_WIDTH = 600;
     private final int DEFAULT_FILE_HEIGHT = 600;
 
-    public GeneratePieChartReport(String[][] columnData, String graphTitle) {
+    public GeneratePieChartReport(String[][] columnData, String graphTitle, String filePath) {
 
+        this.filePath = filePath;
         initUI(columnData, graphTitle);
     }
 
@@ -36,7 +37,7 @@ public class GeneratePieChartReport extends JFrame {
         chartPanel.setBackground(DEFAULT_COLOR);
         add(chartPanel);
 
-        ChartUtils.createPNGfromChart(chart, DEFAULT_FILE_NAME, DEFAULT_FILE_HEIGHT, DEFAULT_FILE_WIDTH);
+        ChartUtils.createPNGfromChart(chart, filePath, DEFAULT_FILE_HEIGHT, DEFAULT_FILE_WIDTH);
 
         pack();
         setTitle(graphTitle);
