@@ -21,8 +21,8 @@ import java.util.List;
 
 public class ReportGenerationScreenController {
 
-    private final String reportOneTemplate = "Employment Services";
-    private final String reportTwoTemplate = "Language Services";
+    private final String reportOneTemplate = "Information and Orientation";
+    private final String reportTwoTemplate = "Employment Services";
 
     private final String reportFolderPath = "";
 
@@ -31,7 +31,7 @@ public class ReportGenerationScreenController {
      */
     public void selectReport()
     {
-        String[] columns = {"official_language_id"};
+        String[] columns = {"service_language_id"};
         String serverResponse = GenerateReportsController.getReportData(columns, reportOneTemplate);
         ReportDataModel rdm = JsonMaker.convertJsonResponseToRDM(serverResponse);
 
@@ -58,7 +58,7 @@ public class ReportGenerationScreenController {
      * Generates a report about where client received services
      */
     public void selectReport2() {
-    	String[] columns = {"Type of Institution/Organization Where Client Received Services"};
+    	String[] columns = {"institution_type_id"};
     	String serverResponse = GenerateReportsController.getReportData(columns, reportTwoTemplate);
         ReportDataModel rdm = JsonMaker.convertJsonResponseToRDM(serverResponse);
 
