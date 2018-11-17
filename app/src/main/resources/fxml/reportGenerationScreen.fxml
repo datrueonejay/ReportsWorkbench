@@ -6,6 +6,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ComboBox?>
 <GridPane fx:id="root" hgap="10" styleClass="main-panel" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tminions.app.ReportGenerationScreenController">
 
 	<columnConstraints>
@@ -14,6 +16,8 @@
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
     </columnConstraints>
+
+
 
     <rowConstraints>
         <RowConstraints percentHeight="20.0" valignment="BOTTOM" vgrow="SOMETIMES" />
@@ -24,12 +28,24 @@
         <RowConstraints percentHeight="20.0" valignment="TOP" vgrow="SOMETIMES" />
     </rowConstraints>
 
-    <Label text="Select Reports below" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
 
-    <Button onAction="#selectReport" prefWidth="Infinity" text="Language of Service report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="2" />
+    <!--<Label text="Select Reports below" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />-->
 
-    <Button onAction="#selectReport2" prefWidth="Infinity" text="Type Of Institution/Organization where Client received services report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="3" />
-   
+    <ComboBox fx:id="selectTemplate" promptText="Select iCare Template"
+              GridPane.columnIndex="1"
+              GridPane.columnSpan="1"
+              GridPane.rowIndex="2"
+              prefWidth="Infinity"/>
 
-            
+    <ComboBox fx:id="selectColumn" promptText="Select column in the iCare template"
+              GridPane.columnIndex="2"
+              GridPane.columnSpan="1"
+              GridPane.rowIndex="2"
+              prefWidth="Infinity"/>
+
+    <Button onAction="#selectBarChart" prefWidth="Infinity" text="Bar chart report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="4" />
+
+    <Button onAction="#selectPieChart" prefWidth="Infinity" text="Pie chart report" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.rowIndex="4" />
+
+
 </GridPane>

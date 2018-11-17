@@ -101,8 +101,8 @@ public class ExcelParser {
      * sets this.columnHeaders based on the column headers sheet
      * @param sheet the sheet
      */
-    public void setColumnHeaders(Sheet sheet) throws IOException{
-
+    public void setColumnHeaders(Sheet sheet) throws IOException
+    {
         Row row = sheet.getRow(COLUMN_HEADS_ROW);
 
         Iterator<Cell> iter = row.cellIterator();
