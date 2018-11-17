@@ -116,6 +116,7 @@ public class DataUploadScreenController {
         return FXCollections.observableArrayList(
                 "Employment Services",
                 "Language Services",
+                "Needs Assessment & Referrals",
                 "Other Services"
         );
     }

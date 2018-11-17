@@ -17,6 +17,7 @@ public class JsonMakerTest {
     private static File excelFile = new File("src/test/resources/iCARE_template.xlsx");
     private static File excelFile2 = new File("src/test/resources/iCARE_template2.xlsx");
     private static File excelFileBadFormats = new File("src/test/resources/iCARE_template_bad_formats.xlsx");
+    private static File excelFileMock = new File("src/test/resources/NeedAssessment+ReferralsMock.xlsx");
     private static String templateType = "Employment Template";
     private static ArrayList<File> files = new ArrayList<>();
     private static final String message = "iCARE_template_bad_formats.xlsx should generate json with invalid clients";
@@ -36,6 +37,16 @@ public class JsonMakerTest {
         //System.out.println(actual);
         assertTrue(actual.contains("invalid_rows\" : "), message);
         assertTrue(actual.contains("valid\" : \"false\""), message);
+
+    }
+
+    @Test
+    @DisplayName("test mock Data works")
+    void testMock() throws IOException {
+        ArrayList<File> f = new ArrayList<>();
+        f.add(excelFileMock);
+        String actual = JsonMaker.jsonFromFiles(f, templateType);
+        System.out.println(actual);
 
     }
 

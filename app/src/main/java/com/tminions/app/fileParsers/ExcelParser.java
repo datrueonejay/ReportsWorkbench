@@ -7,6 +7,7 @@ import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
@@ -161,7 +162,7 @@ public class ExcelParser {
             boolean empty = true;
             int i = 0;
             while (empty && i < 5) {
-                if (row.getCell(i).getCellType() != CellType.BLANK){
+                if (row.getCell(i) != null && row.getCell(i).getCellType() != CellType.BLANK){
                     empty = false;
                 }
                 i++;
@@ -169,6 +170,8 @@ public class ExcelParser {
 
             if (empty)
                 break;
+
+            DataFormatter formatter = new DataFormatter();
 
             // build a client with the data in that row's cells
             ClientRecord client = new ClientRecord();
@@ -179,14 +182,20 @@ public class ExcelParser {
                 // only add a key-value if the value exists (aka cell isn't blank)
                 if (cell.getCellType() != CellType.BLANK){
 
+                    String cellString = formatter.formatCellValue(cell);
+
+                    if (cell.getCellType() == CellType.NUMERIC) {
+                        cellString.replace('/', '-');
+                    }
                     // check if it passes Normalizer
                     try {
-                        String data = Normalizer.verify(cell.getStringCellValue(), this.visibleColumnHeaders.get(col));
+
+                        String data = Normalizer.verify(cellString, this.visibleColumnHeaders.get(col));
                         client.put(this.columnHeaders.get(col), data);
 
                     } catch (InvalidFormatException e) {
                         client.put("valid", "false");
-                        client.putInvalid(this.columnHeaders.get(col), cell.getStringCellValue());
+                        client.putInvalid(this.columnHeaders.get(col), cellString);
                     }
 
                 }
