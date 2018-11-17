@@ -10,8 +10,8 @@
 
 	<columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
-        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
-        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="70.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
     </columnConstraints>
 
@@ -26,9 +26,9 @@
 
     <Label text="Select Reports below" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
 
-    <Button onAction="#selectReport" prefWidth="Infinity" text="Language of Service report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="2" />
+    <Button onAction="#selectReport" prefWidth="Infinity" text="Language of Service Report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="2" />
 
-    <Button onAction="#selectReport2" prefWidth="Infinity" text="Type Of Institution/Organization where Client received services report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="3" />
+    <Button onAction="#selectReport2" prefWidth="Infinity" text="Place of Services Report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="3" />
    
 
             

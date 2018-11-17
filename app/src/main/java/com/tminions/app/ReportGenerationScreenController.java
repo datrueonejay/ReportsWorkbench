@@ -114,7 +114,7 @@ public class ReportGenerationScreenController {
     private String getDateTimeStamp() {
         LocalDateTime currTime = LocalDateTime.now();
         // Parse time into a timestamp that can be used as part of a file name
-        return currTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        return currTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss"));
     }
 
 }
