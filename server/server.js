@@ -239,21 +239,18 @@ app.post('/reports/new-report/', function (req, res, next) {
 //mid-level query TASK B
 
 app.get('/templates/template', function(req, res, next) {
-  Database.getDatabaseRoot().collection('TEMPLATES')
-  .find(req.get(TEMPLATE_NAME)) //get specific Template
+  const TEMPLATE_NAME = req.headers['template_name']
+  
+  const thing = Database.getDatabaseRoot().collection('TEMPLATES')
+  .find({_id: TEMPLATE_NAME}) //get specific Template
   .toArray(function(err, columns) {
     if(err) return res.status(500).end(err);
     
-    columnNames = [];
-    var column1 = columns[1]._columns;
-    var column2 = columns[2]._mandatory_columns;
-    var column3 = columns[3]._column_name_map;
+    //delete id
+    delete columns[0]._id
     
-    response = {
-    		//now i need to combine all 3
-    		
-    }
-     res.status(200).send(response);
+    response = columns[0]
+    res.status(200).send(response);
   });
 })
 
