@@ -10,6 +10,17 @@ public class ConflictModel {
     private String unique_identifier;
     private List<Map<String, String>> conflicts;
 
+    public ConflictModel(String _id, String TEMPLATE_NAME, String unique_identifier, List<Map<String, String>> conflicts) {
+        this._id = _id;
+        this.TEMPLATE_NAME = TEMPLATE_NAME;
+        this.unique_identifier = unique_identifier;
+        this.conflicts = conflicts;
+    }
+
+    public ConflictModel() {
+
+    }
+
     public String get_id() {
         return _id;
     }
