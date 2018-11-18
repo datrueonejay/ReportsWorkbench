@@ -236,7 +236,7 @@ app.post('/reports/new-report/', function (req, res, next) {
   res.status(200).send('{}')
 })
 
-//mid-level query TASK B
+//mid-level query TASK C
 
 app.get('/templates/template', function(req, res, next) {
   const TEMPLATE_NAME = req.headers['template_name']
