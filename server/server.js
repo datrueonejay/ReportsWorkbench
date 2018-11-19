@@ -237,6 +237,24 @@ app.post('/reports/new-report/', function (req, res, next) {
 })
 
 
+//mid-level query TASK C
+
+app.get('/templates/template', function(req, res, next) {
+  const TEMPLATE_NAME = req.headers['template_name']
+  
+  const thing = Database.getDatabaseRoot().collection('TEMPLATES')
+  .find({_id: TEMPLATE_NAME}) //get specific Template
+  .toArray(function(err, columns) {
+    if(err) return res.status(500).end(err);
+    
+    //delete id
+    delete columns[0]._id
+    
+    response = columns[0]
+    res.status(200).send(response);
+  });
+})
+
 
 // mid-level query taskB:
 // Get Endpoint to return names of all templates
@@ -263,3 +281,4 @@ app.get('/templates/all-templates/', function(req, res, next) {
     res.status(200).send(response);
   });
 })
+
