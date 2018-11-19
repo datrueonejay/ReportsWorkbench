@@ -113,8 +113,8 @@ public class ExcelParser {
      * sets this.columnHeaders based on the column headers sheet
      * @param sheet the sheet
      */
-    public void setColumnHeaders(Sheet sheet) throws IOException{
-
+    public void setColumnHeaders(Sheet sheet) throws IOException
+    {
         Row headersRow = sheet.getRow(COLUMN_HEADS_ROW);
 
         Row visibleHeadersRow = sheet.getRow(VISIBLE_COLUMN_HEADS_ROW);
