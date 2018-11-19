@@ -115,7 +115,7 @@ public class DataUploadScreenController {
         // TODO: Replace with actual code to get templates frm wherever they are stored
         return FXCollections.observableArrayList(
                 "Employment Services",
-                "Language Services",
+                "Language Training",
                 "Needs Assessment & Referrals",
                 "Other Services"
         );
