@@ -22,6 +22,7 @@
     <rowConstraints>
         <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="BOTTOM"/>
         <RowConstraints vgrow="SOMETIMES" percentHeight="80.0" valignment="TOP"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="10.0" valignment="TOP"/>
         <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="TOP"/>
     </rowConstraints>
 
@@ -40,6 +41,14 @@
                   hgap="10"
                     vgap="10"/>
     </ScrollPane>
+
+    <Button fx:id="submit"
+            text="Submit Changes"
+            GridPane.columnIndex="1"
+            GridPane.columnSpan="1"
+            GridPane.rowIndex="2"
+            prefWidth="Infinity"
+    />
 
     <!--<TableView fx:id="conflictingRows"-->
                <!--GridPane.columnIndex="1"-->
