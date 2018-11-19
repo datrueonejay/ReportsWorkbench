@@ -11,7 +11,13 @@ app/.classpath
 app/.project
 app/.settings/
 
+# stupid mac finder files #
+.DS_Store
+
 *.aux
 *.log
 *.synctex.gz
 *.toc
+
+/app/*.png
+/app/*.pdf
