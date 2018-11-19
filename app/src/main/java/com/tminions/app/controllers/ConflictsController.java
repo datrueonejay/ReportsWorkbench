@@ -34,11 +34,7 @@ public class ConflictsController extends BaseController {
                     .header("Content-Type", "application/json")
                     .body(resolvedConflict)
                     .asJson();
-            if (response.getStatus() == 200) {
-                return true;
-            } else {
-                return false;
-            }
+            return response.getStatus() == 200;
         }catch (Exception e){
             return false;
         }
