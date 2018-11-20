@@ -35,7 +35,25 @@ class Database {
 
   enterRow(reportTemplateType, id, data) {
     const templateCollection = this.db.collection(reportTemplateType);
-    return templateCollection.updateOne({ _id: id }, {$set: data}, { upsert: true })
+    return templateCollection.insertOne(data)
+    .catch(err => {
+
+      const otherDuplicate = templateCollection.findOneAndDelete({ _id: id}); 
+        // move the old duplicate client from 
+        // the templateTpye collection to the CONFLICTS collection
+      var conflictRecord = {
+        TEMPLATE_NAME : reportTemplateType,
+        uniqueIdentifier : id,
+        conflicts : [
+          data,
+          otherDuplicate
+        ]
+      }
+      const conflictsCollection = this.db.collection("CONFLICTS");
+      conflictsCollection.updateOne({ uniqueIdentifier: id }, { $set: conflictRecord}, {upsert: true});
+        // if uniqueIdentifier exists in conflictsCollection then add data to its conflicts array***
+        // *** ABOVE IMPLEMENTATION DOESN'T WORK
+    });
   }
 
   getAllRows(reportTemplateType) {
