@@ -17,7 +17,7 @@ public class NavBar {
 	    this.onAction(lastMenu, "organizationLastUploadedScreen");
 	    menubar.getMenus().add(lastMenu);
 	    //i did this
-	    Menu reportMenu = new Menu("Reports");
+	    Menu reportMenu = new Menu("Custom Reports");
 	    this.onAction(reportMenu, "reportGenerationScreen");
 	    menubar.getMenus().add(reportMenu);
 	    

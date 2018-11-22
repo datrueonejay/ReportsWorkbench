@@ -4,27 +4,28 @@ package com.tminions.app;
 import com.tminions.app.charts.GenerateBarChartReport;
 import com.tminions.app.charts.GeneratePieChartReport;
 import com.tminions.app.controllers.GenerateReportsController;
+import com.tminions.app.controllers.TemplateController;
 import com.tminions.app.jsonMaker.JsonMaker;
-import com.tminions.app.models.LoginModel;
 import com.tminions.app.models.ReportDataModel;
+import com.tminions.app.models.TemplateColumnsModel;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
-import javax.swing.*;
 import java.util.HashMap;
+import java.util.List;
 
 public class ReportGenerationScreenController {
 
-    private static String defaulTemplate = "Employment Services";
     @FXML private ComboBox<String> selectTemplate;
     @FXML private ComboBox<String> selectColumn;
     private String templateType;
     private String columnType;
+    private TemplateColumnsModel currrentColumns;
 
 
     public void initialize()
@@ -36,30 +37,33 @@ public class ReportGenerationScreenController {
             @Override
             public void changed(ObservableValue value, String oldSelection, String newSelection) {
                 templateType = newSelection;
+                currrentColumns = TemplateController.getTemplateColumns(templateType);
+                selectColumn.setItems(getColumns());
+            }
+        });
+        
+        selectColumn.valueProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue value, String oldSelection, String newSelection) {
+                columnType = newSelection;
             }
         });
 
     }
 
     private ObservableList<String> getTemplates() {
-        // TODO: Replace with actual code to get templates frm wherever they are stored
-        return FXCollections.observableArrayList(
-                "Client Profile Bulk Template",
-                "Needs Assessment & Referral Service Template",
-                "Employment Related Services Template",
-                "Community Connections Template",
-                "Information & Orientation Template",
-                "Client Enrollment Template",
-                "Course Setup Template",
-                "Client Exit Template"
-        );
+        List<String> TemplateNames = TemplateController.getAllTemplateNames();
+        return FXCollections.observableArrayList(TemplateNames);
+    }
+    
+    private ObservableList<String> getColumns() {
+        return FXCollections.observableArrayList(currrentColumns.getColumnNames());
     }
 
     public void selectBarChart()
     {
-        System.out.println("Selected Language report.");
-        String[] columns = {"official_language_id"};
-        String serverResponse = GenerateReportsController.getReportData(columns, defaulTemplate);
+        System.out.println("Generating Bar Chart for Template: "+ templateType + " , Column: "+ columnType);
+        String[] columns = {currrentColumns.getKeyForColumnValue(columnType)};
+        String serverResponse = GenerateReportsController.getReportData(columns, templateType);
         ReportDataModel rdm = JsonMaker.convertJsonResponseToRDM(serverResponse);
         System.out.println(rdm.toString());
 

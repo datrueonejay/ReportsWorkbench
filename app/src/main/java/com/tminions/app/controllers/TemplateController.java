@@ -23,6 +23,7 @@ public class TemplateController extends BaseController {
                     .asObject(String[].class);
             return Arrays.asList(response.getBody());
         }catch (Exception e){
+        	e.printStackTrace();
             System.out.println("Transmission of json failed");
             return Collections.emptyList();
         }

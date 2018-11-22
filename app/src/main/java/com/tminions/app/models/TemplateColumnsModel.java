@@ -1,5 +1,6 @@
 package com.tminions.app.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,5 +32,26 @@ public class TemplateColumnsModel {
 
     public void set_column_name_map(HashMap<String, String> _column_name_map) {
         this._column_name_map = _column_name_map;
+    }
+    
+    public List<String> getColumnNames(){
+    	List<String> ColumnNames = new ArrayList<String>();
+    	
+    	for (String key: this._column_name_map.keySet()) {
+    		ColumnNames.add(this._column_name_map.get(key));
+    	}
+    	
+    	return ColumnNames;
+    }
+    
+    public String getKeyForColumnValue(String value) {
+    	String jsonKey = null;
+    	for (String key: this._column_name_map.keySet()) {
+    		if (value.equals(this._column_name_map.get(key))) {
+    			jsonKey = key;
+    			break;
+    		}
+    	}
+    	return jsonKey;
     }
 }
