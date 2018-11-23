@@ -33,29 +33,56 @@ class Database {
     });
   }
 
+  /**
+   * check if there's already a conflict in the CONFLICTS collection with that id and templateType
+   *   if yes: add data to that document's conflicts array
+   * if not :
+   *   check if that template collection has an existing doc with _id == id
+   *     if yes: make a new document in CONFLICTS with the new data and the conflict, delete the conflict doc from the template collection
+   *   if not: there's no conflicting document, add it to the template collection
+   *
+   *
+  */
   enterRow(reportTemplateType, id, data) {
     const templateCollection = this.db.collection(reportTemplateType);
-    return templateCollection.insertOne(data)
-    .catch(err => {
+    const conflictsCollection = this.db.collection("CONFLICTS");
+  
 
-      const otherDuplicate = templateCollection.findOneAndDelete({ _id: id}); 
-        // move the old duplicate client from 
-        // the templateTpye collection to the CONFLICTS collection
-      var conflictRecord = {
-        TEMPLATE_NAME : reportTemplateType,
-        uniqueIdentifier : id,
-        conflicts : [
-          data,
-          otherDuplicate
-        ]
+    return conflictsCollection.countDocuments({uniqueIdentifier: id, TEMPLATE_NAME: reportTemplateType}).then((count) => {
+      console.log("conflictsCollection count is " + count);
+      if (count == 1) {
+        return conflictsCollection.findOneAndUpdate(
+            {uniqueIdentifier: id, TEMPLATE_NAME: reportTemplateType},
+            {$push: {conflicts: data}});
+      } else {
+        templateCollection.countDocuments({_id: id}).then((num) => {
+          console.log("templateCollection num is " + num);
+          if (num == 1) {
+            const otherDuplicate = templateCollection.findOneAndDelete({_id: id}).then((otherDuplicate) =>{
+            console.log(otherDuplicate.value._id);
+            var conflictRecord = {
+                TEMPLATE_NAME : reportTemplateType,
+                uniqueIdentifier : id,
+                conflicts : [
+                  data,
+                  otherDuplicate.value
+                ]
+            }
+
+            console.log("new conflict detected, " + conflictRecord.conflicts[0]._id + " will be inserted into CONFLICTS.");
+            return conflictsCollection.insertOne(conflictRecord);
+            })
+            
+            
+          } else {
+            console.log("no conflicts, " + data._id + " will be inserted.");
+            return templateCollection.insertOne(data);  
+          }
+        })
       }
-      const conflictsCollection = this.db.collection("CONFLICTS");
-      conflictsCollection.updateOne({ uniqueIdentifier: id }, { $set: conflictRecord}, {upsert: true});
-        // if uniqueIdentifier exists in conflictsCollection then add data to its conflicts array***
-        // *** ABOVE IMPLEMENTATION DOESN'T WORK
-    });
+    })
   }
-
+   
   getAllRows(reportTemplateType) {
     // return collection of all documents for given template type
     console.log("The value of reportTemplateType is: "  + reportTemplateType);
