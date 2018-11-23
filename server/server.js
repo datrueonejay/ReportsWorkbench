@@ -138,19 +138,19 @@ app.get('/reports/get-report-data/', function (req, res, next) {
 })
 
 //TaskC conflict feature
-app.get('/conflict/'), function(req, res, next) {
+app.get('/conflict/', function(req, res, next) {
 	const dc = Database.getDatabaseRoot().collection('CONFLICTS')
 	//can also use findOne() but need to make sure it works
-	.findOne()
-	.toArray(function(err, conflicts){
+	.find()
+	.toArray(function (err, conflicts) {
 		if(err) return res.status(500).end(err);
 		
 		//get the first conflict
 		response = conflicts[0]
 		res.status(200).send(response);
-	});
- })
-		
+	})
+})
+
 app.post('/reports/get-data/', function(req, res, next) {
   console.log(req.body);
   const reportTemplateType = req.body.template_name;
