@@ -270,11 +270,10 @@ app.post('/conflict', function(req, res) {
    const resolution = req.body.resolution
    const id = req.body.unique_identifier
    const conflict_id = req.body.conflict_id
-   Database.enterRow(template_name, id, resolution).then(()=>{
-     Database.deleteRow("CONFLICTS", '_id', id).then((test)=>{
+   Database.deleteRow("CONFLICTS", '_id', id).then(()=>{
+     Database.enterRow(template_name, id, resolution).then(()=>{
        res.status(200).send('{}')
-       console.log(test);
-     })
+       })
    }).catch((err)=>{
      console.log(err);
    })
