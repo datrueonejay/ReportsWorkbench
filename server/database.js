@@ -42,7 +42,7 @@ class Database {
   deleteRow(collectionName, key, parameter) {
     const collection = this.db.collection(collectionName);
     console.log(key, parameter);
-    return collection.deleteOne({ key : parameter})
+    return collection.deleteOne({ "unique_identifier" : parameter})
   }
 
   getAllRows(reportTemplateType) {

@@ -271,7 +271,7 @@ app.post('/conflict', function(req, res) {
    const id = req.body.unique_identifier
    const conflict_id = req.body.conflict_id
    Database.enterRow(template_name, id, resolution).then(()=>{
-     Database.deleteRow("CONFLICTS", '_id', conflict_id).then((test)=>{
+     Database.deleteRow("CONFLICTS", '_id', id).then((test)=>{
        res.status(200).send('{}')
        console.log(test);
      })
