@@ -214,14 +214,15 @@ app.post('/reports/get-data/', function(req, res, next) {
 
 app.post('/reports/new-report/', function (req, res, next) {
   const reportTemplateType = Object.keys(req.body)[0]
-  const reportData = req.body[reportTemplateType]
+  const reportData = req.body[reportTemplateType] //reportData is map of {client1->data, client2->data} etc...
 
   console.log("Recieved upload request from: "+ req.headers['user-id'])
 
-  for (const row in reportData) {
-    // Set ID of row
-    reportData._id = row
-    Database.enterRow(reportTemplateType, row, reportData[row]).catch((err) => {
+  for (const row in reportData) { //row represents one client object's key
+    var rowData = reportData[row]; //holds one client's object's value
+    rowData._id = row; // set client object's value's id key to client object's key
+    Database.enterRow(reportTemplateType, row, rowData).catch((err) => {
+      console.log("error in server.js");
       return res.status(500).end(err)
     })
 
