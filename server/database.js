@@ -33,9 +33,14 @@ class Database {
     });
   }
 
-  enterRow(reportTemplateType, id, data) {
-    const templateCollection = this.db.collection(reportTemplateType);
-    return templateCollection.updateOne({ _id: id }, {$set: data}, { upsert: true })
+  enterRow(collectionName, id, data) {
+    const collection = this.db.collection(collectionName);
+    return collection.updateOne({ _id: id }, {$set: data}, { upsert: true })
+  }
+
+  deleteRow(collectionName, id){
+    const collection = this.db.collection(collectionName);
+    collection.deleteOne({_id: id})
   }
 
   getAllRows(reportTemplateType) {

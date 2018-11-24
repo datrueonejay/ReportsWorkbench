@@ -246,3 +246,15 @@ app.post('/reports/new-report/', function (req, res, next) {
   })
   res.status(200).send('{}')
 })
+
+//Insert new row in corresponding template collection. Delete conflict object in conflict table  (Joey) /conflict
+app.post('/conflicts', function(req, res) {
+   // Insert new row in corresponding template collection.
+   const template_name = req.body.TEMPLATE_NAME
+   const resolution = req.body.resolution
+   const _id = req.body._id
+   Database.enterRow(template_name, _id, resolution)
+
+   // Delete conflict object in conflicts table
+   Database.deleteRow("CONFLICTS", _id)
+})
