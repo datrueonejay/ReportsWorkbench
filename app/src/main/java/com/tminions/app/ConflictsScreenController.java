@@ -24,6 +24,7 @@ public class ConflictsScreenController {
     @FXML private ScrollPane scroller;
     @FXML private GridPane grid;
     @FXML private Button submit;
+    @FXML private Button copy;
 
     // Called by javafx framework after screen components have been initialized
     public void initialize() {
@@ -35,7 +36,7 @@ public class ConflictsScreenController {
         this.conflict = getConflict();
         System.out.println(conflict);
         // If conflict does not exist, show that no conflicts found
-        conflictsText.setText(conflict == null ? "No conflicts found!" : "Please fix the conflict below");
+        conflictsText.setText(conflict == null ? "No conflicts found!" : "Please fix the conflict below in Template: " + conflict.getTemplate_name());
         // Show conflict data if it is not null
         if (conflict != null) {
             // Get map of column names to values for first person in list
@@ -109,6 +110,20 @@ public class ConflictsScreenController {
                         updateScreen();
                     } else {
                         AlertBox.display("Update Failed!", "The update was unsuccessful at this time, please try again later.");
+                    }
+                }
+            });
+
+            copy.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    int i = 0;
+                    for (String column : columnNames) {
+                        //if all the persons.get(column) is the same, then set inputs.get(i) to the value
+                        if (conflict.getConflicts().get(0).get(column).equals(conflict.getConflicts().get(1).get(column))) {
+                            inputs.get(i).setText(conflict.getConflicts().get(0).get(column));
+                        }
+                        i++;
                     }
                 }
             });

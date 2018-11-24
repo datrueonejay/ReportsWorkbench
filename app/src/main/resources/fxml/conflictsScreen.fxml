@@ -42,13 +42,22 @@
                     vgap="10"/>
     </ScrollPane>
 
-    <Button fx:id="submit"
-            text="Submit Changes"
+    <Button fx:id="copy"
+            text="Copy All Non-Conflicting Fields"
             GridPane.columnIndex="1"
             GridPane.columnSpan="1"
             GridPane.rowIndex="2"
             prefWidth="Infinity"
     />
+
+    <Button fx:id="submit"
+            text="Submit Changes"
+            GridPane.columnIndex="1"
+            GridPane.columnSpan="1"
+            GridPane.rowIndex="3"
+            prefWidth="Infinity"
+    />
+
 
     <!--<TableView fx:id="conflictingRows"-->
                <!--GridPane.columnIndex="1"-->
