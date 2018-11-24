@@ -48,11 +48,11 @@ class Database {
     const conflictsCollection = this.db.collection("CONFLICTS");
   
 
-    return conflictsCollection.countDocuments({uniqueIdentifier: id, TEMPLATE_NAME: reportTemplateType}).then((count) => {
+    return conflictsCollection.countDocuments({unique_identifier: id, TEMPLATE_NAME: reportTemplateType}).then((count) => {
       console.log("conflictsCollection count is " + count);
       if (count == 1) {
         return conflictsCollection.findOneAndUpdate(
-            {uniqueIdentifier: id, TEMPLATE_NAME: reportTemplateType},
+            {unique_identifier: id, TEMPLATE_NAME: reportTemplateType},
             {$push: {conflicts: data}});
       } else {
         templateCollection.countDocuments({_id: id}).then((num) => {
@@ -62,7 +62,7 @@ class Database {
             console.log(otherDuplicate.value._id);
             var conflictRecord = {
                 TEMPLATE_NAME : reportTemplateType,
-                uniqueIdentifier : id,
+                unique_identifier : id,
                 conflicts : [
                   data,
                   otherDuplicate.value
