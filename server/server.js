@@ -269,8 +269,14 @@ app.post('/conflict', function(req, res) {
    const template_name = req.body.template_name
    const resolution = req.body.resolution
    const id = req.body.unique_identifier
-   //const res1 = Database.enterRow(template_name, id, resolution)
+   const conflict_id = req.body.conflict_id
+   Database.enterRow(template_name, id, resolution).then(()=>{
+     Database.deleteRow("CONFLICTS", '_id', conflict_id).then((test)=>{
+       res.status(200).send('{}')
+       console.log(test);
+     })
+   }).catch((err)=>{
+     console.log(err);
+   })
    // Delete conflict object in conflicts table
-   const res2 = Database.deleteRow("CONFLICTS", 'uniqueIdentifier', id)
-   res.status(200).send('{}')
 })

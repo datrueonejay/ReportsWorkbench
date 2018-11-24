@@ -35,12 +35,13 @@ class Database {
 
   enterRow(reportTemplateType, id, data) {
     const templateCollection = this.db.collection(reportTemplateType);
-    data._id = undefined
+    this.deleteRow(reportTemplateType, "_id", id)
     return templateCollection.updateOne({ _id: id }, {$setOnInsert:data}, { upsert: true })
   }
 
   deleteRow(collectionName, key, parameter) {
     const collection = this.db.collection(collectionName);
+    console.log(key, parameter);
     return collection.deleteOne({ key : parameter})
   }
 
