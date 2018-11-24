@@ -20,6 +20,10 @@ public class NavBar {
 	    Menu reportMenu = new Menu("Reports");
 	    this.onAction(reportMenu, "reportGenerationScreen");
 	    menubar.getMenus().add(reportMenu);
+
+	    Menu trendMenu = new Menu("Trends");
+	    this.onAction(trendMenu, "reportTrendGenerationScreen");
+	    menubar.getMenus().add(trendMenu);
 	    
 		return menubar;
 	}
