@@ -138,15 +138,16 @@ app.get('/reports/get-report-data/', function (req, res, next) {
 })
 
 //TaskC conflict feature
-app.get('/conflict/', function(req, res, next) {
+app.get('/conflict', function(req, res, next) {
 	const dc = Database.getDatabaseRoot().collection('CONFLICTS')
 	//can also use findOne() but need to make sure it works
 	.find()
 	.toArray(function (err, conflicts) {
 		if(err) return res.status(500).end(err);
-		
+
 		//get the first conflict
 		response = conflicts[0]
+    console.log(response);
 		res.status(200).send(response);
 	})
 })
@@ -262,13 +263,14 @@ app.post('/reports/new-report/', function (req, res, next) {
 })
 
 //Insert new row in corresponding template collection. Delete conflict object in conflict table  (Joey) /conflict
-app.post('/conflicts', function(req, res) {
+app.post('/conflict', function(req, res) {
    // Insert new row in corresponding template collection.
-   const template_name = req.body.TEMPLATE_NAME
+   console.log(req.body);
+   const template_name = req.body.template_name
    const resolution = req.body.resolution
-   const _id = req.body._id
-   Database.enterRow(template_name, _id, resolution)
-
+   const id = req.body.unique_identifier
+   //const res1 = Database.enterRow(template_name, id, resolution)
    // Delete conflict object in conflicts table
-   Database.deleteRow("CONFLICTS", _id)
+   const res2 = Database.deleteRow("CONFLICTS", 'uniqueIdentifier', id)
+   res.status(200).send('{}')
 })

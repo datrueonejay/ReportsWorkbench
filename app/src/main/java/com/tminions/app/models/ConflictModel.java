@@ -6,13 +6,13 @@ import java.util.Map;
 public class ConflictModel {
 
     private String _id;
-    private String TEMPLATE_NAME;
+    private String template_name;
     private String unique_identifier;
     private List<Map<String, String>> conflicts;
 
-    public ConflictModel(String _id, String TEMPLATE_NAME, String unique_identifier, List<Map<String, String>> conflicts) {
+    public ConflictModel(String _id, String template_name, String unique_identifier, List<Map<String, String>> conflicts) {
         this._id = _id;
-        this.TEMPLATE_NAME = TEMPLATE_NAME;
+        this.template_name = template_name;
         this.unique_identifier = unique_identifier;
         this.conflicts = conflicts;
     }
@@ -29,12 +29,12 @@ public class ConflictModel {
         this._id = _id;
     }
 
-    public String getTEMPLATE_NAME() {
-        return TEMPLATE_NAME;
+    public String getTemplate_name() {
+        return template_name;
     }
 
-    public void setTEMPLATE_NAME(String TEMPLATE_NAME) {
-        this.TEMPLATE_NAME = TEMPLATE_NAME;
+    public void setTemplate_name(String template_name) {
+        this.template_name = template_name;
     }
 
     public String getUnique_identifier() {

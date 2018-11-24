@@ -33,6 +33,7 @@ public class ConflictsScreenController {
     public void updateScreen() {
         // Get a conflict
         this.conflict = getConflict();
+        System.out.println(conflict);
         // If conflict does not exist, show that no conflicts found
         conflictsText.setText(conflict == null ? "No conflicts found!" : "Please fix the conflict below");
         // Show conflict data if it is not null
@@ -155,7 +156,7 @@ public class ConflictsScreenController {
             resolvedColumns.put(columnNames.get(i), fields.get(i).getText());
         }
 
-        ResolvedConflictModel resolved = new ResolvedConflictModel(conflict.get_id(), conflict.getTEMPLATE_NAME(),
+        ResolvedConflictModel resolved = new ResolvedConflictModel(conflict.get_id(), conflict.getTemplate_name(),
                 conflict.getUnique_identifier(), resolvedColumns);
         return ConflictsController.resolveConflict(resolved);
     }
