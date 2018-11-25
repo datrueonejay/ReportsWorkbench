@@ -1,4 +1,4 @@
-package com.tminions.app;
+package com.tminions.app.Utils;
 
 import javafx.stage.*;
 import javafx.scene.*;

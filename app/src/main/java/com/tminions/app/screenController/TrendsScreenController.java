@@ -1,10 +1,11 @@
-package com.tminions.app.controllers;
+package com.tminions.app;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.tminions.app.AlertBox;
 import com.tminions.app.charts.GenerateBarChartReport;
 import com.tminions.app.charts.GenerateBarGraphForTrends;
+import com.tminions.app.controllers.TrendsDataController;
 import com.tminions.app.jsonMaker.JsonMaker;
 import com.tminions.app.models.LoginModel;
 import com.tminions.app.models.TrendReportDataModel;
