@@ -5,7 +5,7 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<MigPane id="rootPane" fx:controller="com.tminions.app.LoginScreenController"
+<MigPane id="rootPane" fx:controller="com.tminions.app.screenController.LoginScreenController"
          styleClass="main-panel"
          layout="insets 20"
          cols="[label, pref!][grow, 50::]"

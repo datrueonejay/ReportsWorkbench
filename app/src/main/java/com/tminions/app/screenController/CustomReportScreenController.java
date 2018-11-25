@@ -1,6 +1,7 @@
-package com.tminions.app;
+package com.tminions.app.screenController;
 
 
+import com.tminions.app.charts.ChartUtils;
 import com.tminions.app.charts.GenerateBarChartReport;
 import com.tminions.app.charts.GeneratePieChartReport;
 import com.tminions.app.controllers.GenerateReportsController;
@@ -8,7 +9,6 @@ import com.tminions.app.controllers.TemplateController;
 import com.tminions.app.jsonMaker.JsonMaker;
 import com.tminions.app.models.ReportDataModel;
 import com.tminions.app.models.TemplateColumnsModel;
-import com.tminions.app.pdfMaker.PdfMaker;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,7 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -67,11 +66,9 @@ public class CustomReportScreenController {
 
     public void selectBarChart()
     {
-        System.out.println("Generating Bar Chart for Template: "+ templateType + " , Column: "+ columnType);
         String[] columns = {currrentColumns.getKeyForColumnValue(columnType)};
         String serverResponse = GenerateReportsController.getReportData(columns, templateType);
         ReportDataModel rdm = JsonMaker.convertJsonResponseToRDM(serverResponse);
-        System.out.println(rdm.toString());
 
         HashMap<String, String[][]> reportData = rdm.getReportData();
         String[][] columnData = reportData.get(columns[0]);
@@ -84,12 +81,11 @@ public class CustomReportScreenController {
         new GenerateBarChartReport(columnData, columnType, "Amount", "Columns", barChartFileName);
         ArrayList<String> chart = new ArrayList<String>();
         chart.add(barChartFileName);
-        
-        generateReport(reportFilePath, templateType, chart);
+
+        ChartUtils.generateReport(reportFilePath, templateType, chart);
     }
     
     public void selectPieChart() {
-        System.out.println("Generating Bar Chart for Template: "+ templateType + " , Column: "+ columnType);
         String[] columns = {currrentColumns.getKeyForColumnValue(columnType)};
         String serverResponse = GenerateReportsController.getReportData(columns, templateType);
         ReportDataModel rdm = JsonMaker.convertJsonResponseToRDM(serverResponse);
@@ -105,38 +101,8 @@ public class CustomReportScreenController {
         
         ArrayList<String> chart = new ArrayList<String>();
         chart.add(pieChartFileName);
-        
-        generateReport(reportFilePath, templateType, chart);
-    }
-    
-    private void generateReport(String filePath, String reportTitle, List<String> chartPaths) {
-        // Instantiate pdf maker
-        try {
-            PdfMaker pdfMaker = new PdfMaker(filePath);
 
-            pdfMaker.addTitle(reportTitle);
-            int xCoord = 50;
-            int yCoord = 350;
-            // Loop through and add graphs to the pdf
-            // This currently fits 4 graphs using this method
-            for (String chartPath : chartPaths) {
-                pdfMaker.addImage(chartPath, xCoord, yCoord, 250, 250);
-                // Move left if we have space
-                if (xCoord == 50) {
-                    xCoord = 300;
-                    // Otherwise move to next row
-                } else {
-                    yCoord -= 300;
-                    xCoord = 50;
-                }
-            }
-
-            pdfMaker.saveAndClose();
-            AlertBox.display("Report Created!", String.format("File is at %s\\%s", System.getProperty("user.dir"), filePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-            AlertBox.display("Report Creation Failed!", "An error occurred trying to create the report.");
-        }
+        ChartUtils.generateReport(reportFilePath, templateType, chart);
     }
     
     private String getDateTimeStamp() {

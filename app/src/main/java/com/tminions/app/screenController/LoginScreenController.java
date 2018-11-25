@@ -1,7 +1,6 @@
-package com.tminions.app;
+package com.tminions.app.screenController;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
+import com.tminions.app.Utils.SceneController;
 import com.tminions.app.models.LoginModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

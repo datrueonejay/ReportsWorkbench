@@ -1,17 +1,15 @@
-package com.tminions.app;
+package com.tminions.app.screenController;
 
 
+import com.tminions.app.Utils.AlertBox;
+import com.tminions.app.charts.ChartUtils;
 import com.tminions.app.charts.GenerateBarChartReport;
 import com.tminions.app.charts.GeneratePieChartReport;
 import com.tminions.app.controllers.GenerateReportsController;
 import com.tminions.app.jsonMaker.JsonMaker;
-import com.tminions.app.models.LoginModel;
 import com.tminions.app.models.ReportDataModel;
 import com.tminions.app.pdfMaker.PdfMaker;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -50,7 +48,7 @@ public class ReportGenerationScreenController {
         GeneratePieChartReport chart2 = new GeneratePieChartReport(columnData, "Language Distribution",
                 pieChartFileName);
         // Create pdf report
-        generateReport(reportFilePath, "Language Report", Arrays.asList(barChartFileName, pieChartFileName));
+        ChartUtils.generateReport(reportFilePath, "Language Report", Arrays.asList(barChartFileName, pieChartFileName));
 
     }
 
@@ -77,7 +75,7 @@ public class ReportGenerationScreenController {
         GeneratePieChartReport chart2 = new GeneratePieChartReport(columnData, "Where Services Were Received Distribution",
                 pieChartFileName);
 
-        generateReport(reportFilePath, "Place Services Were Received", Arrays.asList(pieChartFileName, barChartFileName));
+        ChartUtils.generateReport(reportFilePath, "Place Services Were Received", Arrays.asList(pieChartFileName, barChartFileName));
 
     }
 
@@ -112,38 +110,8 @@ public class ReportGenerationScreenController {
         GeneratePieChartReport languageChart = new GeneratePieChartReport(languagePopulation, columns[2], languageFileName);
         GenerateBarChartReport childMindingChart = new GenerateBarChartReport(needsChildminding, columns[3],
                 "Number of people", "Type Of Service", childMindingFileName);
-        generateReport(reportFilePath, "Population And Child Minding Statistics", Arrays.asList(needsFileName, employmentFileName, languageFileName, childMindingFileName));
+        ChartUtils.generateReport(reportFilePath, "Population And Child Minding Statistics", Arrays.asList(needsFileName, employmentFileName, languageFileName, childMindingFileName));
 
-    }
-
-    private void generateReport(String filePath, String reportTitle, List<String> chartPaths) {
-        // Instantiate pdf maker
-        try {
-            PdfMaker pdfMaker = new PdfMaker(filePath);
-
-            pdfMaker.addTitle(reportTitle);
-            int xCoord = 50;
-            int yCoord = 350;
-            // Loop through and add graphs to the pdf
-            // This currently fits 4 graphs using this method
-            for (String chartPath : chartPaths) {
-                pdfMaker.addImage(chartPath, xCoord, yCoord, 250, 250);
-                // Move left if we have space
-                if (xCoord == 50) {
-                    xCoord = 300;
-                    // Otherwise move to next row
-                } else {
-                    yCoord -= 300;
-                    xCoord = 50;
-                }
-            }
-
-            pdfMaker.saveAndClose();
-            AlertBox.display("Report Created!", String.format("File is at %s\\%s", System.getProperty("user.dir"), filePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-            AlertBox.display("Report Creation Failed!", "An error occurred trying to create the report.");
-        }
     }
 
     private String getDateTimeStamp() {
