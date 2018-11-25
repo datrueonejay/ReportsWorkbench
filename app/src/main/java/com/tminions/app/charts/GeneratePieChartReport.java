@@ -1,15 +1,10 @@
 package com.tminions.app.charts;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.IIOException;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import org.jfree.chart.*;
-import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class GeneratePieChartReport extends JFrame {
