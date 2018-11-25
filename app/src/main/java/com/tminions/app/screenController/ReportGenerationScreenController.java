@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class ReportGenerationScreenController {
 
     private final String reportOneTemplate = "Information and Orientation";
-    private final String reportTwoTemplate = "Employment Services";
+    private final String reportTwoTemplate = "Employment Related Services";
 
     private final String reportFolderPath = "";
 

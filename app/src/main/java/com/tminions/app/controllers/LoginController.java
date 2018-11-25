@@ -3,6 +3,7 @@ package com.tminions.app.controllers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.models.LoginModel;
 
 
@@ -15,12 +16,9 @@ public class LoginController extends BaseController {
 			.header("Content-Type", "application/json")
 			.body(user)
 			.asJson();
-			if (response.getStatus() == 200) {
-				return true;
-			} else {
-				return false;
-			}
+			return response.getStatus() == 200;
 		}catch (Exception e){
+			AlertBox.display("Error!", "Failed to login, please check your connection.");
 			return false;
 		}
 	}
