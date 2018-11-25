@@ -18,7 +18,6 @@ public class ConflictsController extends BaseController {
                     .header("Content-Type", "application/json")
                     .asObject(ConflictModel.class).getBody();
         } catch (Exception e){
-        	System.out.println(e);
             return null;
         }
     }

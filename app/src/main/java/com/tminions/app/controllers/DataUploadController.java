@@ -17,7 +17,6 @@ public class DataUploadController extends BaseController {
                     .body("{"+jsonToUpload+"}")
                     .asJson();
         }catch (Exception e){
-            System.out.println("Transmission of json failed");
             return null;
         }
         return response;

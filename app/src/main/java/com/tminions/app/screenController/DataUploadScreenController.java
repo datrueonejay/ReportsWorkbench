@@ -73,7 +73,6 @@ public class DataUploadScreenController {
     public void uploadFiles() {
     	// Get username to include in upload request
     	String username = SceneController.getSceneController().getUsername();
-    	System.out.println("username: "+ username);
         // Parse Json
         ArrayList<File> files = new ArrayList<File>(filesToUpload);
         try {

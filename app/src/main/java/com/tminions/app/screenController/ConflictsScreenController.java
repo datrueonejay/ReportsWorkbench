@@ -40,7 +40,7 @@ public class ConflictsScreenController {
     public void updateScreen() {
         grid.getChildren().clear();
         // Get a conflict
-        this.conflict = ConflictsController.getConflict();
+        this.conflict = getConflict();
         // If conflict does not exist, show that no conflicts found
         if (conflict != null) {
         	conflictsText.setText("Please fix the conflict below in Template: " + conflict.getTemplate_name());

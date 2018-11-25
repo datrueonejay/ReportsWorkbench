@@ -1,21 +1,17 @@
 package com.tminions.app.screenController;
 
 
-import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.charts.ChartUtils;
 import com.tminions.app.charts.GenerateBarChartReport;
 import com.tminions.app.charts.GeneratePieChartReport;
 import com.tminions.app.controllers.GenerateReportsController;
 import com.tminions.app.jsonMaker.JsonMaker;
 import com.tminions.app.models.ReportDataModel;
-import com.tminions.app.pdfMaker.PdfMaker;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class ReportGenerationScreenController {
 
