@@ -4,18 +4,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sun.tools.corba.se.idl.StringGen;
 import com.tminions.app.clientRecord.ClientRecord;
 import com.tminions.app.fileParsers.ExcelParser;
 import com.tminions.app.models.ReportDataModel;
 import com.tminions.app.models.TrendReportDataModel;
-import jdk.nashorn.internal.parser.JSONParser;
-import org.apache.commons.lang3.RegExUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
