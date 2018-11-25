@@ -1,6 +1,7 @@
 package com.tminions.app;
 
 import com.tminions.app.controllers.DataUploadController;
+import com.tminions.app.controllers.TemplateController;
 import com.tminions.app.fileParsers.ExcelParser;
 import com.tminions.app.jsonMaker.JsonMaker;
 import javafx.beans.value.ChangeListener;
@@ -83,8 +84,6 @@ public class DataUploadScreenController {
             HttpResponse<JsonNode> res = DataUploadController.uploadData(username, json);
             if (res != null && (res.getStatus() == 200)){
                 AlertBox.display("Result Successful", json);
-            }else{
-                System.out.println("Transmission of json data failed");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,12 +111,7 @@ public class DataUploadScreenController {
     }
 
     private ObservableList<String> getTemplates() {
-        // TODO: Replace with actual code to get templates frm wherever they are stored
-        return FXCollections.observableArrayList(
-                "Employment Services",
-                "Information and Orientation",
-                "Other Services"
-        );
+        return FXCollections.observableArrayList(TemplateController.getAllTemplateNames());
     }
 
     private void updateUploadButton() {
