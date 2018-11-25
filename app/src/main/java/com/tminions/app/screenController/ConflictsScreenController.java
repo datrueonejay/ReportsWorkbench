@@ -14,9 +14,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 
 import java.util.*;
 
@@ -141,27 +139,6 @@ public class ConflictsScreenController {
                     }
                 }
             });
-
-//              Possible TableView implementation
-//            // Find column names and add to table
-//            for (String columnName : columnToValues.keySet()) {
-//                // Create new column
-//                TableColumn<Map<String, String>, String> curr = new TableColumn(columnName);
-//                // Whenever a cell is needed, check the property
-//                curr.setCellValueFactory(person -> new SimpleStringProperty(person.getValue().get(columnName)));
-//                // Ensure that the cell maps to the right property
-//
-//
-//                curr.impl_setReorderable(false);
-//                curr.prefWidthProperty().bind(conflictingRows.widthProperty().divide(columnToValues.size()));
-//                curr.setSortable(false);
-//                conflictingRows.getColumns().add(curr);
-//
-//            }
-//            // loop through each person adding them as a row
-//            for (Map<String, String> person : conflict.getConflicts()) {
-//                conflictingRows.getItems().add(person);
-//            }
 
         } else {
             scroller.setVisible(false);

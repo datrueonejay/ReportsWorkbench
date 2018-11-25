@@ -80,7 +80,7 @@ public class DataUploadScreenController {
             // Send request
             HttpResponse<JsonNode> res = DataUploadController.uploadData(username, json);
             if (res != null && (res.getStatus() == 200)){
-                AlertBox.display("Result Successful", json);
+                AlertBox.display("Result Successful", "Data Uploaded Successfully!");
             }
         } catch (IOException e) {
             e.printStackTrace();

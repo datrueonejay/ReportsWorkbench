@@ -3,6 +3,7 @@ package com.tminions.app.controllers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.tminions.app.Utils.AlertBox;
 
 import static com.tminions.app.controllers.BaseController.baseUrl;
 
@@ -26,6 +27,7 @@ public class TrendsDataController
         }
         catch (Exception e)
         {
+            AlertBox.display("Error!", "Failed to get data for given template, please check your connection.");
             return null;
         }
     }

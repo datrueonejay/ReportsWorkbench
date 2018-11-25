@@ -3,6 +3,7 @@ package com.tminions.app.controllers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.models.ConflictModel;
 import com.tminions.app.models.ResolvedConflictModel;
 
@@ -36,6 +37,7 @@ public class ConflictsController extends BaseController {
                     .asJson();
             return response.getStatus() == 200;
         }catch (Exception e){
+            AlertBox.display("Error!", "Failed to send updates, please check your connection.");
             return false;
         }
     }
