@@ -112,6 +112,7 @@ public class JsonMaker {
 
     public static TrendReportDataModel generateTrendDataFromJSON(String jsonString, String trendType, String trendValue, String templateName)
     {
+        String closestColumnValue = "";
         HashMap<String, Integer> trendReportData = new HashMap<>();
 
         String[] categories = AGE_GROUPS;
@@ -145,7 +146,7 @@ public class JsonMaker {
             System.out.println(jsonArray.getJSONObject(0).toString());
             //System.out.println("The trend value is " + trendValue);
 
-            String closestColumnValue = getClosestColumnValue(jsonArray.getJSONObject(0).toString(), trendValue);
+            closestColumnValue = getClosestColumnValue(jsonArray.getJSONObject(0).toString(), trendValue);
 
             String assessmentStartColumnValue = checkIfSubstring(jsonArray.getJSONObject(0).toString(), SERVICE_START_DATE);
 
@@ -197,7 +198,7 @@ public class JsonMaker {
 
         }
 
-        return new TrendReportDataModel(categories, trendReportData, templateName);
+        return new TrendReportDataModel(categories, trendReportData, templateName, closestColumnValue);
     }
 
 

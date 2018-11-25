@@ -13,12 +13,15 @@ public class TrendReportDataModel
     private HashMap<String, Integer> trendReportData;
     private String templateName;
 
+    private String closestColumn;
 
-    public TrendReportDataModel(String[] categories, HashMap<String, Integer> trendReportData, String templateName)
+
+    public TrendReportDataModel(String[] categories, HashMap<String, Integer> trendReportData, String templateName, String closestColumn)
     {
         this.categories = categories;
         this.trendReportData = trendReportData;
         this.templateName = templateName;
+        this.closestColumn = closestColumn;
     }
 
     public String[] getCategories() {
@@ -43,6 +46,14 @@ public class TrendReportDataModel
 
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
+    }
+
+    public String getClosestColumn() {
+        return closestColumn;
+    }
+
+    public void setClosestColumn(String closestColumn) {
+        this.closestColumn = closestColumn;
     }
 
     @Override

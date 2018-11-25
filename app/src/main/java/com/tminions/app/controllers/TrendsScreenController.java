@@ -2,6 +2,7 @@ package com.tminions.app.controllers;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
+import com.tminions.app.AlertBox;
 import com.tminions.app.charts.GenerateBarChartReport;
 import com.tminions.app.charts.GenerateBarGraphForTrends;
 import com.tminions.app.jsonMaker.JsonMaker;
@@ -106,11 +107,13 @@ public class TrendsScreenController
 
         SwingUtilities.invokeLater(() -> {
             GenerateBarGraphForTrends ex = new GenerateBarGraphForTrends(trdm.getTrendReportData(),
-                    "Report for [" + columnValueSelected + "] " + trendReportType,
+                    "Report for [" + trdm.getClosestColumn()+ "] " + trendReportType,
                     "Number of Users",
                      trendReportType,
-                     columnValueSelected);
+                     trdm.getClosestColumn());
         });
+        AlertBox.display("Report Created!", String.format("File is at %s\\%s", System.getProperty("user.dir"), "Trend Report For " + trdm.getClosestColumn() + ".pdf"));
+
 
 
 //
