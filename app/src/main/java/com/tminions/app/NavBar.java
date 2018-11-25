@@ -16,10 +16,14 @@ public class NavBar {
 	    Menu lastMenu = new Menu("Last Uploaded");
 	    this.onAction(lastMenu, "organizationLastUploadedScreen");
 	    menubar.getMenus().add(lastMenu);
-	    //i did this
-	    Menu reportMenu = new Menu("Custom Reports");
-	    this.onAction(reportMenu, "customReportGenerationScreen");
+	    
+	    Menu reportMenu = new Menu("Reports");
+	    this.onAction(reportMenu, "reportGenerationScreen");
 	    menubar.getMenus().add(reportMenu);
+	    
+	    Menu customReportMenu = new Menu("Custom Reports");
+	    this.onAction(customReportMenu, "customReportGenerationScreen");
+	    menubar.getMenus().add(customReportMenu);
 	    
 	    Menu conflictMenu = new Menu("Conflicts");
 	    this.onAction(conflictMenu, "conflictsScreen");
