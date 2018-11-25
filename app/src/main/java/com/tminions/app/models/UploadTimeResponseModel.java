@@ -1,7 +1,6 @@
 package com.tminions.app.models;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UploadTimeResponseModel {
     private ArrayList<OrgUploadTimeModel> allTimings;
