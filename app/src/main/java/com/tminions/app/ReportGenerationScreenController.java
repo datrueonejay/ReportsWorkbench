@@ -69,8 +69,10 @@ public class ReportGenerationScreenController {
 
         HashMap<String, String[][]> reportData = rdm.getReportData();
         String[][] columnData = reportData.get(columns[0]);
+        
+        
 
-        GenerateBarChartReport ex = new GenerateBarChartReport(columnData, columnType, "Amount", "Columns");
+        //GenerateBarChartReport ex = new GenerateBarChartReport(columnData, columnType, "Amount", "Columns");
         
     }
     
@@ -82,7 +84,7 @@ public class ReportGenerationScreenController {
         HashMap<String, String[][]> reportData = rdm.getReportData();
         String[][] columnData = reportData.get(columns[0]);
     	
-        GeneratePieChartReport gpcr = new GeneratePieChartReport(columnData, columnType);
+        //GeneratePieChartReport gpcr = new GeneratePieChartReport(columnData, columnType);
     }
 
 }

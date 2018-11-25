@@ -12,8 +12,8 @@
 
 	<columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
-        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
-        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="70.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
     </columnConstraints>
 
@@ -46,6 +46,5 @@
     <Button onAction="#selectBarChart" prefWidth="Infinity" text="Bar chart report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="4" />
 
     <Button onAction="#selectPieChart" prefWidth="Infinity" text="Pie chart report" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.rowIndex="4" />
-
 
 </GridPane>

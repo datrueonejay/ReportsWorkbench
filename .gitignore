@@ -19,5 +19,5 @@ app/.settings/
 *.synctex.gz
 *.toc
 
-/app/*.png
-/app/*.pdf
+app/*.png
+app/*.pdf

@@ -18,9 +18,12 @@ public class NavBar {
 	    menubar.getMenus().add(lastMenu);
 	    //i did this
 	    Menu reportMenu = new Menu("Custom Reports");
-	    this.onAction(reportMenu, "reportGenerationScreen");
+	    this.onAction(reportMenu, "customReportGenerationScreen");
 	    menubar.getMenus().add(reportMenu);
 	    
+	    Menu conflictMenu = new Menu("Conflicts");
+	    this.onAction(conflictMenu, "conflictsScreen");
+	    menubar.getMenus().add(conflictMenu);
 		return menubar;
 	}
 	

@@ -21,13 +21,15 @@ public class GenerateBarChartReport extends JFrame
     private final int DEFAULT_SIZE = 15;
     private final Color DEFAULT_COLOR = Color.white;
     private final String DEFAULT_ROW_KEY = "Occurrences in database";
-    private final String DEFAULT_FILE_NAME = "BarChart.png";
+    private String filePath;
     private final int DEFAULT_FILE_WIDTH = 600;
     private final int DEFAULT_FILE_HEIGHT = 600;
 
     public GenerateBarChartReport(String[][] columnData, String graphTitle,
-                                  String valueAxisLabel, String categoryAxisLabel)
+                                  String valueAxisLabel, String categoryAxisLabel,
+                                  String filePath)
     {
+        this.filePath = filePath;
         initUI(columnData, graphTitle, valueAxisLabel, categoryAxisLabel);
     }
 
@@ -45,7 +47,7 @@ public class GenerateBarChartReport extends JFrame
         chartPanel.setBackground(DEFAULT_COLOR);
         add(chartPanel);
 
-        ChartUtils.createPNGfromChart(chart, DEFAULT_FILE_NAME, DEFAULT_FILE_HEIGHT, DEFAULT_FILE_WIDTH);
+        ChartUtils.createPNGfromChart(chart, filePath, DEFAULT_FILE_HEIGHT, DEFAULT_FILE_WIDTH);
 
         pack();
         setTitle(graphTitle);

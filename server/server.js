@@ -137,6 +137,21 @@ app.get('/reports/get-report-data/', function (req, res, next) {
     })
 })
 
+//TaskC conflict feature
+app.get('/conflict', function(req, res, next) {
+	const dc = Database.getDatabaseRoot().collection('CONFLICTS')
+	//can also use findOne() but need to make sure it works
+	.find()
+	.toArray(function (err, conflicts) {
+		if(err) return res.status(500).end(err);
+
+		//get the first conflict
+		response = conflicts[0]
+    console.log(response);
+		res.status(200).send(response);
+	})
+})
+
 app.post('/reports/get-data/', function(req, res, next) {
   console.log(req.body);
   const reportTemplateType = req.body.template_name;
@@ -200,14 +215,15 @@ app.post('/reports/get-data/', function(req, res, next) {
 
 app.post('/reports/new-report/', function (req, res, next) {
   const reportTemplateType = Object.keys(req.body)[0]
-  const reportData = req.body[reportTemplateType]
+  const reportData = req.body[reportTemplateType] //reportData is map of {client1->data, client2->data} etc...
 
   console.log("Recieved upload request from: "+ req.headers['user-id'])
 
-  for (const row in reportData) {
-    // Set ID of row
-    reportData._id = row
-    Database.enterRow(reportTemplateType, row, reportData[row]).catch((err) => {
+  for (const row in reportData) { //row represents one client object's key
+    var rowData = reportData[row]; //holds one client's object's value
+    rowData._id = row; // set client object's value's id key to client object's key
+    Database.enterRow(reportTemplateType, row, rowData).catch((err) => {
+      console.log("error in server.js");
       return res.status(500).end(err)
     })
 
@@ -247,7 +263,6 @@ app.post('/reports/new-report/', function (req, res, next) {
   })
   res.status(200).send('{}')
 })
-
 
 //mid-level query TASK C
 
@@ -292,4 +307,22 @@ app.get('/templates/all-templates/', function(req, res, next) {
 
     res.status(200).send(templateNames);
   });
+})
+
+//Insert new row in corresponding template collection. Delete conflict object in conflict table  (Joey) /conflict
+app.post('/conflict', function(req, res) {
+   // Insert new row in corresponding template collection.
+   console.log(req.body);
+   const template_name = req.body.template_name
+   const resolution = req.body.resolution
+   const id = req.body.unique_identifier
+   const conflict_id = req.body.conflict_id
+   Database.deleteRow("CONFLICTS", '_id', id).then(()=>{
+     Database.enterRow(template_name, id, resolution).then(()=>{
+       res.status(200).send('{}')
+       })
+   }).catch((err)=>{
+     console.log(err);
+   })
+   // Delete conflict object in conflicts table
 })
