@@ -271,7 +271,8 @@ app.post('/reports/get-data/', function(req, res, next) {
       }
     }
 
-    console.log("The value of the data at the end is" + data);
+    console.log("The value of the data at the end is");
+    console.log(data);
 
     return res.json({
       report_name: reportTemplateType,
@@ -337,6 +338,51 @@ app.post('/reports/new-report/', function (req, res, next) {
     console.log(err)
   })
   res.status(200).send('{}')
+})
+
+//mid-level query TASK C
+
+app.get('/templates/template', function(req, res, next) {
+  const TEMPLATE_NAME = req.headers['template_name']
+
+  const thing = Database.getDatabaseRoot().collection('TEMPLATES')
+  .find({_id: TEMPLATE_NAME}) //get specific Template
+  .toArray(function(err, columns) {
+    if(err) return res.status(500).end(err);
+
+    //delete id
+    delete columns[0]._id
+
+    response = columns[0]
+    res.status(200).send(response);
+  });
+})
+
+
+// mid-level query taskB:
+// Get Endpoint to return names of all templates
+
+app.get('/templates/all-templates/', function(req, res, next) {
+  Database.getDatabaseRoot().collection('TEMPLATES')
+  .find() //get all the documents in the collection
+  .sort({"_id": 1}) //sort them by id in ascending order
+  .toArray(function(err, templates) {
+    if(err) return res.status(500).end(err);
+
+    templateNames = [];
+
+    for (var i = 0; i < templates.length; i++)
+    {
+      var templateName = templates[i]._id;
+      templateNames.push(templateName);
+    }
+
+    response = {
+      Template_Names : templateNames
+    }
+
+    res.status(200).send(templateNames);
+  });
 })
 
 //Insert new row in corresponding template collection. Delete conflict object in conflict table  (Joey) /conflict

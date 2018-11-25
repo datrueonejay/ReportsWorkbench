@@ -3,8 +3,6 @@ package com.tminions.app.fileParsers;
 import com.tminions.app.Normalizer.InvalidFormatException;
 import com.tminions.app.Normalizer.Normalizer;
 import com.tminions.app.clientRecord.ClientRecord;
-import org.apache.commons.lang3.RegExUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -113,9 +111,7 @@ public class ExcelParser {
      * sets this.columnHeaders based on the column headers sheet
      * @param sheet the sheet
      */
-
-    public void setColumnHeaders(Sheet sheet) throws IOException{
-
+    public void setColumnHeaders(Sheet sheet) throws IOException {
         Row headersRow = sheet.getRow(COLUMN_HEADS_ROW);
 
         Row visibleHeadersRow = sheet.getRow(VISIBLE_COLUMN_HEADS_ROW);
