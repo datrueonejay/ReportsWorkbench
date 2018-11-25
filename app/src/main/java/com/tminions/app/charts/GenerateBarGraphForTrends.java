@@ -1,10 +1,8 @@
 package com.tminions.app.charts;
 
-import com.tminions.app.AlertBox;
 import com.tminions.app.jsonMaker.JsonMaker;
 import com.tminions.app.pdfMaker.PdfMaker;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
@@ -14,15 +12,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 public class GenerateBarGraphForTrends extends JFrame
 {
-    private final int DEFAULT_SIZE = 15;
-    private final Color DEFAULT_COLOR = Color.white;
-    private final String DEFAULT_ROW_KEY = "Occurrences in database";
     private final int DEFAULT_FILE_WIDTH = 600;
     private final int DEFAULT_FILE_HEIGHT = 600;
 
@@ -43,11 +35,6 @@ public class GenerateBarGraphForTrends extends JFrame
 
         JFreeChart chart = createChart(dataSet, graphTitle,
                 valueAxisLabel, categoryAxisLabel);
-        /*ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setBorder(BorderFactory.createEmptyBorder(DEFAULT_SIZE, DEFAULT_SIZE,
-                DEFAULT_SIZE, DEFAULT_SIZE));
-        chartPanel.setBackground(DEFAULT_COLOR);
-        add(chartPanel);*/
 
         ChartUtils.createPNGfromChart(chart, fullFileName, DEFAULT_FILE_HEIGHT, DEFAULT_FILE_WIDTH);
 

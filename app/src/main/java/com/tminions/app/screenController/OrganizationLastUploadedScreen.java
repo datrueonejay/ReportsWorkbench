@@ -1,4 +1,4 @@
-package com.tminions.app;
+package com.tminions.app.screenController;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,5 +1,6 @@
-package com.tminions.app;
+package com.tminions.app.screenController;
 
+import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.controllers.ConflictsController;
 import com.tminions.app.models.ConflictModel;
 import com.tminions.app.models.ResolvedConflictModel;

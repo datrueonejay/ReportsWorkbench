@@ -1,8 +1,9 @@
-package com.tminions.app;
+package com.tminions.app.screenController;
 
+import com.tminions.app.Utils.AlertBox;
+import com.tminions.app.Utils.SceneController;
 import com.tminions.app.controllers.DataUploadController;
 import com.tminions.app.controllers.TemplateController;
-import com.tminions.app.fileParsers.ExcelParser;
 import com.tminions.app.jsonMaker.JsonMaker;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,12 +16,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.ListView;
-import org.json.*;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.async.Callback;
-import com.mashape.unirest.http.exceptions.UnirestException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

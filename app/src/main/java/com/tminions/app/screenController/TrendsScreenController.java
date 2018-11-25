@@ -1,12 +1,9 @@
-package com.tminions.app.controllers;
+package com.tminions.app.screenController;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.tminions.app.AlertBox;
-import com.tminions.app.charts.GenerateBarChartReport;
+import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.charts.GenerateBarGraphForTrends;
+import com.tminions.app.controllers.TrendsDataController;
 import com.tminions.app.jsonMaker.JsonMaker;
-import com.tminions.app.models.LoginModel;
 import com.tminions.app.models.TrendReportDataModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,15 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import com.tminions.app.controllers.LoginController;
 import javafx.scene.layout.GridPane;
 
 import javax.swing.*;
-import javax.xml.soap.Text;
-import java.beans.EventHandler;
 import java.io.File;
-import java.time.LocalDateTime;
-import java.util.Calendar;
 
 public class TrendsScreenController
 {
@@ -93,17 +85,8 @@ public class TrendsScreenController
     {
         columnValueSelected = columnSelectField.getText();
         String columnData = TrendsDataController.getAllTemplateData(templateType);
-        System.out.println(columnData);
-        System.out.println("The value of column value selected is " + columnValueSelected);
-
-        System.out.println("The value for the trend report type " + trendReportType);
 
         TrendReportDataModel trdm = JsonMaker.generateTrendDataFromJSON(columnData, trendReportType, columnValueSelected, templateType);
-
-
-        System.out.print("---------------------------");
-        System.out.println(trdm.toString());
-
 
         SwingUtilities.invokeLater(() -> {
             GenerateBarGraphForTrends ex = new GenerateBarGraphForTrends(trdm.getTrendReportData(),
@@ -113,17 +96,5 @@ public class TrendsScreenController
                      trdm.getClosestColumn());
         });
         AlertBox.display("Report Created!", String.format("File is at %s\\%s", System.getProperty("user.dir"), "Trend Report For " + trdm.getClosestColumn() + ".pdf"));
-
-
-
-//
-        //System.out.print(JsonMaker.distanceBetweenStrings("sharma", "shwarmar"));
-        // String columnValueSelected = columnSelectField.getText();
-
-        // System.out.println("The value of the column selected was: " + columnValueSelected);
-
-        // System.out.println("The value of the template type is: " + templateType);
-
-        // System.out.println("Generate Trend Report button clicked.");
     }
 }
