@@ -7,82 +7,114 @@ import com.tminions.app.controllers.GenerateReportsController;
 import com.tminions.app.jsonMaker.JsonMaker;
 import com.tminions.app.models.LoginModel;
 import com.tminions.app.models.ReportDataModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.tminions.app.pdfMaker.PdfMaker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class ReportGenerationScreenController {
 
-    private static String defaulTemplate = "Employment Services";
-    @FXML private ComboBox<String> selectTemplate;
-    @FXML private ComboBox<String> selectColumn;
-    private String templateType;
-    private String columnType;
+    private final String reportOneTemplate = "Information and Orientation";
+    private final String reportTwoTemplate = "Employment Services";
 
+    private final String reportFolderPath = "";
 
-    public void initialize()
+    /**
+     * Generates a report for languages
+     */
+    public void selectReport()
     {
-        // Get templates from wherever they are stored
-        selectTemplate.setItems(getTemplates());
-        // Set up listener for when a template type is selected
-        selectTemplate.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue value, String oldSelection, String newSelection) {
-                templateType = newSelection;
-            }
-        });
-
-    }
-
-    private ObservableList<String> getTemplates() {
-        // TODO: Replace with actual code to get templates frm wherever they are stored
-        return FXCollections.observableArrayList(
-                "Client Profile Bulk Template",
-                "Needs Assessment & Referral Service Template",
-                "Employment Related Services Template",
-                "Community Connections Template",
-                "Information & Orientation Template",
-                "Client Enrollment Template",
-                "Course Setup Template",
-                "Client Exit Template"
-        );
-    }
-
-    public void selectBarChart()
-    {
-        System.out.println("Selected Language report.");
-        String[] columns = {"official_language_id"};
-        String serverResponse = GenerateReportsController.getReportData(columns, defaulTemplate);
+        String[] columns = {"service_language_id"};
+        String serverResponse = GenerateReportsController.getReportData(columns, reportOneTemplate);
         ReportDataModel rdm = JsonMaker.convertJsonResponseToRDM(serverResponse);
-        System.out.println(rdm.toString());
 
         HashMap<String, String[][]> reportData = rdm.getReportData();
         String[][] columnData = reportData.get(columns[0]);
 
-//        SwingUtilities.invokeLater(() -> {
-            GenerateBarChartReport ex = new GenerateBarChartReport(columnData, "Language Report",
-                                                                               "Occurrences",
-                                                                             "Languages");
-//            ex.setVisible(true);
-//        });
-//
-//        SwingUtilities.invokeLater(() -> {
-            GeneratePieChartReport gpcr = new GeneratePieChartReport(columnData, "Language Distribution");
-//            gpcr.setVisible(true);
-//        });
+        // Create unique names for files
+        String timeStamp = getDateTimeStamp();
+        String barChartFileName = reportFolderPath + String.format("barchart_%s.png", timeStamp);
+        String pieChartFileName = reportFolderPath + String.format("piechart_%s.png", timeStamp);
+        String reportFilePath = String.format("LanguageReport_%s.pdf", timeStamp);
+        // Create two graphs
+        GenerateBarChartReport chart1 = new GenerateBarChartReport(columnData, "Language Report",
+                "Occurrences",
+                "Languages", barChartFileName);
+        GeneratePieChartReport chart2 = new GeneratePieChartReport(columnData, "Language Distribution",
+                pieChartFileName);
+        // Create pdf report
+        generateReport(reportFilePath, "Language Report", Arrays.asList(barChartFileName, pieChartFileName));
+
     }
-    
-    public void selectPieChart() {
-    	System.out.println("Selected type of Institution/Organization Where Client Received Services.");
-    	String[] columns = {"Type of Institution/Organization Where Client Received Services"};
-    	String serverResponse = GenerateReportsController.getReportData(columns, defaulTemplate);
+
+    /**
+     * Generates a report about where client received services
+     */
+    public void selectReport2() {
+        String[] columns = {"institution_type_id"};
+        String serverResponse = GenerateReportsController.getReportData(columns, reportTwoTemplate);
+        ReportDataModel rdm = JsonMaker.convertJsonResponseToRDM(serverResponse);
+
+        HashMap<String, String[][]> reportData = rdm.getReportData();
+        String[][] columnData = reportData.get(columns[0]);
+
+        // Create unique names for files
+        String timeStamp = getDateTimeStamp();
+        String barChartFileName = reportFolderPath + String.format("barchart_%s.png", timeStamp);
+        String pieChartFileName = reportFolderPath + String.format("piechart_%s.png", timeStamp);
+        String reportFilePath = String.format("PlaceOfServicesReport_%s.pdf", timeStamp);
+        // Create two graphs
+        GenerateBarChartReport chart1 = new GenerateBarChartReport(columnData, "Where Services Were Received",
+                "Occurrences",
+                "Place", barChartFileName);
+        GeneratePieChartReport chart2 = new GeneratePieChartReport(columnData, "Where Services Were Received Distribution",
+                pieChartFileName);
+
+        generateReport(reportFilePath, "Place Services Were Received", Arrays.asList(pieChartFileName, barChartFileName));
+
+    }
+
+    private void generateReport(String filePath, String reportTitle, List<String> chartPaths) {
+        // Instantiate pdf maker
+        try {
+            PdfMaker pdfMaker = new PdfMaker(filePath);
+
+            pdfMaker.addTitle(reportTitle);
+            int xCoord = 50;
+            int yCoord = 350;
+            // Loop through and add graphs to the pdf
+            // This currently fits 4 graphs using this method
+            for (String chartPath : chartPaths) {
+                pdfMaker.addImage(chartPath, xCoord, yCoord, 250, 250);
+                // Move left if we have space
+                if (xCoord == 50) {
+                    xCoord = 300;
+                    // Otherwise move to next row
+                } else {
+                    yCoord -= 300;
+                    xCoord = 50;
+                }
+            }
+
+            pdfMaker.saveAndClose();
+            AlertBox.display("Report Created!", String.format("File is at %s\\%s", System.getProperty("user.dir"), filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertBox.display("Report Creation Failed!", "An error occurred trying to create the report.");
+        }
+    }
+
+    private String getDateTimeStamp() {
+        LocalDateTime currTime = LocalDateTime.now();
+        // Parse time into a timestamp that can be used as part of a file name
+        return currTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
     }
 
 }

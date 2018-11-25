@@ -25,8 +25,8 @@ public class JsonMaker {
 
 
     public static final String[] MONTHS = {"January", "February", "March", "April", "May",
-                                                "June", "July", "August", "September", "October",
-                                                "November", "December"};
+            "June", "July", "August", "September", "October",
+            "November", "December"};
     public static final String[] AGE_GROUPS = {"0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", ">80"};
     public static final String BIRTH_DATE_IN_DATABASE = "client_birth_dt";
     public static final String SERVICE_START_DATE = "start_dt";
@@ -66,7 +66,7 @@ public class JsonMaker {
 
         //need to insert beginning of json ("templateName" : {)
         json = json.replaceFirst("\\A", "\"" + templateName + "\" : {\n")
-            .replaceFirst("\\z", "\n}");
+                .replaceFirst("\\z", "\n}");
 
         // and end (})
 
@@ -305,26 +305,26 @@ public class JsonMaker {
      */
     public static String getClosestColumnValue(String jsonString, String enteredColumnValue)
     {
-       JsonParser parser = new JsonParser();
-       JsonElement element = parser.parse(jsonString);
-       JsonObject obj = element.getAsJsonObject();
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(jsonString);
+        JsonObject obj = element.getAsJsonObject();
 
-       int lowestDistance = 10000;
-       String matchingColumn = "";
-       Set<Map.Entry<String, JsonElement>> entries = obj.entrySet();
-       for(Map.Entry<String, JsonElement> entry: entries)
-       {
-           int newDistance = distanceBetweenStrings(entry.getKey(), enteredColumnValue);
-           if(newDistance < lowestDistance)
-           {
-               lowestDistance = newDistance;
-               matchingColumn = entry.getKey();
+        int lowestDistance = 10000;
+        String matchingColumn = "";
+        Set<Map.Entry<String, JsonElement>> entries = obj.entrySet();
+        for(Map.Entry<String, JsonElement> entry: entries)
+        {
+            int newDistance = distanceBetweenStrings(entry.getKey(), enteredColumnValue);
+            if(newDistance < lowestDistance)
+            {
+                lowestDistance = newDistance;
+                matchingColumn = entry.getKey();
 
-               System.out.println(entry.getKey());
-               System.out.println(lowestDistance);
-           }
-       }
-       return matchingColumn;
+                System.out.println(entry.getKey());
+                System.out.println(lowestDistance);
+            }
+        }
+        return matchingColumn;
     }
 
 
@@ -341,7 +341,7 @@ public class JsonMaker {
         {
             if(entry.getKey().contains(startDateString))
             {
-               matchingColumn = entry.getKey();
+                matchingColumn = entry.getKey();
             }
         }
         return matchingColumn;
@@ -434,7 +434,7 @@ public class JsonMaker {
 
         //for(int j = 0; j < dataValues.length; j++)
         //{
-            //System.out.println("Value : " + dataValues[j]);
+        //System.out.println("Value : " + dataValues[j]);
         //}
 
         return dataValues;

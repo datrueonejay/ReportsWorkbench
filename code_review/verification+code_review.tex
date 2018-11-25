@@ -1,0 +1,233 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{xcolor}
+\usepackage{float}
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+\title{Verification \& Code Review}								% Title
+\author{Thierry's Minions}								% Author
+\date{12 Sept 2015}											% Date
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+\newcommand*{\userstory}[5][.25em]{
+%  \begin{tabular*}{\maincolumnwidth}{l@{\extracolsep{\fill}}r}%
+%    {\bfseries #2} & {\bfseries #4}\\%
+%    {#3}\\%
+%  \end{tabular*}%
+%  \ifx&#5&%
+%  \else{\\%
+%    \begin{minipage}{\maincolumnwidth}%
+%      #5%
+%    \end{minipage}}\fi%
+%  \par\addvspace{#1}
+\textbf{#1} 
+  }
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.25]{leader.png}\\[1.0 cm]	% Team logo
+    \textsc{\LARGE Thierry's Minions/Team25\\[0.5em] Deliverable 4}\\[2.0 cm]	
+	\textsc{\Large CSCC01 Fall 2018}\\[0.5 cm]				% Course Code
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft} \large
+			\emph{Submitted To:}\\
+			Saba Kiaei\\
+            Teaching Assistant\\
+            Computer Science Department\\
+			\end{flushleft}
+			\end{minipage}~
+			\begin{minipage}{0.4\textwidth}
+            
+			\begin{flushright} \large
+			\emph{Submitted By :} \\
+			Rishabh Kaant Sharma\\
+            Joseph Sokolon\\
+            Balaji Badu\\
+            Jayden Arquelada\\
+            Edgar Sarkisian\\
+		\end{flushright}
+        
+	\end{minipage}\\[2 cm]
+	
+	
+    
+    
+    
+    
+	
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textcolor{black}{\tableofcontents}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Code Review Strategy}
+\begin{itemize}%
+\item Every task is created on its own branch. Once a member has completed their work for the task they open up a pull request to merge to the feature branch. 
+\item One team member reviews the code, and if they approve they accept the merge request. If the member doesn’t approve they send it back to the developer and request them to make the necessary changes. 
+\item Once all the tasks have been completed, reviewed and merged into the feature branch a final PR will be created, to merge the feature into master. 
+\item One or more team members will test the feature in its entirety and ensure that it meets the requirement. Then they will merge the feature into master. This effectively “releases the feature”.
+\item During a code review members will follow the code review guidelines. 
+\begin{itemize}
+\item First, read through the task and what its supposed to accomplish. Then read the title and comments of the PR, to get a high level overview of what they did.
+\item Second, go to the files changed section of the PR and read through all the changes made. Members should look for and point out any of the following issues: 
+\begin{enumerate}
+\item Changes made that are irrelevant to the task. 
+\item Changes made that could be implemented better with a design pattern.
+\item Changes made that have or could introduce bugs to the program.
+\end{enumerate}
+\item Thirdly the reviewer should checkout the branch locally and test themselves to see if the task was implemented correctly.
+\item Finally if everything went well they can approve the changes and accept the merge request.
+\end{itemize}
+ \end{itemize}
+
+\pagebreak
+
+\section{Code Review Summaries}
+\subsection{Balaji} 
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Feature-Normalization                                                                                                                                                                                                                                                                                                                                         \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/21}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & Use of Verifier interface is good for scalability in adding more verifiers in the future. Possibly add more exception classes as to have custom error messages suited for each verifier. Avoid embedded try catch blocks if possible. Overall design is working and is maintainable and scalable. Add more comments and javaDocs in various verifier classes. \\ \hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Edgar}
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Last Upload Feature
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/15}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & Feature was tested and works.
+
+Adds foundation for adding more UI tabs in the future.
+
+Weird glitch was observed that changes the UI when you hover your mouse over the other tab. Tried fixing with the team but after an hour we decided to merge the feature and raise an Issue (\url{https://github.com/CSCC01/Team25/issues/16}), since the glitch doesn’t directly impede the workflow.
+ \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Joey}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Generate Report - Task C
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/17}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & Code is very simple and effective. 
+
+Comments are good.
+
+Server.js is getting very large, violates single responsibility principle.
+ \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Data Normalization - Task C
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/8}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & The refactoring on controllers is good. They now only return what we need.
+The refactoring on server is good too. Keep consistent with design to keep database stuff in database.js
+
+ \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Rishabh}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Last Upload - Task D
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/13}                                                                                                                                                                                                                                                                                                                      \\ \hline
+
+Comments:     & Code looks well and organized. There is a lot of emphasis on implementing design patterns such as the singleton pattern. The use of inheritance makes it rather easy for a new developer to add more functionality such as adding a new controller for a different feature.
+ \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Jayden}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Last Upload - Task A
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/10}                                                                                                                                                                                                                                                                                                                      \\ \hline
+
+Comments:     & Code is simple and gets the job done well.
+
+Debug statements should be removed once the feature is working and tested.
+
+ \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Last Upload - Task C
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/12}                                                                                                                                                                                                                                                                                                                      \\ \hline
+
+Comments:     & Endpoint for getting organizations upload time works well.
+
+Good separation between database transaction and actual server endpoint.
+
+Some more comments could be added, and debug statements can be removed once feature is working and tested.
+
+
+ \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Code Review Debriefing Meeting}
+
+https://drive.google.com/file/d/1jIUatbCD4GD0IFXS6WhI2L4zzy0ieBz8/view
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{biblist}
+
+\end{document}

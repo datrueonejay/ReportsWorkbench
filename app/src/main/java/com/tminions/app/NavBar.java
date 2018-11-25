@@ -25,6 +25,10 @@ public class NavBar {
 	    this.onAction(trendMenu, "reportTrendGenerationScreen");
 	    menubar.getMenus().add(trendMenu);
 	    
+	    Menu conflictMenu = new Menu("Conflicts");
+	    this.onAction(conflictMenu, "conflictsScreen");
+	    menubar.getMenus().add(conflictMenu);
+
 		return menubar;
 	}
 	

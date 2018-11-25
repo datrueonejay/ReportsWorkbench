@@ -1,5 +1,7 @@
 package com.tminions.app.fileParsers;
 
+import com.tminions.app.Normalizer.InvalidFormatException;
+import com.tminions.app.Normalizer.Normalizer;
 import com.tminions.app.clientRecord.ClientRecord;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,9 +18,15 @@ import java.util.*;
 public class ExcelParser {
 
     /**
-     * 0-based index of row where columns names are in excelFile
+     * 0-based index of row where invisible, unique columns names
+     * are in excelFile
      */
-    static final int COLUMN_HEADS_ROW = 2;
+    static final int COLUMN_HEADS_ROW = 1;
+
+    /**
+     * 0-based index of row where visible columns names are in excelFile
+     */
+    static final int VISIBLE_COLUMN_HEADS_ROW = 2;
 
     /**
      * 0-based index of row where the clients records start in excelFile
@@ -32,6 +40,9 @@ public class ExcelParser {
 
     private File excelFile;
     private List<String> columnHeaders;
+
+    private List<String> visibleColumnHeaders;
+
 
     public Workbook getWb() {
         return wb;
@@ -78,6 +89,7 @@ public class ExcelParser {
         fis.close();
 
         this.columnHeaders = new ArrayList<>();
+        this.visibleColumnHeaders = new ArrayList<>();
     }
 
     /**
@@ -101,11 +113,14 @@ public class ExcelParser {
      * sets this.columnHeaders based on the column headers sheet
      * @param sheet the sheet
      */
-    public void setColumnHeaders(Sheet sheet) throws IOException
-    {
-        Row row = sheet.getRow(COLUMN_HEADS_ROW);
 
-        Iterator<Cell> iter = row.cellIterator();
+    public void setColumnHeaders(Sheet sheet) throws IOException{
+
+        Row headersRow = sheet.getRow(COLUMN_HEADS_ROW);
+
+        Row visibleHeadersRow = sheet.getRow(VISIBLE_COLUMN_HEADS_ROW);
+
+        Iterator<Cell> iter = headersRow.cellIterator();
 
         while (iter.hasNext()) {
             Cell cell = iter.next();
@@ -113,6 +128,7 @@ public class ExcelParser {
                 throw new IOException("All column headers in excel file must be Strings");
             } else {
                 this.columnHeaders.add(cell.getStringCellValue());
+                this.visibleColumnHeaders.add(visibleHeadersRow.getCell(cell.getColumnIndex()).getStringCellValue());
             }
         }
     }
@@ -123,6 +139,7 @@ public class ExcelParser {
      * @return ArrayList of ClientRecord representing the clients in sheet
      */
     public ArrayList<ClientRecord> readClients(Sheet sheet) {
+
         ArrayList<ClientRecord> clients = new ArrayList<ClientRecord>();
 
         // get to the rowIndex-th row
@@ -154,21 +171,30 @@ public class ExcelParser {
             if (empty)
                 break;
 
-            // build a client's data hashmap with the data in that row's cells
-            HashMap<String, String> clientMap = new HashMap<>();
+            // build a client with the data in that row's cells
+            ClientRecord client = new ClientRecord();
             Iterator<Cell> cellIterator = row.cellIterator();
             int col = 0;
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
+                // only add a key-value if the value exists (aka cell isn't blank)
                 if (cell.getCellType() != CellType.BLANK){
-                    // only add a key-value if the value exists (aka cell isn't blank)
-                    clientMap.put(this.columnHeaders.get(col), cell.getStringCellValue());
+
+                    // check if it passes Normalizer
+                    try {
+                        String data = Normalizer.verify(cell.getStringCellValue(), this.visibleColumnHeaders.get(col));
+                        client.put(this.columnHeaders.get(col), data);
+
+                    } catch (InvalidFormatException e) {
+                        client.put("valid", "false");
+                        client.putInvalid(this.columnHeaders.get(col), cell.getStringCellValue());
+                    }
+
                 }
                 col++;
             }
 
-            ClientRecord clientRecord = new ClientRecord(clientMap);
-            clients.add(clientRecord);
+            clients.add(client);
         }
 
         return clients;
