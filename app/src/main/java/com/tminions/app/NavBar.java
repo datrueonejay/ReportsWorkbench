@@ -24,10 +24,15 @@ public class NavBar {
 	    Menu customReportMenu = new Menu("Custom Reports");
 	    this.onAction(customReportMenu, "customReportGenerationScreen");
 	    menubar.getMenus().add(customReportMenu);
+
+	    Menu trendMenu = new Menu("Trends Reports");
+	    this.onAction(trendMenu, "reportTrendGenerationScreen");
+	    menubar.getMenus().add(trendMenu);
 	    
 	    Menu conflictMenu = new Menu("Conflicts");
 	    this.onAction(conflictMenu, "conflictsScreen");
 	    menubar.getMenus().add(conflictMenu);
+
 		return menubar;
 	}
 	
