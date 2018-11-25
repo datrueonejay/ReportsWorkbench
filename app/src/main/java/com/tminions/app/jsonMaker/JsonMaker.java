@@ -236,7 +236,9 @@ public class JsonMaker {
     {
         char firstDigitOfPersonsAge = personsAge.charAt(0);
 
-        if(String.valueOf(firstDigitOfPersonsAge).equals("8")) {
+        int ageInIntegers = Integer.parseInt(personsAge);
+
+        if(ageInIntegers > 80) {
             return ">80";
         }
         else if(personsAge.length() == 1)
