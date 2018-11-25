@@ -1,7 +1,9 @@
-package com.tminions.app;
+package com.tminions.app.screenController;
 
+import com.tminions.app.Utils.AlertBox;
+import com.tminions.app.Utils.SceneController;
 import com.tminions.app.controllers.DataUploadController;
-import com.tminions.app.fileParsers.ExcelParser;
+import com.tminions.app.controllers.TemplateController;
 import com.tminions.app.jsonMaker.JsonMaker;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,12 +16,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.ListView;
-import org.json.*;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.async.Callback;
-import com.mashape.unirest.http.exceptions.UnirestException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,7 +73,6 @@ public class DataUploadScreenController {
     public void uploadFiles() {
     	// Get username to include in upload request
     	String username = SceneController.getSceneController().getUsername();
-    	System.out.println("username: "+ username);
         // Parse Json
         ArrayList<File> files = new ArrayList<File>(filesToUpload);
         try {
@@ -83,8 +81,6 @@ public class DataUploadScreenController {
             HttpResponse<JsonNode> res = DataUploadController.uploadData(username, json);
             if (res != null && (res.getStatus() == 200)){
                 AlertBox.display("Result Successful", json);
-            }else{
-                System.out.println("Transmission of json data failed");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,13 +108,8 @@ public class DataUploadScreenController {
     }
 
     private ObservableList<String> getTemplates() {
-        // TODO: Replace with actual code to get templates frm wherever they are stored
-        return FXCollections.observableArrayList(
-                "Employment Services",
-                "Language Training",
-                "Needs Assessment & Referrals",
-                "Other Services"
-        );
+
+        return FXCollections.observableArrayList(TemplateController.getAllTemplateNames());
     }
 
     private void updateUploadButton() {

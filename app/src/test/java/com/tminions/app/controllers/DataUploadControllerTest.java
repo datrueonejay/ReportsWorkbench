@@ -27,7 +27,7 @@ public class DataUploadControllerTest {
 
 	@Test
     @DisplayName("test upload data is successful")
-	void testLoginValid () {
+	void testUploadData () {
         HttpResponse<JsonNode> res = DataUploadController.uploadData(validUsername, testJson);
         assertEquals(200, res.getStatus());
 	}

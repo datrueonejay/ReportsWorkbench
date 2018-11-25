@@ -1,4 +1,4 @@
-package com.tminions.app;
+package com.tminions.app.Utils;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -16,6 +16,22 @@ public class NavBar {
 	    Menu lastMenu = new Menu("Last Uploaded");
 	    this.onAction(lastMenu, "organizationLastUploadedScreen");
 	    menubar.getMenus().add(lastMenu);
+	    
+	    Menu reportMenu = new Menu("Reports");
+	    this.onAction(reportMenu, "reportGenerationScreen");
+	    menubar.getMenus().add(reportMenu);
+	    
+	    Menu customReportMenu = new Menu("Custom Reports");
+	    this.onAction(customReportMenu, "customReportGenerationScreen");
+	    menubar.getMenus().add(customReportMenu);
+
+	    Menu trendMenu = new Menu("Trends Reports");
+	    this.onAction(trendMenu, "reportTrendGenerationScreen");
+	    menubar.getMenus().add(trendMenu);
+	    
+	    Menu conflictMenu = new Menu("Conflicts");
+	    this.onAction(conflictMenu, "conflictsScreen");
+	    menubar.getMenus().add(conflictMenu);
 
 		return menubar;
 	}

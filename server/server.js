@@ -71,6 +71,7 @@ function Authenticate (password, dbPassword) {
  * Will return an error if no user with the user name or return a JSON string with users credentials.
  */
 app.get('/login/org-user/', function (req, res, next) {
+  console.log("The value of user is:" + req.body);
   const reqUsername = req.query['username']
   Database.getAccount(reqUsername).then((result) => {
     if (result === null) {
@@ -136,15 +137,103 @@ app.get('/reports/get-report-data/', function (req, res, next) {
     })
 })
 
+app.post('/trends/all-data/', function (req, res, next) 
+{
+    var reportTemplateType = req.body.template_name;
+    
+    console.log("The type of the report template is: " + reportTemplateType);
+
+    var contraint1Validity = "567";
+
+    Database.getDataBasedOn2Constraints(reportTemplateType, contraint1Validity).then((result) => {
+    
+   
+    /*for(var i = 0; i < result.length; i++)
+    {
+      console.log("The value of if this user is valid: " + result[i].valid);
+    }*/
+
+    var jsonString = JSON.stringify(result);
+
+    console.log("The value of the data is " + jsonString);
+    // Create an object for each column requestd
+    /*for (const colIndex in columns) {
+        const colName = columns[colIndex];
+        console.log("The value of the colName is " + colName);
+        data.push({ column_name: colName, DataFields: [], Data:[]});
+    }
+
+    // Loop through each of the rows from database
+    for (const rowIndex in result) {
+      // get curr row
+      const currRow = result[rowIndex];
+      console.log("The value of the current row index is " + rowIndex);
+      // Loop through each attribute needed, each object in master object
+      for (const attributeIndex in data) {
+        // Reference to the attribute object
+        const currObject = data[attributeIndex];
+        // Get name of column
+        const colName = currObject.column_name;
+        // Get the value of the current row, for the given attribute
+        const value = currRow[colName];
+        console.log("The value of the data is: " + value);
+        // Handle if value is null, ie column requested did not exist
+        if (value == null) {//
+          return res.status(400).end();
+        }
+        // Get index of the value in the column names datafields if exists
+        index = currObject.DataFields.indexOf(value);
+        // Check if value does not exist in datafields for given colName
+        if (index == -1) {
+          index = currObject.DataFields.push(value) - 1;
+          // Add a count for the value of the attribute
+          currObject.Data.push(0);
+        }
+        // Increment the count of that attribute
+        currObject.Data[index] += 1;
+      }
+    }*/
+
+    console.log("The value of the data at the end is" + result);
+
+    return res.json({
+      report_name: reportTemplateType,
+      data: jsonString
+    });
+  
+  }).catch((err) => {
+    return res.status(500).end(err)
+  })
+})
+
+
+//TaskC conflict feature
+app.get('/conflict', function(req, res, next) {
+	const dc = Database.getDatabaseRoot().collection('CONFLICTS')
+	//can also use findOne() but need to make sure it works
+	.find()
+	.toArray(function (err, conflicts) {
+		if(err) return res.status(500).end(err);
+
+		//get the first conflict
+		response = conflicts[0]
+    console.log(response);
+		res.status(200).send(response);
+	})
+})
+
 app.post('/reports/get-data/', function(req, res, next) {
   const reportTemplateType = req.body.template_name;
   // Array of columns we want to get
   const columns = req.body.columns;
+
   Database.getAllRows(reportTemplateType).then((result) => {
     const data = [];
+
     // Create an object for each column requestd
     for (const colIndex in columns) {
         const colName = columns[colIndex];
+        console.log("The value of the colName is " + colName);
         data.push({ column_name: colName, DataFields: [], Data:[]});
     }
 
@@ -176,7 +265,7 @@ app.post('/reports/get-data/', function(req, res, next) {
         currObject.Data[index] += 1;
       }
     }
-
+    console.log(data);
     return res.json({
       report_name: reportTemplateType,
       data: data
@@ -186,16 +275,20 @@ app.post('/reports/get-data/', function(req, res, next) {
   })
 })
 
+
+
+
 app.post('/reports/new-report/', function (req, res, next) {
   const reportTemplateType = Object.keys(req.body)[0]
-  const reportData = req.body[reportTemplateType]
+  const reportData = req.body[reportTemplateType] //reportData is map of {client1->data, client2->data} etc...
 
   console.log("Recieved upload request from: "+ req.headers['user-id'])
 
-  for (const row in reportData) {
-    // Set ID of row
-    reportData._id = row
-    Database.enterRow(reportTemplateType, row, reportData[row]).catch((err) => {
+  for (const row in reportData) { //row represents one client object's key
+    var rowData = reportData[row]; //holds one client's object's value
+    rowData._id = row; // set client object's value's id key to client object's key
+    Database.enterRow(reportTemplateType, row, rowData).catch((err) => {
+      console.log("error in server.js");
       return res.status(500).end(err)
     })
 
@@ -203,6 +296,9 @@ app.post('/reports/new-report/', function (req, res, next) {
     //   if (err) return res.status(500).end(err)
     // })
   }
+
+
+
 
   // make date string
   var today = new Date();
@@ -235,3 +331,151 @@ app.post('/reports/new-report/', function (req, res, next) {
   })
   res.status(200).send('{}')
 })
+
+//mid-level query TASK C
+
+app.get('/templates/template', function(req, res, next) {
+  const TEMPLATE_NAME = req.headers['template_name']
+
+  const thing = Database.getDatabaseRoot().collection('TEMPLATES')
+  .find({_id: TEMPLATE_NAME}) //get specific Template
+  .toArray(function(err, columns) {
+    if(err) return res.status(500).end(err);
+
+    //delete id
+    delete columns[0]._id
+
+    response = columns[0]
+    res.status(200).send(response);
+  });
+})
+
+
+// mid-level query taskB:
+// Get Endpoint to return names of all templates
+
+app.get('/templates/all-templates/', function(req, res, next) {
+  Database.getDatabaseRoot().collection('TEMPLATES')
+  .find() //get all the documents in the collection
+  .sort({"_id": 1}) //sort them by id in ascending order
+  .toArray(function(err, templates) {
+    if(err) return res.status(500).end(err);
+
+    templateNames = [];
+
+    for (var i = 0; i < templates.length; i++)
+    {
+      var templateName = templates[i]._id;
+      templateNames.push(templateName);
+    }
+
+    response = {
+      Template_Names : templateNames
+    }
+
+    res.status(200).send(templateNames);
+  });
+})
+
+//Insert new row in corresponding template collection. Delete conflict object in conflict table  (Joey) /conflict
+app.post('/conflict', function(req, res) {
+   // Insert new row in corresponding template collection.
+   console.log(req.body);
+   const template_name = req.body.template_name
+   const resolution = req.body.resolution
+   const id = req.body.unique_identifier
+   const conflict_id = req.body.conflict_id
+   Database.deleteRow("CONFLICTS", '_id', id).then(()=>{
+     Database.enterRow(template_name, id, resolution).then(()=>{
+       res.status(200).send('{}')
+       })
+   }).catch((err)=>{
+     console.log(err);
+   })
+   // Delete conflict object in conflicts table
+})
+
+app.get('/reports/population-report', function(req, res) {
+  const responseData = []
+  // distribution of age from needs & assesments refferals
+  const data1 = getAgeDistribution("Needs Assessment \& Referrals", "Needs & Assessment - Population Age Distribution")
+  const data2 = getAgeDistribution("Employment Services", "Employment Related Services - Population Age Distribution")
+  const data3 = getAgeDistribution("Language Training", "Language Training - Population Age Distribution")
+  const data4 = getChildMindingData()
+  Promise.all([data1, data2, data3, data4]).then((resultArray)=>{
+    const response = {report_name: "Population Report", columns: [
+      "Needs & Assessment - Population Age Distribution",
+      "Employment Related Services - Population Age Distribution",
+      "Language Training - Population Age Distribution",
+      "Needs Childminding by Service"
+    ], data: resultArray }
+    console.log(response);
+    res.status(200).send(response)
+  })
+})
+
+function getAge (birthDate) {
+  const birthYear = parseInt(birthDate.slice(0, 4))
+  const currentYear = (new Date()).getFullYear()
+  const age = currentYear - birthYear
+  return age
+}
+
+function getAgeDistribution(templateName, columnName) {
+  const ageDist = { column_name: columnName}
+  let less30 = 0
+  let between30_49 = 0
+  let over49 = 0
+  return Database.getAllRows(templateName).then((data)=>{
+    for (const key in data){
+      const person = data[key]
+      if (person.client_birth_dt){
+        const age = getAge(person.client_birth_dt)
+        if (age < 30){
+          less30 += 1
+        } else if (age < 49){
+          between30_49 += 1
+        } else {
+          over49 += 1
+        }
+      }
+    }
+    ageDist.Data = [less30, between30_49, over49]
+    ageDist.DataFields = ["Under 30 Years Old", "Between 30 and 49 Years Old", "50 Years Old +"]
+    return ageDist
+  })
+}
+
+function getChildMindingData() {
+    const data1 = Database.getAllRows("Needs Assessment \& Referrals")
+    const data2 = Database.getAllRows("Employment Services")
+    const data3 = Database.getAllRows("Language Training")
+    const childPercent = { column_name: "Needs childminding by Service"}
+    let overall = 0
+    let langTrain = 0
+    let employServ = 0
+    return Promise.all([data1, data2, data3]).then((resultArray)=>{
+      overall = getChildMindingPercent(resultArray[0])
+      langTrain = getChildMindingPercent(resultArray[1])
+      employServ = getChildMindingPercent(resultArray[2])
+      console.log(overall, langTrain, employServ);
+      childPercent.Data = [overall, langTrain, employServ]
+      childPercent.DataFields = ["All Clients", "Language Training", "Employment Related Services"]
+      return childPercent
+    })
+}
+
+function getChildMindingPercent(data) {
+  let yes = 0
+  let total = 0
+  for (const id in data) {
+    const person = data[id]
+    if (person.childminding_ind) {
+      total += 1
+      if (person.childminding_ind === "Yes") {
+        yes += 1
+      }
+    }
+  }
+  return Math.round((yes/total)*100)
+}

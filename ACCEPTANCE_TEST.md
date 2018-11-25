@@ -32,6 +32,16 @@
    (date format: YYYY-MM-DD, phone number: ###-###-####, Postal Code: A#A#A#)
 7. All clients with \_id that begin with "inval" should have attribute "valid" = "false" and the column that is mentioned in their \_id should be listed in their "invalid_columns" attribute.
 
+### Conflict Resolution
+1. After loggin in, trigger a conflict by uploading an iCare template with one client twice without changing the Template Type dropdown.
+2. Click on the "Conflicts" tab in the top nav bar. 
+3. You should see two columns of the client's information for every column provided, with an empty column on the very right for the resolved values.
+4. Enter the resolved values (or click "Copy all non-conflicting fields".
+5. Click Submit.
+6. [Login to MongoDB Atlas](#to-login-to-mongodb-atlas), navigate to the collection that corresponds to the tepmlate type dropdown selection and verify that one instance of the client was inserted into the collection.
+7. Repeat steps 1 to 6 but change the mock iCare template to include 2 or more clients. When resolving the conflicts, after clicking on submit for the first client it should automatically update the screen to show the next conflicting client.
+8. Repeat steps 1 to 6 and 7 but upload the iCare template 3 or more times. When resolving the conflict, it should display all the 3+ conflicting clients' information.
+
 #### To login to MongoDB Atlas: 
 1. Visit https://www.mongodb.com/cloud
 2. Sign in with Username: joseph.sokolon@mail.utoronto.ca, password: thierry25$$

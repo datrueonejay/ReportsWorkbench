@@ -18,3 +18,6 @@ app/.settings/
 *.log
 *.synctex.gz
 *.toc
+
+app/*.png
+app/*.pdf

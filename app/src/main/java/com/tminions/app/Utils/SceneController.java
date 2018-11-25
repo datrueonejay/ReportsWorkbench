@@ -1,14 +1,12 @@
-package com.tminions.app;
+package com.tminions.app.Utils;
 
 import java.io.IOException;
-import java.net.URL;
 
 import com.tminions.app.models.LoginModel;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
