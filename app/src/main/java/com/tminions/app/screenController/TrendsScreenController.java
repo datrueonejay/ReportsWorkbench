@@ -2,6 +2,7 @@ package com.tminions.app.screenController;
 
 import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.charts.GenerateBarGraphForTrends;
+import com.tminions.app.controllers.TemplateController;
 import com.tminions.app.controllers.TrendsDataController;
 import com.tminions.app.jsonMaker.JsonMaker;
 import com.tminions.app.models.TrendReportDataModel;
@@ -67,17 +68,7 @@ public class TrendsScreenController
     }
 
     private ObservableList<String> getTemplates() {
-        // TODO: Replace with actual code to get templates frm wherever they are stored
-        return FXCollections.observableArrayList(
-                  "Client Profile",
-                "Needs Assessment & Referrals",
-                "Community Connections",
-                "Info and Orientation",
-                "Employment Services",
-                "LT Client Enrol",
-                "LT Course Setup",
-                "LT Client Exit"
-        );
+        return FXCollections.observableArrayList(TemplateController.getAllTemplateNames());
     }
 
 

@@ -12,6 +12,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.util.*;
 
@@ -35,10 +40,17 @@ public class ConflictsScreenController {
     public void updateScreen() {
         grid.getChildren().clear();
         // Get a conflict
-        this.conflict = getConflict();
-        System.out.println(conflict);
+        this.conflict = ConflictsController.getConflict();
         // If conflict does not exist, show that no conflicts found
-        conflictsText.setText(conflict == null ? "No conflicts found!" : "Please fix the conflict below in Template: " + conflict.getTemplate_name());
+        if (conflict != null) {
+        	conflictsText.setText("Please fix the conflict below in Template: " + conflict.getTemplate_name());
+        	conflictsText.setTextFill(Color.RED);
+        	conflictsText.setFont(Font.font("Verdana", FontWeight.NORMAL, 12));
+        } else {
+        	conflictsText.setText("All Conflicts Resolved!");
+        	conflictsText.setTextFill(Color.GREEN);
+        	conflictsText.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        }
         // Show conflict data if it is not null
         if (conflict != null) {
             // Get map of column names to values for first person in list
