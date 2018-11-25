@@ -3,6 +3,7 @@ package com.tminions.app.controllers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.tminions.app.Utils.AlertBox;
 
 import static com.tminions.app.controllers.BaseController.baseUrl;
 
@@ -15,8 +16,6 @@ public class TrendsDataController
 
         String jsonSent = "{" + '"' + "template_name" + '"' + ":" + '"' + templateName + '"' + "}";
 
-        System.out.println(jsonSent);
-
         try
         {
             response = Unirest.post(baseUrl + "/trends/all-data/")
@@ -28,7 +27,7 @@ public class TrendsDataController
         }
         catch (Exception e)
         {
-            System.out.println("Transmission of json failed");
+            AlertBox.display("Error!", "Failed to get data for given template, please check your connection.");
             return null;
         }
     }

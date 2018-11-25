@@ -2,6 +2,7 @@ package com.tminions.app.controllers;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
+import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.models.TemplateColumnsModel;
 
 import java.util.Arrays;
@@ -23,8 +24,7 @@ public class TemplateController extends BaseController {
                     .asObject(String[].class);
             return Arrays.asList(response.getBody());
         }catch (Exception e){
-        	e.printStackTrace();
-            System.out.println("Transmission of json failed");
+            AlertBox.display("Error!", "Failed to get template names, please check your connection.");
             return Collections.emptyList();
         }
     }
@@ -44,6 +44,7 @@ public class TemplateController extends BaseController {
                     .asObject(TemplateColumnsModel.class);
             return response.getBody();
         }catch (Exception e){
+            AlertBox.display("Error!", "Failed to get template columns, please check your connection.");
             return null;
         }
     }

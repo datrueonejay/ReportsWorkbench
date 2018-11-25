@@ -1,5 +1,6 @@
-package com.tminions.app;
+package com.tminions.app.screenController;
 
+import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.controllers.ConflictsController;
 import com.tminions.app.models.ConflictModel;
 import com.tminions.app.models.ResolvedConflictModel;
@@ -11,6 +12,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.*;
 
@@ -35,9 +39,16 @@ public class ConflictsScreenController {
         grid.getChildren().clear();
         // Get a conflict
         this.conflict = getConflict();
-        System.out.println(conflict);
         // If conflict does not exist, show that no conflicts found
-        conflictsText.setText(conflict == null ? "No conflicts found!" : "Please fix the conflict below in Template: " + conflict.getTemplate_name());
+        if (conflict != null) {
+        	conflictsText.setText("Please fix the conflict below in Template: " + conflict.getTemplate_name());
+        	conflictsText.setTextFill(Color.RED);
+        	conflictsText.setFont(Font.font("Verdana", FontWeight.NORMAL, 12));
+        } else {
+        	conflictsText.setText("All Conflicts Resolved!");
+        	conflictsText.setTextFill(Color.GREEN);
+        	conflictsText.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        }
         // Show conflict data if it is not null
         if (conflict != null) {
             // Get map of column names to values for first person in list
@@ -128,27 +139,6 @@ public class ConflictsScreenController {
                     }
                 }
             });
-
-//              Possible TableView implementation
-//            // Find column names and add to table
-//            for (String columnName : columnToValues.keySet()) {
-//                // Create new column
-//                TableColumn<Map<String, String>, String> curr = new TableColumn(columnName);
-//                // Whenever a cell is needed, check the property
-//                curr.setCellValueFactory(person -> new SimpleStringProperty(person.getValue().get(columnName)));
-//                // Ensure that the cell maps to the right property
-//
-//
-//                curr.impl_setReorderable(false);
-//                curr.prefWidthProperty().bind(conflictingRows.widthProperty().divide(columnToValues.size()));
-//                curr.setSortable(false);
-//                conflictingRows.getColumns().add(curr);
-//
-//            }
-//            // loop through each person adding them as a row
-//            for (Map<String, String> person : conflict.getConflicts()) {
-//                conflictingRows.getItems().add(person);
-//            }
 
         } else {
             scroller.setVisible(false);

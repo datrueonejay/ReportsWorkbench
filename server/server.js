@@ -137,17 +137,17 @@ app.get('/reports/get-report-data/', function (req, res, next) {
     })
 })
 
-app.post('/trends/all-data/', function (req, res, next) 
+app.post('/trends/all-data/', function (req, res, next)
 {
     var reportTemplateType = req.body.template_name;
-    
+
     console.log("The type of the report template is: " + reportTemplateType);
 
     var contraint1Validity = "567";
 
     Database.getDataBasedOn2Constraints(reportTemplateType, contraint1Validity).then((result) => {
-    
-   
+
+
     /*for(var i = 0; i < result.length; i++)
     {
       console.log("The value of if this user is valid: " + result[i].valid);
@@ -200,7 +200,7 @@ app.post('/trends/all-data/', function (req, res, next)
       report_name: reportTemplateType,
       data: jsonString
     });
-  
+
   }).catch((err) => {
     return res.status(500).end(err)
   })
@@ -250,22 +250,20 @@ app.post('/reports/get-data/', function(req, res, next) {
         // Get the value of the current row, for the given attribute
         const value = currRow[colName];
         // Handle if value is null, ie column requested did not exist
-        if (value == null) {
-          return res.status(400).end();
+        if (value != null) {
+          // Get index of the value in the column names datafields if exists
+          index = currObject.DataFields.indexOf(value);
+          // Check if value does not exist in datafields for given colName
+          if (index == -1) {
+            index = currObject.DataFields.push(value) - 1;
+            // Add a count for the value of the attribute
+            currObject.Data.push(0);
+          }
+          // Increment the count of that attribute
+          currObject.Data[index] += 1;
         }
-        // Get index of the value in the column names datafields if exists
-        index = currObject.DataFields.indexOf(value);
-        // Check if value does not exist in datafields for given colName
-        if (index == -1) {
-          index = currObject.DataFields.push(value) - 1;
-          // Add a count for the value of the attribute
-          currObject.Data.push(0);
-        }
-        // Increment the count of that attribute
-        currObject.Data[index] += 1;
       }
     }
-    console.log(data);
     return res.json({
       report_name: reportTemplateType,
       data: data
@@ -399,7 +397,7 @@ app.get('/reports/population-report', function(req, res) {
   const responseData = []
   // distribution of age from needs & assesments refferals
   const data1 = getAgeDistribution("Needs Assessment \& Referrals", "Needs & Assessment - Population Age Distribution")
-  const data2 = getAgeDistribution("Employment Services", "Employment Related Services - Population Age Distribution")
+  const data2 = getAgeDistribution("Employment Related Services", "Employment Related Services - Population Age Distribution")
   const data3 = getAgeDistribution("Language Training", "Language Training - Population Age Distribution")
   const data4 = getChildMindingData()
   Promise.all([data1, data2, data3, data4]).then((resultArray)=>{
@@ -448,7 +446,7 @@ function getAgeDistribution(templateName, columnName) {
 
 function getChildMindingData() {
     const data1 = Database.getAllRows("Needs Assessment \& Referrals")
-    const data2 = Database.getAllRows("Employment Services")
+    const data2 = Database.getAllRows("Employment Related Services")
     const data3 = Database.getAllRows("Language Training")
     const childPercent = { column_name: "Needs childminding by Service"}
     let overall = 0

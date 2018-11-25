@@ -1,14 +1,12 @@
-package com.tminions.app;
+package com.tminions.app.Utils;
 
 import java.io.IOException;
-import java.net.URL;
 
 import com.tminions.app.models.LoginModel;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -24,7 +22,7 @@ public class SceneController {
 	
 	public SceneController(Stage primaryStage) throws IOException {
 		stage = primaryStage;
-        stage.setTitle("Team25 Application");
+        stage.setTitle("TEQ REPORTS WORKBENCH");
 		Scene scene = new Scene(root, 600, 600);
 		stage.setScene(scene);
         stage.show();

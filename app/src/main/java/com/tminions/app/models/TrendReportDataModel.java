@@ -1,7 +1,5 @@
 package com.tminions.app.models;
 
-import com.tminions.app.controllers.TrendsScreenController;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

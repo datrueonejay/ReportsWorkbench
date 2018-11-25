@@ -3,6 +3,7 @@ package com.tminions.app.controllers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.tminions.app.Utils.AlertBox;
 
 
 public class DataUploadController extends BaseController {
@@ -17,7 +18,7 @@ public class DataUploadController extends BaseController {
                     .body("{"+jsonToUpload+"}")
                     .asJson();
         }catch (Exception e){
-            System.out.println("Transmission of json failed");
+            AlertBox.display("Error!", "Failed to upload data, please check your connection.");
             return null;
         }
         return response;

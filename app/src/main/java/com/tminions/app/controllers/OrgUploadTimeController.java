@@ -2,6 +2,7 @@ package com.tminions.app.controllers;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
+import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.models.OrgUploadTimeModel;
 import com.tminions.app.models.UploadTimeResponseModel;
 
@@ -20,6 +21,7 @@ public class OrgUploadTimeController extends BaseController {
             List<OrgUploadTimeModel> orgs = res.getBody().getAllTimings();
             return orgs;
         } catch (Exception e){
+            AlertBox.display("Error!", "Failed to get upload times, please check your connection.");
             // return empty list if there was an error
             return Collections.emptyList();
         }

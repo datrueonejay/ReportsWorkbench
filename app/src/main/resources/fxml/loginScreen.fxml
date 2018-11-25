@@ -1,21 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import org.tbee.javafx.scene.layout.fxml.MigPane?>
 
-<MigPane id="rootPane" fx:controller="com.tminions.app.LoginScreenController"
-         styleClass="main-panel"
-         layout="insets 20"
-         cols="[label, pref!][grow, 50::]"
-         rows=""
-         xmlns:fx="http://javafx.com/fxml">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
-    <Label text="Username:" /> <TextField fx:id="usernameField" prefColumnCount="30" MigPane.cc="growx, wrap" />
-    <Label text="Password:" />	<PasswordField fx:id="passField" prefColumnCount="30" MigPane.cc="growx, wrap" />
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<GridPane fx:id="rootPane"
+          fx:controller="com.tminions.app.screenController.LoginScreenController"
+          styleClass="main-panel"
+          xmlns:fx="http://javafx.com/fxml"
+          hgap="10">
 
-    <Button text="login" onAction="#login" MigPane.cc="skip, gap :push, gaptop 15, wrap" />
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+    </columnConstraints>
 
-    <Label fx:id="messageLabel" styleClass="hello-message" MigPane.cc="span, growx, gaptop 15" />
+    <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="BOTTOM"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="25.0" valignment="TOP"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="7.0" valignment="TOP"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="5.0" valignment="BOTTOM"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="5.0" valignment="BOTTOM"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="5.0" valignment="BOTTOM"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="10.0" valignment="BOTTOM"/>
+    </rowConstraints>
 
-</MigPane >
+    <ImageView fx:id="logo"
+        GridPane.columnIndex="1"
+        GridPane.rowIndex="1">
+        <Image url="/image/logo.png"/>
+    </ImageView>
+
+
+    <Label text="Login" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <TextField fx:id="usernameField"  GridPane.columnIndex="1" GridPane.rowIndex="3" promptText="User name"/>
+    <PasswordField fx:id="passField" GridPane.columnIndex="1" GridPane.rowIndex="4" promptText="Password"/>
+
+    <Button text="Login" onAction="#login" GridPane.columnIndex="1" GridPane.rowIndex="5"
+        />
+
+    <Label fx:id="messageLabel" styleClass="hello-message" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+</GridPane >
 

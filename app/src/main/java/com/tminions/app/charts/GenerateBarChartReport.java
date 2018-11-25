@@ -1,20 +1,12 @@
 package com.tminions.app.charts;
 
-import com.tminions.app.models.ReportDataModel;
 import org.jfree.chart.*;
-import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 public class GenerateBarChartReport extends JFrame
 {

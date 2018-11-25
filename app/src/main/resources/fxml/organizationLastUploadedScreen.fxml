@@ -7,8 +7,9 @@
 
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <GridPane fx:id="root"
-          fx:controller="com.tminions.app.OrganizationLastUploadedScreen"
+          fx:controller="com.tminions.app.screenController.OrganizationLastUploadedScreen"
           styleClass="main-panel"
           xmlns:fx="http://javafx.com/fxml"
           hgap="10">
@@ -34,10 +35,22 @@
            GridPane.columnSpan="2"
            GridPane.rowIndex="0"/>
 
-    <ListView fx:id="lastUploadListView"
+    <TableView fx:id="lastUploadList"
               GridPane.columnIndex="1"
               GridPane.columnSpan="2"
               GridPane.rowIndex="1"
-              GridPane.rowSpan="4"/>
+              GridPane.rowSpan="4">
+        <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+        <columns>
+            <TableColumn text="Organization Email" prefWidth="80.0">
+                <cellValueFactory><PropertyValueFactory property="orgName"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Last Upload Time" prefWidth="20.0">
+                <cellValueFactory><PropertyValueFactory property="lastUploadTime"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
 
 </GridPane >

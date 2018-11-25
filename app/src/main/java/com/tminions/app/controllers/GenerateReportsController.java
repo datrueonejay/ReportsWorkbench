@@ -4,6 +4,7 @@ package com.tminions.app.controllers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.tminions.app.Utils.AlertBox;
 import com.tminions.app.jsonMaker.JsonMaker;
 import com.tminions.app.models.ReportDataModel;
 
@@ -22,8 +23,6 @@ public class GenerateReportsController extends BaseController {
 
         json = json + "}";
 
-        System.out.println("The json for the request is: " + json);
-
         HttpResponse<JsonNode> response;
         //then establish connection with server to send data
         try
@@ -37,7 +36,7 @@ public class GenerateReportsController extends BaseController {
         }
         catch (Exception e)
         {
-            System.out.println("Transmission of json failed");
+            AlertBox.display("Error!", "Failed to get data from server, please check your connection.");
             return null;
         }
     }
@@ -56,7 +55,7 @@ public class GenerateReportsController extends BaseController {
         }
         catch (Exception e)
         {
-            System.out.println("Transmission of json failed");
+            AlertBox.display("Error!", "Failed to get population data from server, please check your connection.");
             return null;
         }
     }
