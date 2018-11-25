@@ -70,23 +70,19 @@ public class ReportGenerationScreenController {
         HashMap<String, String[][]> reportData = rdm.getReportData();
         String[][] columnData = reportData.get(columns[0]);
 
-//        SwingUtilities.invokeLater(() -> {
-            GenerateBarChartReport ex = new GenerateBarChartReport(columnData, "Language Report",
-                                                                               "Occurrences",
-                                                                             "Languages");
-//            ex.setVisible(true);
-//        });
-//
-//        SwingUtilities.invokeLater(() -> {
-            GeneratePieChartReport gpcr = new GeneratePieChartReport(columnData, "Language Distribution");
-//            gpcr.setVisible(true);
-//        });
+        GenerateBarChartReport ex = new GenerateBarChartReport(columnData, columnType, "Amount", "Columns");
+        
     }
     
     public void selectPieChart() {
-    	System.out.println("Selected type of Institution/Organization Where Client Received Services.");
-    	String[] columns = {"Type of Institution/Organization Where Client Received Services"};
-    	String serverResponse = GenerateReportsController.getReportData(columns, defaulTemplate);
+        System.out.println("Generating Bar Chart for Template: "+ templateType + " , Column: "+ columnType);
+        String[] columns = {currrentColumns.getKeyForColumnValue(columnType)};
+        String serverResponse = GenerateReportsController.getReportData(columns, templateType);
+        ReportDataModel rdm = JsonMaker.convertJsonResponseToRDM(serverResponse);
+        HashMap<String, String[][]> reportData = rdm.getReportData();
+        String[][] columnData = reportData.get(columns[0]);
+    	
+        GeneratePieChartReport gpcr = new GeneratePieChartReport(columnData, columnType);
     }
 
 }
