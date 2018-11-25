@@ -45,8 +45,8 @@ public class ReportGenerationScreenController {
         String reportFilePath = String.format("LanguageReport_%s.pdf", timeStamp);
         // Create two graphs
         GenerateBarChartReport chart1 = new GenerateBarChartReport(columnData, "Language Report",
-                                                                           "Occurrences",
-                                                                         "Languages", barChartFileName);
+                "Occurrences",
+                "Languages", barChartFileName);
         GeneratePieChartReport chart2 = new GeneratePieChartReport(columnData, "Language Distribution",
                 pieChartFileName);
         // Create pdf report
@@ -58,8 +58,8 @@ public class ReportGenerationScreenController {
      * Generates a report about where client received services
      */
     public void selectReport2() {
-    	String[] columns = {"institution_type_id"};
-    	String serverResponse = GenerateReportsController.getReportData(columns, reportTwoTemplate);
+        String[] columns = {"institution_type_id"};
+        String serverResponse = GenerateReportsController.getReportData(columns, reportTwoTemplate);
         ReportDataModel rdm = JsonMaker.convertJsonResponseToRDM(serverResponse);
 
         HashMap<String, String[][]> reportData = rdm.getReportData();
@@ -131,7 +131,7 @@ public class ReportGenerationScreenController {
                 // Move left if we have space
                 if (xCoord == 50) {
                     xCoord = 300;
-                // Otherwise move to next row
+                    // Otherwise move to next row
                 } else {
                     yCoord -= 300;
                     xCoord = 50;

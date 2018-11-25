@@ -153,6 +153,7 @@ public class ConflictsScreenController {
             scroller.setVisible(false);
             grid.setVisible(false);
             submit.setVisible(false);
+            copy.setVisible(false);
         }
 
     }

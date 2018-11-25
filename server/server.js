@@ -137,6 +137,76 @@ app.get('/reports/get-report-data/', function (req, res, next) {
     })
 })
 
+app.post('/trends/all-data/', function (req, res, next) 
+{
+    var reportTemplateType = req.body.template_name;
+    
+    console.log("The type of the report template is: " + reportTemplateType);
+
+    var contraint1Validity = "567";
+
+    Database.getDataBasedOn2Constraints(reportTemplateType, contraint1Validity).then((result) => {
+    
+   
+    /*for(var i = 0; i < result.length; i++)
+    {
+      console.log("The value of if this user is valid: " + result[i].valid);
+    }*/
+
+    var jsonString = JSON.stringify(result);
+
+    console.log("The value of the data is " + jsonString);
+    // Create an object for each column requestd
+    /*for (const colIndex in columns) {
+        const colName = columns[colIndex];
+        console.log("The value of the colName is " + colName);
+        data.push({ column_name: colName, DataFields: [], Data:[]});
+    }
+
+    // Loop through each of the rows from database
+    for (const rowIndex in result) {
+      // get curr row
+      const currRow = result[rowIndex];
+      console.log("The value of the current row index is " + rowIndex);
+      // Loop through each attribute needed, each object in master object
+      for (const attributeIndex in data) {
+        // Reference to the attribute object
+        const currObject = data[attributeIndex];
+        // Get name of column
+        const colName = currObject.column_name;
+        // Get the value of the current row, for the given attribute
+        const value = currRow[colName];
+        console.log("The value of the data is: " + value);
+        // Handle if value is null, ie column requested did not exist
+        if (value == null) {//
+          return res.status(400).end();
+        }
+        // Get index of the value in the column names datafields if exists
+        index = currObject.DataFields.indexOf(value);
+        // Check if value does not exist in datafields for given colName
+        if (index == -1) {
+          index = currObject.DataFields.push(value) - 1;
+          // Add a count for the value of the attribute
+          currObject.Data.push(0);
+        }
+        // Increment the count of that attribute
+        currObject.Data[index] += 1;
+      }
+    }*/
+
+    console.log("The value of the data at the end is" + result);
+
+    return res.json({
+      report_name: reportTemplateType,
+      data: jsonString
+    });
+  
+  }).catch((err) => {
+    return res.status(500).end(err)
+  })
+})
+
+
 //TaskC conflict feature
 app.get('/conflict', function(req, res, next) {
 	const dc = Database.getDatabaseRoot().collection('CONFLICTS')
@@ -205,6 +275,9 @@ app.post('/reports/get-data/', function(req, res, next) {
   })
 })
 
+
+
+
 app.post('/reports/new-report/', function (req, res, next) {
   const reportTemplateType = Object.keys(req.body)[0]
   const reportData = req.body[reportTemplateType] //reportData is map of {client1->data, client2->data} etc...
@@ -223,6 +296,9 @@ app.post('/reports/new-report/', function (req, res, next) {
     //   if (err) return res.status(500).end(err)
     // })
   }
+
+
+
 
   // make date string
   var today = new Date();

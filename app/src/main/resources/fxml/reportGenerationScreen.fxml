@@ -6,6 +6,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ComboBox?>
 <GridPane fx:id="root" hgap="10" styleClass="main-panel" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tminions.app.ReportGenerationScreenController">
 
 	<columnConstraints>
@@ -14,6 +16,8 @@
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
     </columnConstraints>
+
+
 
     <rowConstraints>
         <RowConstraints percentHeight="20.0" valignment="BOTTOM" vgrow="SOMETIMES" />
@@ -24,7 +28,7 @@
         <RowConstraints percentHeight="20.0" valignment="TOP" vgrow="SOMETIMES" />
     </rowConstraints>
 
-    <Label text="Select Reports below" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+
 
     <Button onAction="#selectReport" prefWidth="Infinity" text="Language of Service Report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="2" />
 
