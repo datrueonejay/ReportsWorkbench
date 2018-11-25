@@ -41,5 +41,24 @@ public class GenerateReportsController extends BaseController {
             return null;
         }
     }
+
+    public static ReportDataModel getPopulationReportData() {
+        HttpResponse<JsonNode> response;
+        //then establish connection with server to send data
+        try
+        {
+            response = Unirest.get(baseUrl + "/reports/population-report")
+                    .header("Content-Type", "application/json")
+                    .asJson();
+
+            String res = response.getBody().toString();
+            return JsonMaker.convertJsonResponseToRDM(res);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Transmission of json failed");
+            return null;
+        }
+    }
 }
 

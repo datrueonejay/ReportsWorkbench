@@ -29,7 +29,10 @@
     <Button onAction="#selectReport" prefWidth="Infinity" text="Language of Service Report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="2" />
 
     <Button onAction="#selectReport2" prefWidth="Infinity" text="Place of Services Report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="3" />
-   
 
-            
+    <Button onAction="#selectReport3" prefWidth="Infinity" text="Population Distribution And Child Minding Report" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="4" />
+
+
+
+
 </GridPane>

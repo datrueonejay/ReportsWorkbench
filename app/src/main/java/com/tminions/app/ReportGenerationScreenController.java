@@ -81,6 +81,41 @@ public class ReportGenerationScreenController {
 
     }
 
+    /**
+     * Generates a report about population distribution
+     */
+    public void selectReport3() {
+        String[] columns = {"Needs & Assessment - Population Age Distribution", "Employment Related Services - Population Age Distribution",
+                "Language Training - Population Age Distribution", "Needs childminding by Service"};
+        ReportDataModel rdm = GenerateReportsController.getPopulationReportData();
+        HashMap<String, String[][]> reportData = rdm.getReportData();
+
+        String[][] needsPopulation = reportData.get(columns[0]);
+        String[][] employmentPopulation = reportData.get(columns[1]);
+        String[][] languagePopulation = reportData.get(columns[2]);
+        String[][] needsChildminding = reportData.get(columns[3]);
+
+
+        // Create unique names for files
+        String timeStamp = getDateTimeStamp();
+        String barChartFileName = reportFolderPath + String.format("barchart_%s.png", timeStamp);
+        String pieChartFileName = reportFolderPath + String.format("piechart_%s.png", timeStamp);
+        String needsFileName = "needsPopulation"+pieChartFileName;
+        String employmentFileName = "employmentPopulation"+pieChartFileName;
+        String languageFileName = "languagePopulation"+pieChartFileName;
+        String childMindingFileName = "needsChildMinding"+barChartFileName;
+
+        String reportFilePath = String.format("PopulationAndChildMindingReport_%s.pdf", timeStamp);
+        // Create the graphs
+        GeneratePieChartReport needsChart = new GeneratePieChartReport(needsPopulation, columns[0],needsFileName);
+        GeneratePieChartReport employmentChart = new GeneratePieChartReport(employmentPopulation, columns[1], employmentFileName);
+        GeneratePieChartReport languageChart = new GeneratePieChartReport(languagePopulation, columns[2], languageFileName);
+        GenerateBarChartReport childMindingChart = new GenerateBarChartReport(needsChildminding, columns[3],
+                "Number of people", "Type Of Service", childMindingFileName);
+        generateReport(reportFilePath, "Population And Child Minding Statistics", Arrays.asList(needsFileName, employmentFileName, languageFileName, childMindingFileName));
+
+    }
+
     private void generateReport(String filePath, String reportTitle, List<String> chartPaths) {
         // Instantiate pdf maker
         try {
