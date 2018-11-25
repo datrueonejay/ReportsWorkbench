@@ -6,9 +6,7 @@ import javafx.fxml.FXML;
 
 import com.tminions.app.controllers.OrgUploadTimeController;
 import com.tminions.app.models.OrgUploadTimeModel;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class OrganizationLastUploadedScreen {
 

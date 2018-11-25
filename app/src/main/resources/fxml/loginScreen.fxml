@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import org.tbee.javafx.scene.layout.fxml.MigPane?>
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
