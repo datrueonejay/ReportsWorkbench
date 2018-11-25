@@ -32,6 +32,7 @@ public class ConflictsScreenController {
     }
 
     public void updateScreen() {
+        grid.getChildren().clear();
         // Get a conflict
         this.conflict = getConflict();
         System.out.println(conflict);
