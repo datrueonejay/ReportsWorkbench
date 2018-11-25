@@ -24,11 +24,11 @@ public class AlertBox {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, closeButton);
         layout.setAlignment(Pos.CENTER);
-
+        layout.setPadding(new Insets(10, 50, 15, 50));
+                
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
     }
-
 }
