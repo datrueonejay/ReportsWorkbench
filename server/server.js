@@ -282,7 +282,7 @@ app.get('/reports/population-report', function(req, res) {
   const data3 = getAgeDistribution("Language Training", "Language Training - Population Age Distribution")
   const data4 = getChildMindingData()
   Promise.all([data1, data2, data3, data4]).then((resultArray)=>{
-    const response = {template_name: "Population Report", columns: [
+    const response = {report_name: "Population Report", columns: [
       "Needs & Assessment - Population Age Distribution",
       "Employment Related Services - Population Age Distribution",
       "Language Training - Population Age Distribution",
