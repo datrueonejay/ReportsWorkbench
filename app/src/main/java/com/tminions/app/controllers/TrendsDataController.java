@@ -15,8 +15,6 @@ public class TrendsDataController
 
         String jsonSent = "{" + '"' + "template_name" + '"' + ":" + '"' + templateName + '"' + "}";
 
-        System.out.println(jsonSent);
-
         try
         {
             response = Unirest.post(baseUrl + "/trends/all-data/")
@@ -28,7 +26,6 @@ public class TrendsDataController
         }
         catch (Exception e)
         {
-            System.out.println("Transmission of json failed");
             return null;
         }
     }

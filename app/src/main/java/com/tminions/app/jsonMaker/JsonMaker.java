@@ -120,13 +120,11 @@ public class JsonMaker {
 
         if(trendType.equals("By Age"))
         {
-            System.out.println("Data initialized by age groups.");
             trendReportData = initializeHashMap(trendReportData, AGE_GROUPS);
             categories = AGE_GROUPS;
         }
         else if(trendType.equals("By Month"))
         {
-            System.out.println("Data initialized by month.");
             trendReportData = initializeHashMap(trendReportData, MONTHS);
             categories = MONTHS;
         }
@@ -138,21 +136,11 @@ public class JsonMaker {
             String allDataCorrectFormat = allData.toString().replace("\\", "");
             allDataCorrectFormat =  allDataCorrectFormat.substring(1, allDataCorrectFormat.length()-1);
 
-            //System.out.println("The value of the data array is " + allDataCorrectFormat);
-
             JSONArray jsonArray = new JSONArray(allDataCorrectFormat);
-
-            System.out.println(jsonArray.getJSONObject(0).toString());
-            //System.out.println("The trend value is " + trendValue);
 
             closestColumnValue = getClosestColumnValue(jsonArray.getJSONObject(0).toString(), trendValue);
 
             String assessmentStartColumnValue = checkIfSubstring(jsonArray.getJSONObject(0).toString(), SERVICE_START_DATE);
-
-            //System.out.println("The closest string was : " + closestColumnValue);
-
-            //System.out.println("The assessment start column has the value : " + assessmentStartColumnValue);
-
 
             for(int i = 0; i < jsonArray.length(); i++)
             {
@@ -163,13 +151,10 @@ public class JsonMaker {
                 if (trendType.equals("By Age"))
                 {
                     String personDOB = personsData.get(BIRTH_DATE_IN_DATABASE).toString();
-                    System.out.println("This persons date of birth is: " + personDOB);
 
                     String personsAge = String.valueOf(calculateAge(personDOB));
-                    System.out.println("This persons age is " + personsAge);
 
                     String ageRange = getAgeRange(personsAge);
-                    System.out.println("This persons age group is " + ageRange);
 
                     if(serviceWanted.equals("Yes"))
                     {
@@ -181,10 +166,8 @@ public class JsonMaker {
                 else if (trendType.equals("By Month"))
                 {
                     String personServiceStartDate = personsData.get(assessmentStartColumnValue).toString();
-                    //System.out.println("This persons start of assessment date is" + personServiceStartDate);
 
                     String monthOfService = getMonthOfServiceStart(personServiceStartDate);
-                    //System.out.println("The month in which this person started their service was: " + monthOfService);
 
                     if(serviceWanted.equals("Yes"))
                     {
@@ -325,9 +308,6 @@ public class JsonMaker {
             {
                 lowestDistance = newDistance;
                 matchingColumn = entry.getKey();
-
-                System.out.println(entry.getKey());
-                System.out.println(lowestDistance);
             }
         }
         return matchingColumn;
@@ -362,7 +342,6 @@ public class JsonMaker {
     {
         String templateName;
         HashMap<String, String[][]> reportData = new HashMap<String, String[][]>();
-        //System.out.println("The value of the jsonString from the server is :" + jsonString);
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(jsonString);
         String[] columnNames;
@@ -373,14 +352,9 @@ public class JsonMaker {
             JsonElement allData = serverData.get("data");
             templateName = serverData.get("report_name").toString();
 
-            //System.out.println("The template name is " + templateName);
-
-            //System.out.println(serverData.get("data"));
             JsonArray dataArray = allData.getAsJsonArray();
 
-            System.out.println(dataArray.get(0).getAsJsonObject().toString());
             columnNames = new String[dataArray.size()];
-
 
             for(int i = 0; i < dataArray.size(); i++)
             {
@@ -390,16 +364,11 @@ public class JsonMaker {
 
                 columnNames[i] = columnName;
 
-                //System.out.println("The columnName is: " + columnName);
-                //System.out.println("The value of data instances is: " + columnData.get("Data"));
-
                 String dataInstances = columnData.get("Data").toString();
-                //System.out.println("The value of the data instances as a string is:" + dataInstances);
 
                 String[] dataOccurrenceValues = arrayStringTokenizer(dataInstances);
 
                 String dataValues = columnData.get("DataFields").toString();
-                //System.out.println("The value of the data values as a string are:" + dataValues);
 
                 String[] dataValuesArray = arrayStringTokenizer(dataValues);
 
@@ -416,7 +385,6 @@ public class JsonMaker {
         }
         else
         {
-            System.out.println("The element in the json string from the server is not a json object.");
             return null;
         }
     }
@@ -434,14 +402,7 @@ public class JsonMaker {
 
         String removedBracketsString = sb.toString();
 
-        //System.out.println("The value of the data after removed bracket strings is: " + removedBracketsString);
-
         String[] dataValues = removedBracketsString.split(",");
-
-        //for(int j = 0; j < dataValues.length; j++)
-        //{
-        //System.out.println("Value : " + dataValues[j]);
-        //}
 
         return dataValues;
     }

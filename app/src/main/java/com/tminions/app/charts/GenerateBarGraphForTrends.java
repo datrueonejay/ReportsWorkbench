@@ -9,7 +9,6 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -59,10 +58,6 @@ public class GenerateBarGraphForTrends extends JFrame
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-
-        System.out.println("The value of the valueAxisLabel is: " + categoryAxisLabel);
-
-
         String[] data = JsonMaker.MONTHS;
         if(categoryAxisLabel.equals("By Age"))
         {
@@ -75,7 +70,6 @@ public class GenerateBarGraphForTrends extends JFrame
 
         for(int i = 0; i < data.length; i++)
         {
-            System.out.println("The data was added to the dataset.");
             dataset.setValue(graphData.get(data[i]),"Users of service", data[i]);
         }
 

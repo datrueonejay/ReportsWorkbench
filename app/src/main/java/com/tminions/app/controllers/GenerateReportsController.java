@@ -22,8 +22,6 @@ public class GenerateReportsController extends BaseController {
 
         json = json + "}";
 
-        System.out.println("The json for the request is: " + json);
-
         HttpResponse<JsonNode> response;
         //then establish connection with server to send data
         try
@@ -37,7 +35,6 @@ public class GenerateReportsController extends BaseController {
         }
         catch (Exception e)
         {
-            System.out.println("Transmission of json failed");
             return null;
         }
     }
@@ -56,7 +53,6 @@ public class GenerateReportsController extends BaseController {
         }
         catch (Exception e)
         {
-            System.out.println("Transmission of json failed");
             return null;
         }
     }

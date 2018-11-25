@@ -19,9 +19,6 @@ import java.io.File;
 
 public class TrendsScreenController
 {
-    @FXML private GridPane root;
-    @FXML private ListView<File>  filesToUploadUi;
-    @FXML private Button generateTrendReportButton;
     @FXML private ComboBox<String> selectTemplateType;
     @FXML private ComboBox<String> selectTrendType;
     @FXML private TextField columnSelectField;
