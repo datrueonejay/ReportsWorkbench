@@ -22,7 +22,7 @@ public class SceneController {
 	
 	public SceneController(Stage primaryStage) throws IOException {
 		stage = primaryStage;
-        stage.setTitle("Team25 Application");
+        stage.setTitle("TEQ REPORTS WORKBENCH");
 		Scene scene = new Scene(root, 600, 600);
 		stage.setScene(scene);
         stage.show();

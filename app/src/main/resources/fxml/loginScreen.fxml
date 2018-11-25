@@ -5,23 +5,47 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<MigPane id="rootPane" fx:controller="com.tminions.app.screenController.LoginScreenController"
-         styleClass="main-panel"
-         layout="insets 20"
-         cols="[label, pref!][grow, 50::]"
-         rows=""
-         xmlns:fx="http://javafx.com/fxml">
 
-    <ImageView fx:id="logo">
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<GridPane fx:id="rootPane"
+          fx:controller="com.tminions.app.screenController.LoginScreenController"
+          styleClass="main-panel"
+          xmlns:fx="http://javafx.com/fxml"
+          hgap="10">
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+    </columnConstraints>
+
+    <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="20.0" valignment="BOTTOM"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="25.0" valignment="TOP"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="7.0" valignment="TOP"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="5.0" valignment="BOTTOM"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="5.0" valignment="BOTTOM"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="5.0" valignment="BOTTOM"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="10.0" valignment="BOTTOM"/>
+    </rowConstraints>
+
+    <ImageView fx:id="logo"
+        GridPane.columnIndex="1"
+        GridPane.rowIndex="1">
         <Image url="/image/logo.png"/>
     </ImageView>
 
-    <Label text="Username:" /> <TextField fx:id="usernameField" prefColumnCount="30" MigPane.cc="growx, wrap" />
-    <Label text="Password:" />	<PasswordField fx:id="passField" prefColumnCount="30" MigPane.cc="growx, wrap" />
 
-    <Button text="login" onAction="#login" MigPane.cc="skip, gap :push, gaptop 15, wrap" />
+    <Label text="Login" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <TextField fx:id="usernameField"  GridPane.columnIndex="1" GridPane.rowIndex="3" promptText="User name"/>
+    <PasswordField fx:id="passField" GridPane.columnIndex="1" GridPane.rowIndex="4" promptText="Password"/>
 
-    <Label fx:id="messageLabel" styleClass="hello-message" MigPane.cc="span, growx, gaptop 15" />
+    <Button text="Login" onAction="#login" GridPane.columnIndex="1" GridPane.rowIndex="5"
+        />
 
-</MigPane >
+    <Label fx:id="messageLabel" styleClass="hello-message" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+</GridPane >
 
