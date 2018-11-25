@@ -223,13 +223,10 @@ app.get('/conflict', function(req, res, next) {
 })
 
 app.post('/reports/get-data/', function(req, res, next) {
-  console.log(req.body);
   const reportTemplateType = req.body.template_name;
-  console.log("The value of the template_name is " + reportTemplateType);
   // Array of columns we want to get
   const columns = req.body.columns;
 
-  console.log("The values for all columns " + columns);
   Database.getAllRows(reportTemplateType).then((result) => {
     const data = [];
 
@@ -244,7 +241,6 @@ app.post('/reports/get-data/', function(req, res, next) {
     for (const rowIndex in result) {
       // get curr row
       const currRow = result[rowIndex];
-      console.log("The value of the current row index is " + rowIndex);
       // Loop through each attribute needed, each object in master object
       for (const attributeIndex in data) {
         // Reference to the attribute object
@@ -253,7 +249,6 @@ app.post('/reports/get-data/', function(req, res, next) {
         const colName = currObject.column_name;
         // Get the value of the current row, for the given attribute
         const value = currRow[colName];
-        console.log("The value of the data is: " + value);
         // Handle if value is null, ie column requested did not exist
         if (value == null) {
           return res.status(400).end();
@@ -270,10 +265,7 @@ app.post('/reports/get-data/', function(req, res, next) {
         currObject.Data[index] += 1;
       }
     }
-
-    console.log("The value of the data at the end is");
     console.log(data);
-
     return res.json({
       report_name: reportTemplateType,
       data: data
@@ -402,3 +394,88 @@ app.post('/conflict', function(req, res) {
    })
    // Delete conflict object in conflicts table
 })
+
+app.get('/reports/population-report', function(req, res) {
+  const responseData = []
+  // distribution of age from needs & assesments refferals
+  const data1 = getAgeDistribution("Needs Assessment \& Referrals", "Needs & Assessment - Population Age Distribution")
+  const data2 = getAgeDistribution("Employment Services", "Employment Related Services - Population Age Distribution")
+  const data3 = getAgeDistribution("Language Training", "Language Training - Population Age Distribution")
+  const data4 = getChildMindingData()
+  Promise.all([data1, data2, data3, data4]).then((resultArray)=>{
+    const response = {report_name: "Population Report", columns: [
+      "Needs & Assessment - Population Age Distribution",
+      "Employment Related Services - Population Age Distribution",
+      "Language Training - Population Age Distribution",
+      "Needs Childminding by Service"
+    ], data: resultArray }
+    console.log(response);
+    res.status(200).send(response)
+  })
+})
+
+function getAge (birthDate) {
+  const birthYear = parseInt(birthDate.slice(0, 4))
+  const currentYear = (new Date()).getFullYear()
+  const age = currentYear - birthYear
+  return age
+}
+
+function getAgeDistribution(templateName, columnName) {
+  const ageDist = { column_name: columnName}
+  let less30 = 0
+  let between30_49 = 0
+  let over49 = 0
+  return Database.getAllRows(templateName).then((data)=>{
+    for (const key in data){
+      const person = data[key]
+      if (person.client_birth_dt){
+        const age = getAge(person.client_birth_dt)
+        if (age < 30){
+          less30 += 1
+        } else if (age < 49){
+          between30_49 += 1
+        } else {
+          over49 += 1
+        }
+      }
+    }
+    ageDist.Data = [less30, between30_49, over49]
+    ageDist.DataFields = ["Under 30 Years Old", "Between 30 and 49 Years Old", "50 Years Old +"]
+    return ageDist
+  })
+}
+
+function getChildMindingData() {
+    const data1 = Database.getAllRows("Needs Assessment \& Referrals")
+    const data2 = Database.getAllRows("Employment Services")
+    const data3 = Database.getAllRows("Language Training")
+    const childPercent = { column_name: "Needs childminding by Service"}
+    let overall = 0
+    let langTrain = 0
+    let employServ = 0
+    return Promise.all([data1, data2, data3]).then((resultArray)=>{
+      overall = getChildMindingPercent(resultArray[0])
+      langTrain = getChildMindingPercent(resultArray[1])
+      employServ = getChildMindingPercent(resultArray[2])
+      console.log(overall, langTrain, employServ);
+      childPercent.Data = [overall, langTrain, employServ]
+      childPercent.DataFields = ["All Clients", "Language Training", "Employment Related Services"]
+      return childPercent
+    })
+}
+
+function getChildMindingPercent(data) {
+  let yes = 0
+  let total = 0
+  for (const id in data) {
+    const person = data[id]
+    if (person.childminding_ind) {
+      total += 1
+      if (person.childminding_ind === "Yes") {
+        yes += 1
+      }
+    }
+  }
+  return Math.round((yes/total)*100)
+}
