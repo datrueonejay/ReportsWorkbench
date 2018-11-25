@@ -33,6 +33,13 @@ class Database {
     });
   }
 
+  getDataBasedOn2Constraints(reportTemplateType, constraint1)
+  {
+    console.log("The value of the reportTemplateType is" + reportTemplateType);
+
+    return this.db.collection(reportTemplateType).find({valid: "true"}).toArray();
+  }
+
   /**
    * check if there's already a conflict in the CONFLICTS collection with that id and templateType
    *   if yes: add data to that document's conflicts array

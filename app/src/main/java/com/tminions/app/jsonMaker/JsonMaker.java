@@ -4,22 +4,32 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.tminions.app.Normalizer.DateVerifier;
-import com.tminions.app.Normalizer.Normalizer;
-import com.tminions.app.Normalizer.PhoneVerifier;
-import com.tminions.app.Normalizer.PostalCodeVerifier;
+import com.sun.tools.corba.se.idl.StringGen;
 import com.tminions.app.clientRecord.ClientRecord;
 import com.tminions.app.fileParsers.ExcelParser;
 import com.tminions.app.models.ReportDataModel;
+import com.tminions.app.models.TrendReportDataModel;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.apache.commons.lang3.RegExUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringJoiner;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class JsonMaker {
+
+
+
+    public static final String[] MONTHS = {"January", "February", "March", "April", "May",
+            "June", "July", "August", "September", "October",
+            "November", "December"};
+    public static final String[] AGE_GROUPS = {"0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", ">80"};
+    public static final String BIRTH_DATE_IN_DATABASE = "client_birth_dt";
+    public static final String SERVICE_START_DATE = "start_dt";
 
     /**
      * returns a json String in the form
@@ -56,7 +66,7 @@ public class JsonMaker {
 
         //need to insert beginning of json ("templateName" : {)
         json = json.replaceFirst("\\A", "\"" + templateName + "\" : {\n")
-            .replaceFirst("\\z", "\n}");
+                .replaceFirst("\\z", "\n}");
 
         // and end (})
 
@@ -73,11 +83,6 @@ public class JsonMaker {
         ArrayList<ClientRecord> clients = new ArrayList<>();
         // TODO: in the future add functionality for distinguishing between CSV and excel files
 
-        // Register all the verifiers
-        Normalizer.register(new PhoneVerifier());
-        Normalizer.register(new DateVerifier());
-        Normalizer.register(new PostalCodeVerifier());
-
         // Add all the clients from each file to the running list clients
         for (File file: files) {
             ExcelParser ep = new ExcelParser(file);
@@ -85,6 +90,261 @@ public class JsonMaker {
         }
 
         return clients;
+    }
+
+
+    public static HashMap<String, Integer> initializeHashMap(HashMap<String, Integer> dataHashMap, String[] keySet)
+    {
+
+        for(int i = 0; i < keySet.length; i++)
+        {
+            dataHashMap.put(keySet[i], 0);
+        }
+
+        return dataHashMap;
+    }
+
+    public static TrendReportDataModel generateTrendDataFromJSON(String jsonString, String trendType, String trendValue, String templateName)
+    {
+        HashMap<String, Integer> trendReportData = new HashMap<>();
+
+        String[] categories = AGE_GROUPS;
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(jsonString);
+
+        if(trendType.equals("By Age"))
+        {
+            System.out.println("Data initialized by age groups.");
+            trendReportData = initializeHashMap(trendReportData, AGE_GROUPS);
+            categories = AGE_GROUPS;
+        }
+        else if(trendType.equals("By Month"))
+        {
+            System.out.println("Data initialized by month.");
+            trendReportData = initializeHashMap(trendReportData, MONTHS);
+            categories = MONTHS;
+        }
+
+        if(element.isJsonObject())
+        {
+            JsonObject serverData = element.getAsJsonObject();
+            JsonElement allData = serverData.get("data");
+            String allDataCorrectFormat = allData.toString().replace("\\", "");
+            allDataCorrectFormat =  allDataCorrectFormat.substring(1, allDataCorrectFormat.length()-1);
+
+            //System.out.println("The value of the data array is " + allDataCorrectFormat);
+
+            JSONArray jsonArray = new JSONArray(allDataCorrectFormat);
+
+            System.out.println(jsonArray.getJSONObject(0).toString());
+            //System.out.println("The trend value is " + trendValue);
+
+            String closestColumnValue = getClosestColumnValue(jsonArray.getJSONObject(0).toString(), trendValue);
+
+            String assessmentStartColumnValue = checkIfSubstring(jsonArray.getJSONObject(0).toString(), SERVICE_START_DATE);
+
+            //System.out.println("The closest string was : " + closestColumnValue);
+
+            //System.out.println("The assessment start column has the value : " + assessmentStartColumnValue);
+
+
+            for(int i = 0; i < jsonArray.length(); i++)
+            {
+                JSONObject personsData = jsonArray.getJSONObject(i);
+
+                String serviceWanted = personsData.get(closestColumnValue).toString();
+
+                if (trendType.equals("By Age"))
+                {
+                    String personDOB = personsData.get(BIRTH_DATE_IN_DATABASE).toString();
+                    System.out.println("This persons date of birth is: " + personDOB);
+
+                    String personsAge = String.valueOf(calculateAge(personDOB));
+                    System.out.println("This persons age is " + personsAge);
+
+                    String ageRange = getAgeRange(personsAge);
+                    System.out.println("This persons age group is " + ageRange);
+
+                    if(serviceWanted.equals("Yes"))
+                    {
+                        int ageRangeValue = trendReportData.get(ageRange);
+                        ageRangeValue += 1;
+                        trendReportData.put(ageRange, ageRangeValue);
+                    }
+                }
+                else if (trendType.equals("By Month"))
+                {
+                    String personServiceStartDate = personsData.get(assessmentStartColumnValue).toString();
+                    //System.out.println("This persons start of assessment date is" + personServiceStartDate);
+
+                    String monthOfService = getMonthOfServiceStart(personServiceStartDate);
+                    //System.out.println("The month in which this person started their service was: " + monthOfService);
+
+                    if(serviceWanted.equals("Yes"))
+                    {
+                        int usersInMonth = trendReportData.get(monthOfService);
+                        usersInMonth += 1;
+                        trendReportData.put(monthOfService, usersInMonth);
+                    }
+                }
+            }
+
+        }
+
+        return new TrendReportDataModel(categories, trendReportData, templateName);
+    }
+
+
+    public static String getMonthOfServiceStart(String dateOfServiceStart)
+    {
+        String[] dateTokens = dateOfServiceStart.split("-");
+
+        String monthString;
+        switch (dateTokens[1]) {
+            case "01":  monthString = "January";
+                break;
+            case "02":  monthString = "February";
+                break;
+            case "03":  monthString = "March";
+                break;
+            case "04":  monthString = "April";
+                break;
+            case "05":  monthString = "May";
+                break;
+            case "06":  monthString = "June";
+                break;
+            case "07":  monthString = "July";
+                break;
+            case "08":  monthString = "August";
+                break;
+            case "09":  monthString = "September";
+                break;
+            case "10": monthString = "October";
+                break;
+            case "11": monthString = "November";
+                break;
+            case "12": monthString = "December";
+                break;
+            default: monthString = "Invalid month";
+                break;
+        }
+
+        return monthString;
+    }
+
+    public static String getAgeRange(String personsAge)
+    {
+        char firstDigitOfPersonsAge = personsAge.charAt(0);
+
+        int ageInIntegers = Integer.parseInt(personsAge);
+
+        if(ageInIntegers > 80) {
+            return ">80";
+        }
+        else if(personsAge.length() == 1)
+        {
+            return "0-9";
+        }
+
+        String firstValueOfRange = firstDigitOfPersonsAge + "0";
+
+        String finalValueOfRange = firstDigitOfPersonsAge + "9";
+
+        return firstValueOfRange + "-" + finalValueOfRange;
+    }
+
+    public static int calculateAge(String dateOfBirth)
+    {
+        String[] dobValues = dateOfBirth.split("-");
+
+
+        LocalDateTime now = LocalDateTime.now();
+        int year = now.getYear();
+        int month = now.getMonthValue();
+
+        int ageInYears = year - Integer.parseInt(dobValues[0]);
+
+        int calculateMonths = month - Integer.parseInt(dobValues[1]);
+
+        if(calculateMonths > 0)
+        {
+            return ageInYears;
+        }
+
+        return ageInYears - 1;
+    }
+
+
+
+    public static int distanceBetweenStrings(String a, String b)
+    {
+        a = a.toLowerCase();
+        b = b.toLowerCase();
+        // i == 0
+        int [] costs = new int [b.length() + 1];
+        for (int j = 0; j < costs.length; j++)
+            costs[j] = j;
+        for (int i = 1; i <= a.length(); i++)
+        {
+            // j == 0; nw = lev(i - 1, j)
+            costs[0] = i;
+            int nw = i - 1;
+            for (int j = 1; j <= b.length(); j++)
+            {
+                int cj = Math.min(1 + Math.min(costs[j], costs[j - 1]), a.charAt(i - 1) == b.charAt(j - 1) ? nw : nw + 1);
+                nw = costs[j];
+                costs[j] = cj;
+            }
+        }
+        return costs[b.length()];
+    }
+
+
+    /**
+     *
+     */
+    public static String getClosestColumnValue(String jsonString, String enteredColumnValue)
+    {
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(jsonString);
+        JsonObject obj = element.getAsJsonObject();
+
+        int lowestDistance = 10000;
+        String matchingColumn = "";
+        Set<Map.Entry<String, JsonElement>> entries = obj.entrySet();
+        for(Map.Entry<String, JsonElement> entry: entries)
+        {
+            int newDistance = distanceBetweenStrings(entry.getKey(), enteredColumnValue);
+            if(newDistance < lowestDistance)
+            {
+                lowestDistance = newDistance;
+                matchingColumn = entry.getKey();
+
+                System.out.println(entry.getKey());
+                System.out.println(lowestDistance);
+            }
+        }
+        return matchingColumn;
+    }
+
+
+    public static String checkIfSubstring(String jsonString, String startDateString)
+    {
+
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(jsonString);
+        JsonObject obj = element.getAsJsonObject();
+
+        String matchingColumn = "";
+        Set<Map.Entry<String, JsonElement>> entries = obj.entrySet();
+        for(Map.Entry<String, JsonElement> entry: entries)
+        {
+            if(entry.getKey().contains(startDateString))
+            {
+                matchingColumn = entry.getKey();
+            }
+        }
+        return matchingColumn;
     }
 
     /**
@@ -174,7 +434,7 @@ public class JsonMaker {
 
         //for(int j = 0; j < dataValues.length; j++)
         //{
-            //System.out.println("Value : " + dataValues[j]);
+        //System.out.println("Value : " + dataValues[j]);
         //}
 
         return dataValues;

@@ -35,7 +35,7 @@ public class GeneratePieChartReport extends JFrame {
         chartPanel.setBorder(BorderFactory.createEmptyBorder(DEFAULT_SIZE,
                 DEFAULT_SIZE, DEFAULT_SIZE, DEFAULT_SIZE));
         chartPanel.setBackground(DEFAULT_COLOR);
-        add(chartPanel);
+        //add(chartPanel);
 
         ChartUtils.createPNGfromChart(chart, filePath, DEFAULT_FILE_HEIGHT, DEFAULT_FILE_WIDTH);
 
