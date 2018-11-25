@@ -250,22 +250,20 @@ app.post('/reports/get-data/', function(req, res, next) {
         // Get the value of the current row, for the given attribute
         const value = currRow[colName];
         // Handle if value is null, ie column requested did not exist
-        if (value == null) {
-          return res.status(400).end();
+        if (value != null) {
+          // Get index of the value in the column names datafields if exists
+          index = currObject.DataFields.indexOf(value);
+          // Check if value does not exist in datafields for given colName
+          if (index == -1) {
+            index = currObject.DataFields.push(value) - 1;
+            // Add a count for the value of the attribute
+            currObject.Data.push(0);
+          }
+          // Increment the count of that attribute
+          currObject.Data[index] += 1;
         }
-        // Get index of the value in the column names datafields if exists
-        index = currObject.DataFields.indexOf(value);
-        // Check if value does not exist in datafields for given colName
-        if (index == -1) {
-          index = currObject.DataFields.push(value) - 1;
-          // Add a count for the value of the attribute
-          currObject.Data.push(0);
-        }
-        // Increment the count of that attribute
-        currObject.Data[index] += 1;
       }
     }
-    console.log(data);
     return res.json({
       report_name: reportTemplateType,
       data: data
