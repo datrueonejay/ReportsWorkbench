@@ -7,6 +7,8 @@
 2. Enter password: pass1
 3. Click login button
 4. Screen should update to show upload data view options
+![Login Screen](https://cscc01.github.io/Team25/img/screenshots/login-screen.png)
+
 
 ### Upload Data to Database
 1. Select Template type "Employment Services" from dropdown.
@@ -15,12 +17,16 @@
 4. Click "Upload files" button.
 5. Window showing parsed JSON should pop up with a dismiss button if server responded. Press the dismiss button.
 6. Verify data was uploaded by [logging into Mongodb Atlas](#to-login-to-mongodb-atlas) and checking if the JSON data from the popup is there.
+![Data Upload Screen](https://cscc01.github.io/Team25/img/screenshots/data-upload-screen.png)
+
 
 ### Org. Last Upload Time
 1. After loggin in, select the "Last Uploaded" tab at the top of the window
 2. The scene should change to show a table titled "Organization's Last Upload Time"
 3. Table should be populated with every row showing a different user, and next to them the date that they uploaded last
 4. Can verify that this feature works by following the [steps to Upload Data to Database](#upload-data-to-database) and checking if the last upload time for your user has been updated
+![Org Last Upload Screen](https://cscc01.github.io/Team25/img/screenshots/last-upload-screen.png)
+
 
 ### Normalization
 1. After logging in, select any Template type from the dropdown in the Upload Data scene
@@ -32,6 +38,7 @@
    (date format: YYYY-MM-DD, phone number: ###-###-####, Postal Code: A#A#A#)
 7. All clients with \_id that begin with "inval" should have attribute "valid" = "false" and the column that is mentioned in their \_id should be listed in their "invalid_columns" attribute.
 
+
 ### Conflict Resolution
 1. After loggin in, trigger a conflict by uploading an iCare template with one client twice without changing the Template Type dropdown.
 2. Click on the "Conflicts" tab in the top nav bar. 
@@ -41,6 +48,8 @@
 6. [Login to MongoDB Atlas](#to-login-to-mongodb-atlas), navigate to the collection that corresponds to the tepmlate type dropdown selection and verify that one instance of the client was inserted into the collection.
 7. Repeat steps 1 to 6 but change the mock iCare template to include 2 or more clients. When resolving the conflicts, after clicking on submit for the first client it should automatically update the screen to show the next conflicting client.
 8. Repeat steps 1 to 6 and 7 but upload the iCare template 3 or more times. When resolving the conflict, it should display all the 3+ conflicting clients' information.
+![Conflict Screen](https://cscc01.github.io/Team25/img/screenshots/conflicts-screen.png)
+
 
 ### Trends Reports
 1. After logging in, select the Trends Reports tab in the top nav bar.
@@ -49,22 +58,30 @@
 4. Click the Generate Trend Report button at the bottom.
 5. A popup should appear with the path to where the pdf report was saved to.
 6. Open the file and a title with the raw name of the column as well as a bar chart representing the distribution (by whatever you chose in step 2) of those who entered Yes in that column should be within.
+![Trends Report Screen](https://cscc01.github.io/Team25/img/screenshots/trend-report-screen.png)
+
 
 ### Low Level Reports
 1. After logging in, select the Reports tab in the top nav bar.
 2. Clicking on any of the three buttons presented should generate a different report pdf and a popup sohuld appear with the location it's location.
-3.1 Clicking Language of Service Report will generate a pdf containing titled "Language Report" and a bar graph showing the different languages requested to be translated in the templates, and how many clients chose each. There should also be a pie chart showing the distribution of the chosen languages.
-3.2 Clicking Place of Services Report will generate a pdf with the same contents as in step 3.1, however this time it is showing the distribution of the answers for the Where Services Were Recieved column.
-3.3 Clicking Population and Child Minding Report will generate a pdf titled "Population and Child Minding Statistics", containing 3 pie charts displaying the age range distribution of clients who received Needs Assessments and Referalls, Employment Related Services, and Language Training services, as well as a bar graph showing how many clients who received each of those services received child minding services as well.
+3. Clicking Language of Service Report will generate a pdf containing titled "Language Report" and a bar graph showing the different languages requested to be translated in the templates, and how many clients chose each. There should also be a pie chart showing the distribution of the chosen languages.
+4. Clicking Place of Services Report will generate a pdf with the same contents as in step 3.1, however this time it is showing the distribution of the answers for the Where Services Were Recieved column.
+5. Clicking Population and Child Minding Report will generate a pdf titled "Population and Child Minding Statistics", containing 3 pie charts displaying the age range distribution of clients who received Needs Assessments and Referalls, Employment Related Services, and Language Training services, as well as a bar graph showing how many clients who received each of those services received child minding services as well.
+![Low Report Screen](https://cscc01.github.io/Team25/img/screenshots/low-report-screen.png)
 
 ### Custom Reports
 1. After Logging in, select the Custom Reports tab in the top nav bar.
 2. Choose any iCare template from the left dropdown.
 3. Choose any column from the right dropdown.
 4. Clicking on "Bar chart report" or "Pie chart report" will generate a pdf and display a popup with the location it was saved in. The pdf should contain a bar chart or pie chart, depending on your selection, showing the different options selected for that column and the distribution of each selection.
+![Custom Report Screen](https://cscc01.github.io/Team25/img/screenshots/custom-report-screen.png)
+
+
+#### Reference Image
+![Reference Image](https://cscc01.github.io/Team25/img/general-screenshot.png)
+
 
 #### To login to MongoDB Atlas: 
 1. Visit https://www.mongodb.com/cloud
 2. Sign in with Username: joseph.sokolon@mail.utoronto.ca, password: thierry25$$
 3. Select "Collections" to view the list of collections(including Template Types) on the left and their contents(including Client Records) on the right
-
