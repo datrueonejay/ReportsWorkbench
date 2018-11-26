@@ -36,3 +36,9 @@ Repository Organization:
 4. If you'd like to compile and launch it right away without making the jar, run ``mvn exec:java``.
 
 5. To unit test our current code first ensure that the server is running. Then cd into Team25/app and run `mvn test`
+
+***
+
+## Demo Video:
+
+[![DEMO VIDEO](http://img.youtube.com/vi/dvqSTOlMGhU/0.jpg)](http://www.youtube.com/watch?v=dvqSTOlMGhU)
