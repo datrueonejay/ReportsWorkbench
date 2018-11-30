@@ -1,6 +1,5 @@
 package com.tminions.app.clientRecord;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringJoiner;
 
@@ -8,7 +7,6 @@ public class ClientRecord {
 
     private String uniqueID;
     private HashMap<String, String> data;
-    private ArrayList<String> invalidKeys;
 
     
 	/**
@@ -16,8 +14,6 @@ public class ClientRecord {
      */
     public ClientRecord() {
         this.data = new HashMap<>();
-        this.data.put("valid", "true");
-        this.invalidKeys = new ArrayList<>();
     }
 
     /**
@@ -26,7 +22,6 @@ public class ClientRecord {
      */
     public ClientRecord(HashMap<String, String> data) {
         this.data = data;
-        this.invalidKeys = new ArrayList<>();
         this.autoSetUniqueId();
     }
 
@@ -70,13 +65,6 @@ public class ClientRecord {
             sj.add("\"" + key + "\" : \"" + value + "\"");
         }
 
-        if (!this.invalidKeys.isEmpty()) {
-            StringJoiner invalSj = new StringJoiner(", ", "[", "]");
-            for (String key: this.invalidKeys) {
-                invalSj.add("\"" + key + "\"");
-            }
-            sj.add("\"invalid_rows\" : " + invalSj.toString());
-        }
         return sj.toString();
 
     }
@@ -88,18 +76,6 @@ public class ClientRecord {
      */
     public void put(String key, String value) {
         this.data.put(key, value);
-    }
-
-    /**
-     * add poorly formatted data to this client's data.
-     * this adds the key, value to their data hashmap but also flags that key
-     * as having badly formatted data.
-     * @param key
-     * @param value
-     */
-    public void putInvalid(String key, String value) {
-        this.data.put(key, value);
-        this.invalidKeys.add(key);
     }
 
     /**
@@ -127,13 +103,5 @@ public class ClientRecord {
 
 
     }
-
-    public ArrayList<String> getInvalidKeys() {
-		return invalidKeys;
-	}
-
-	public void setInvalidKeys(ArrayList<String> invalidKeys) {
-		this.invalidKeys = invalidKeys;
-	}
 
 }
