@@ -140,6 +140,8 @@ public class JsonMaker {
 
             JSONArray jsonArray = new JSONArray(allDataCorrectFormat);
 
+            System.out.println("The value of the json array is " + jsonArray.toString());
+
             closestColumnValue = getClosestColumnValue(jsonArray.getJSONObject(0).toString(), trendValue);
 
             String assessmentStartColumnValue = checkIfSubstring(jsonArray.getJSONObject(0).toString(), SERVICE_START_DATE);
@@ -309,7 +311,7 @@ public class JsonMaker {
         int wordMatchCount = 0;
         for(int i = 0; i < str1_components.length; i++)
         {
-            System.out.println("The current ith component is: " + str1_components[i]);
+            //System.out.println("The current ith component is: " + str1_components[i]);
             for(int j = 0; j < str2_components.length; j++)
             {
                 //System.out.println("The current jth component that it is being to compared to is: " + str2_components[j]);
@@ -321,7 +323,7 @@ public class JsonMaker {
             }
         }
 
-        System.out.print("The word match count for these two words is: " + wordMatchCount);
+        //System.out.print("The word match count for these two words is: " + wordMatchCount);
 
         return wordMatchCount;
     }
@@ -349,13 +351,13 @@ public class JsonMaker {
             if(similarStringFactor == 0) newDistance = distanceBetweenStrings * 2;
             else newDistance = distanceBetweenStrings / similarStringFactor;
 
-            System.out.println("The distance between the strings was: " + String.valueOf(newDistance) + " for " + entry.getKey());
+            //System.out.println("The distance between the strings was: " + String.valueOf(newDistance) + " for " + entry.getKey());
 
             if(newDistance < lowestDistance)
             {
                 lowestDistance = newDistance;
                 matchingColumn = entry.getKey();
-                System.out.println("The new closest column value is: ");
+                //System.out.println("The new closest column value is: ");
             }
         }
         return matchingColumn;

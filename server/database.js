@@ -37,7 +37,7 @@ class Database {
   {
     console.log("The value of the reportTemplateType is" + reportTemplateType);
 
-    return this.db.collection(reportTemplateType).find().toArray();
+    return this.db.collection(reportTemplateType).find({}).toArray();
   }
 
   /**
