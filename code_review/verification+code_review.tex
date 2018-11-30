@@ -11,6 +11,7 @@
 \usepackage{vmargin}
 \usepackage{xcolor}
 \usepackage{float}
+\usepackage{amssymb}
 \setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
 
 \title{Verification \& Code Review}								% Title
@@ -116,6 +117,9 @@
 \pagebreak
 
 \section{Code Review Summaries}
+
+\textcolor{red}{$\bigstar$ - new code review since Deliverable 4}
+
 \subsection{Balaji} 
 \begin{table}[H]
 \begin{tabular}{|p{3cm}|p{11cm}|}
@@ -128,6 +132,28 @@ Comments:     & Use of Verifier interface is good for scalability in adding more
 
 
 \subsection{Edgar}
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Mid-Level Query \textcolor{red}{$\bigstar$}
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/38}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & Feature works well. Good reuse of code. Well implemented and documented.
+ \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Trend Reports \textcolor{red}{$\bigstar$}
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/35}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & Feature works for the collections that we have in the database. Code is a little messy due to tight deadlines. Could use feedback to confirm if the report was successful. Will be added during final refactor.
+ \\ \hline
+\end{tabular}
+\end{table}
+
 \begin{table}[H]
 \begin{tabular}{|p{3cm}|p{11cm}|}
 \hline
@@ -144,6 +170,17 @@ Weird glitch was observed that changes the UI when you hover your mouse over the
 \end{table}
 
 \subsection{Joey}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Population Report \textcolor{red}{$\bigstar$}
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/37}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & Feature works. Code looks good. One improvement that could be made would be to move the report generation out of the screen controllers and into its own class. That way we don’t have repetitive code. 
+ \\ \hline
+\end{tabular}
+\end{table}
 
 \begin{table}[H]
 \begin{tabular}{|p{3cm}|p{11cm}|}
@@ -188,6 +225,39 @@ Comments:     & Code looks well and organized. There is a lot of emphasis on imp
 \end{table}
 
 \subsection{Jayden}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Generate Report - Task A \textcolor{red}{$\bigstar$}
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/22}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & Implemented well, and graphs look great! One improvement that can be made is to create models for request and response objects to and from the server, so that json strings do not have to be parsed manually. Other than that, the task works well.
+ \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Generate Report - Task D \textcolor{red}{$\bigstar$}
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/25}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & Works really well. Pdf maker class is well documented, easy to use and understand.  works well.
+ \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+Task/Feature  & Mid Level Query - Task B \textcolor{red}{$\bigstar$}
+ \\ \hline
+Pull Request: & \url{https://github.com/CSCC01/Team25/pull/26}                                                                                                                                                                                                                                                                                                                      \\ \hline
+Comments:     & Server endpoint works well and as expected!
+ \\ \hline
+\end{tabular}
+\end{table}
 
 \begin{table}[H]
 \begin{tabular}{|p{3cm}|p{11cm}|}
