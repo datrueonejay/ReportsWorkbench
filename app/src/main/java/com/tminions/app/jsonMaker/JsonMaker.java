@@ -13,6 +13,7 @@ import com.tminions.app.fileParsers.ExcelParser;
 import com.tminions.app.models.ReportDataModel;
 import com.tminions.app.models.TrendReportDataModel;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +30,8 @@ public class JsonMaker {
     public static final String[] AGE_GROUPS = {"0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", ">80"};
     public static final String BIRTH_DATE_IN_DATABASE = "client_birth_dt";
     public static final String SERVICE_START_DATE = "start_dt";
-
+    public static final String DATABASE_DELIMETER = "_";
+    public static final String QUERY_STRING_DELIMETER = " ";
     /**
      * returns a json String in the form
      * <tt>
@@ -146,35 +148,45 @@ public class JsonMaker {
             {
                 JSONObject personsData = jsonArray.getJSONObject(i);
 
-                String serviceWanted = personsData.get(closestColumnValue).toString();
-
-                if (trendType.equals("By Age"))
+                try
                 {
-                    String personDOB = personsData.get(BIRTH_DATE_IN_DATABASE).toString();
+                    String serviceWanted = personsData.get(closestColumnValue).toString();
 
-                    String personsAge = String.valueOf(calculateAge(personDOB));
+                    if (trendType.equals("By Age")) {
+                        String personDOB = personsData.get(BIRTH_DATE_IN_DATABASE).toString();
 
-                    String ageRange = getAgeRange(personsAge);
+                        String personsAge = String.valueOf(calculateAge(personDOB));
 
-                    if(serviceWanted.equals("Yes"))
-                    {
-                        int ageRangeValue = trendReportData.get(ageRange);
-                        ageRangeValue += 1;
-                        trendReportData.put(ageRange, ageRangeValue);
+                        String ageRange = getAgeRange(personsAge);
+
+                        if (serviceWanted.equals("Yes")) {
+                            int ageRangeValue = trendReportData.get(ageRange);
+                            ageRangeValue += 1;
+                            trendReportData.put(ageRange, ageRangeValue);
+                        }
+                    } else if (trendType.equals("By Month")) {
+                        String personServiceStartDate = personsData.get(assessmentStartColumnValue).toString();
+
+                        String monthOfService = getMonthOfServiceStart(personServiceStartDate);
+
+                        if (serviceWanted.equals("Yes")) {
+                            int usersInMonth = trendReportData.get(monthOfService);
+                            usersInMonth += 1;
+                            trendReportData.put(monthOfService, usersInMonth);
+                        }
                     }
                 }
-                else if (trendType.equals("By Month"))
+                catch(JSONException jse)
                 {
-                    String personServiceStartDate = personsData.get(assessmentStartColumnValue).toString();
-
-                    String monthOfService = getMonthOfServiceStart(personServiceStartDate);
-
-                    if(serviceWanted.equals("Yes"))
-                    {
-                        int usersInMonth = trendReportData.get(monthOfService);
-                        usersInMonth += 1;
-                        trendReportData.put(monthOfService, usersInMonth);
-                    }
+                    System.out.println("One or more of the documents were not included in the data due to not having the relevant column");
+                }
+                catch(Exception e)
+                {
+                    System.out.println("An unexpected error occurred during computation of trends data.");
+                }
+                finally
+                {
+                    continue;
                 }
             }
 
@@ -289,6 +301,32 @@ public class JsonMaker {
     }
 
 
+    public static int getNumberOfSubstrings(String str1, String str2, String delimeter1, String delimeter2)
+    {
+        String[] str1_components = str1.split(delimeter1);
+        String[] str2_components = str2.split(delimeter2);
+
+        int wordMatchCount = 0;
+        for(int i = 0; i < str1_components.length; i++)
+        {
+            System.out.println("The current ith component is: " + str1_components[i]);
+            for(int j = 0; j < str2_components.length; j++)
+            {
+                //System.out.println("The current jth component that it is being to compared to is: " + str2_components[j]);
+                if(str1_components[i].equalsIgnoreCase(str2_components[j]))
+                {
+                    wordMatchCount++;
+                }
+                //System.out.println("The current word count is: " + String.valueOf(wordMatchCount));
+            }
+        }
+
+        System.out.print("The word match count for these two words is: " + wordMatchCount);
+
+        return wordMatchCount;
+    }
+
+
     /**
      *
      */
@@ -303,11 +341,21 @@ public class JsonMaker {
         Set<Map.Entry<String, JsonElement>> entries = obj.entrySet();
         for(Map.Entry<String, JsonElement> entry: entries)
         {
-            int newDistance = distanceBetweenStrings(entry.getKey(), enteredColumnValue);
+            int distanceBetweenStrings = distanceBetweenStrings(entry.getKey(), enteredColumnValue);
+            int similarStringFactor = getNumberOfSubstrings(entry.getKey(), enteredColumnValue, DATABASE_DELIMETER, QUERY_STRING_DELIMETER);
+
+
+            int newDistance = 0;
+            if(similarStringFactor == 0) newDistance = distanceBetweenStrings * 2;
+            else newDistance = distanceBetweenStrings / similarStringFactor;
+
+            System.out.println("The distance between the strings was: " + String.valueOf(newDistance) + " for " + entry.getKey());
+
             if(newDistance < lowestDistance)
             {
                 lowestDistance = newDistance;
                 matchingColumn = entry.getKey();
+                System.out.println("The new closest column value is: ");
             }
         }
         return matchingColumn;
@@ -410,5 +458,8 @@ public class JsonMaker {
     public static String jsonFromFiles (List<File> files, String templatename) throws IOException{
         return jsonFromClientList(clientListFromFileList(files), templatename);
     }
+
+
+
 
 }

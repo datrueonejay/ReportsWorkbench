@@ -72,4 +72,6 @@ public class TrendReportDataModel
 
         return allReportData;
     }
+
+
 }
