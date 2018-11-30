@@ -73,12 +73,8 @@ public class ExcelParserTest {
         	
         	if (client.getUniqueID().contains("inval")) {
         		HashMap<String, String> data = client.getData();
-        		assertTrue(data.get("valid").equalsIgnoreCase("false"),
-                        client.getUniqueID() + " should have valid = false");
         	} else if (client.getUniqueID().contains("bad")) {
         		HashMap<String, String> data = client.getData();
-        		assertTrue(data.get("valid").equalsIgnoreCase("true"),
-                        client.getUniqueID() + " should have valid = true");
         	}
         }
 
