@@ -75,14 +75,10 @@ public class ExcelParserTest {
         		HashMap<String, String> data = client.getData();
         		assertTrue(data.get("valid").equalsIgnoreCase("false"),
                         client.getUniqueID() + " should have valid = false");
-        		assertFalse(client.getInvalidKeys().isEmpty(),
-                        client.getUniqueID() + " should have nonempty list of invalid keys");
         	} else if (client.getUniqueID().contains("bad")) {
         		HashMap<String, String> data = client.getData();
         		assertTrue(data.get("valid").equalsIgnoreCase("true"),
                         client.getUniqueID() + " should have valid = true");
-        		assertTrue(client.getInvalidKeys().isEmpty(),
-                        client.getUniqueID() + " should have empty list of invalid keys");
         	}
         }
 

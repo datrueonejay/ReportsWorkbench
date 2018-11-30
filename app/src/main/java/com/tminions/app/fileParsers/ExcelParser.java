@@ -182,8 +182,7 @@ public class ExcelParser {
                         client.put(this.columnHeaders.get(col), data);
 
                     } catch (InvalidFormatException e) {
-                        client.put("valid", "false");
-                        client.putInvalid(this.columnHeaders.get(col), cell.getStringCellValue());
+                        client.put(this.columnHeaders.get(col), cell.getStringCellValue());
                     }
 
                 }
