@@ -62,24 +62,25 @@ class Database {
             {unique_identifier: id, template_name: reportTemplateType},
             {$push: {conflicts: data}});
       } else {
-        templateCollection.countDocuments({_id: id}).then((num) => {
-          console.log("templateCollection num is " + num);
-          if (num == 1) {
-            const otherDuplicate = templateCollection.findOneAndDelete({_id: id}).then((otherDuplicate) =>{
-            console.log(otherDuplicate.value._id);
-            var conflictRecord = {
-                template_name : reportTemplateType,
-                unique_identifier : id,
-                conflicts : [
-                  data,
-                  otherDuplicate.value
-                ]
+        templateCollection.findOne({_id: id}).then((conflict) => {
+          if (conflict != null) {
+            // First check if they are exactly the same document
+            if (!checkIfSameDocument(conflict, data)) {
+              const otherDuplicate = templateCollection.findOneAndDelete({_id: id}).then((otherDuplicate) =>{
+              var conflictRecord = {
+                  template_name : reportTemplateType,
+                  unique_identifier : id,
+                  conflicts : [
+                    data,
+                    otherDuplicate.value
+                  ]
+              }
+              console.log("new conflict detected, " + conflictRecord.conflicts[0]._id + " will be inserted into CONFLICTS.");
+              return conflictsCollection.insertOne(conflictRecord);
+              })
+            } else {
+              console.log("Document is identical to already existing document. No action taken.");
             }
-            console.log("new conflict detected, " + conflictRecord.conflicts[0]._id + " will be inserted into CONFLICTS.");
-            return conflictsCollection.insertOne(conflictRecord);
-            })
-
-
           } else {
             console.log("no conflicts, " + data._id + " will be inserted.");
             return templateCollection.insertOne(data);
@@ -104,6 +105,22 @@ class Database {
   getDatabaseRoot () {
     return this.db
   }
+}
+
+function checkIfSameDocument(document1, document2) {
+    for (const key in document1){
+      if (!(document1[key] === document2[key])){
+        console.log("Conflict detected", key, " has conflicting data.");
+        return false
+      }
+    }
+    for (const key in document2){
+      if (!(document1[key] === document2[key])){
+        console.log("Conflict detected", key, " has conflicting data.");
+        return false
+      }
+    }
+    return true
 }
 
 module.exports = new Database()
