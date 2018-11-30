@@ -71,8 +71,12 @@ public class TrendsScreenController
     {
         columnValueSelected = columnSelectField.getText();
         String columnData = TrendsDataController.getAllTemplateData(templateType);
-
         TrendReportDataModel trdm = JsonMaker.generateTrendDataFromJSON(columnData, trendReportType, columnValueSelected, templateType);
+        //String str1 = "computer training";
+        //String str2 = "training_received_computer_ind";
+
+        //System.out.println("The distance is: " + getNumberOfSubstrings(str1, str2, " ", "_"));
+
 
         SwingUtilities.invokeLater(() -> {
             GenerateBarGraphForTrends ex = new GenerateBarGraphForTrends(trdm.getTrendReportData(),
