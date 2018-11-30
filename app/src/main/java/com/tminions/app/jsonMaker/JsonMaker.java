@@ -351,7 +351,7 @@ public class JsonMaker {
             if(similarStringFactor == 0) newDistance = distanceBetweenStrings * 2;
             else newDistance = distanceBetweenStrings / similarStringFactor;
 
-            //System.out.println("The distance between the strings was: " + String.valueOf(newDistance) + " for " + entry.getKey());
+            System.out.println("The distance between the strings was: " + String.valueOf(newDistance) + " for " + entry.getKey());
 
             if(newDistance < lowestDistance)
             {
