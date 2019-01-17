@@ -1,7 +1,6 @@
 # Thierry's Minions (Team 25)
 
 Team Members: Joseph, Jayden, Edgar, Rishabh, Balaji
-You can visit our teams website here https://cscc01.github.io/Team25/ to find more information about our team.
 
 
 Repository Organization:
